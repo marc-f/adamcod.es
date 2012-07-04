@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head> 
+	<meta charset="utf-8">
+	
+    <title>{{ page.title }}</title>
+    
+    {% if page.description %}
+    <meta name="description" content="{{ page.description }}">
+    {% endif %}
+
+    <meta name="author" content="Adam Brett">
+	
+	<!-- style -->
+	<link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection">
+	
+	<!-- RSS -->
+	<link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcod.es/">
+
+	<!-- fonts -->
+	<link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans" rel="stylesheet" type="text/css">
+	
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<header>
+	    <p>
+	        <strong><a href="http://adamcod.es">adamcod.es</a></strong><br />
+    		by <a href="http://adambrett.co.uk">Adam Brett</a>
+    	</p>
+	</header>
+
+	<nav>
+		<ul>
+			<!--li><a href="http://adambrett.co.uk/about">About</a></li-->
+			<li><a href="http://adamcod.es/archive">Archive</a></li>
+			<li><a href="http://adamcod.es/subscribe">Subscribe</a></li>
+		</ul>
+	</nav>
+
+    {{ content }}
+
+	<footer>
+		<p>Copyright &copy; 2012 <a href="http://adambrett.co.uk">Adam Brett</a></p>
+	</footer>
+	
+	<script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+</body>
+</html>

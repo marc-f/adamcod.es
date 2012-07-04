@@ -1,0 +1,12 @@
+---
+layout: default
+---
+<article>
+    <h1>{{ page.title }}</h1>
+    <p class="meta"><time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ page.date | date: "%A, %B %d, %Y" }}</time></p>
+
+    <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ page.url }}" data-text="{{ page.title }} by @sixdaysad">Tweet</a></div>
+               
+    
+    {{ content }}
+</article>
