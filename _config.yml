@@ -1,9 +1,0 @@
-exclude: [".git", "deploy.sh"]
-
-markdown: rdiscount
-
-author:
-    name: Adam Brett
-    display_name: adam
-    web: http://adambrett.co.uk
-    twitter: "@sixdaysad"
