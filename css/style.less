@@ -1,4 +1,4 @@
-/* 
+/*
   ADAMCOD.ES STYLESHEET
   --------------------------------------
   Copyright : All Rights Reserved.
@@ -62,9 +62,9 @@ html {
 
 body {
     width: 600px;
-    
+
     position: relative;
-    
+
     margin: 0 auto;
     padding: 0 180px;
 }
@@ -72,7 +72,7 @@ body {
 header {
     position: fixed;
     top: 400px;
-    
+
     padding-left: 450px;
 }
 
@@ -81,13 +81,13 @@ header {
 
         text-align: left;
     }
-    
+
     header p strong a {
         font-family: @headingsFontFamily;
         font-size: 36px;
-        
+
         color: @headingsColor;
-        
+
         text-decoration: none;
     }
 
@@ -96,7 +96,7 @@ nav {
 
     position: fixed;
     top: 300px;
-    
+
     padding-left: 450px;
 
     font-family: @headingsFontFamily;
@@ -109,36 +109,47 @@ nav {
 
         list-style-type: none;
     }
-    
+
     nav li {
     }
-    
+
     nav a {
         text-decoration: none;
-        
+
         color: @textColor;
     }
 
 article {
     width: 400px;
-    
+
     position: relative;
     z-index: 1;
-    
+
     margin: 120px 200px 60px 0;
 }
 
     article h1 {
-        line-height: 1.6em;    
+        line-height: 1.6em;
     }
 
     article p.meta {
         margin: -10px 0 10px;
 
         font-family: @headingsFontFamily;
-        
+
         color: @gray;
     }
+
+/* Modules
+-------------------------------------------------- */
+#disqus_thread {
+    width: 400px;
+
+    position: relative;
+    z-index: 1;
+
+    margin: 120px 200px 60px 0;
+}
 
 .twitter-button {
     margin: 14px 0;
@@ -157,35 +168,35 @@ article {
     body {
         width: auto;
     }
-    
+
     article {
         width: auto;
-        
+
         margin: 0;
     }
-    
+
     header, nav {
         position: static;
-        
+
         padding: 0;
     }
-    
-        header p {    
+
+        header p {
             text-align: center;
         }
-        
+
     nav {
         text-align: center;
         width: auto;
     }
-    
+
         nav ul {
             display: inline-block;
         }
 
         nav li {
             display: inline-block;
-            
+
             margin: 0 10px;
 
             line-height: 1.6em;
@@ -195,19 +206,19 @@ article {
 @media (max-width: 480px) {
     body {
     }
-    
+
     body, p, li {
         font-size: 14px;
     }
-    
+
     pre {
         font-size: 12px;
     }
-  
+
     h1, header p strong a {
         font-size: 24px;
     }
-  
+
     h2 {
         font-size: 18px;
     }
