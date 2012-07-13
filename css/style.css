@@ -1,4 +1,4 @@
-/* 
+/*
   ADAMCOD.ES STYLESHEET
   --------------------------------------
   Copyright : All Rights Reserved.
@@ -730,6 +730,14 @@ article p.meta {
   margin: -10px 0 10px;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #555555;
+}
+/* Modules
+-------------------------------------------------- */
+#disqus_thread {
+  width: 400px;
+  position: relative;
+  z-index: 1;
+  margin: 120px 200px 60px 0;
 }
 .twitter-button {
   margin: 14px 0;
