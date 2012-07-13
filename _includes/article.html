@@ -1,11 +1,11 @@
 <article>
 {% if page.title %}
-    <h1>{{ page.title }}</h1>
+    <h1><a href="http://adamcod.es{{ page.url }}">{{ page.title }}</a></h1>
     <p class="meta"><time datetime="{{ page.date | date: "%Y-%m-%d" }}">{{ page.date | date: "%A, %B %d, %Y" }}</time></p>
     <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es{{ page.url }}" data-text="http://adamcod.es{{ page.title }} by @sixdaysad">Tweet</a></div>
 {% endif %}
 {% if post.title %}
-    <h1>{{ post.title }}</h1>
+    <h1><a href="http://adamcod.es{{ post.url }}">{{ post.title }}</a></h1>
     <p class="meta"><time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%A, %B %d, %Y" }}</time></p>
     <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es{{ post.url }}" data-text="{{ post.title }} by @sixdaysad">Tweet</a></div>
 {% endif %}
