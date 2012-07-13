@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://example.com/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2012-07-13T10:32:08+01:00</updated>
+  <updated>2012-07-13T10:33:23+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -22,9 +22,7 @@
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
-    <content type="html">&lt;h1 id=&quot;test&quot;&gt;test&lt;/h1&gt;
-
-&lt;p&gt;Hello, this is a test.&lt;/p&gt;
+    <content type="html">&lt;p&gt;Hello, this is a test.&lt;/p&gt;
 
 &lt;p&gt;Ever since I got my first low spec VPS I’ve been interested in finding more efficient ways of using those resources.  I’ve looked at all sorts of caching and server tweaks aimed as consuming less resources and had some successes, and quite a lot of failures, so when I first came across the jekyll blogging engine a few years ago &lt;em&gt;it just made sense&lt;/em&gt;.&lt;/p&gt;
 
