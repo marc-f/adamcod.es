@@ -1,6 +1,6 @@
 exclude: [".git", "deploy.sh"]
 
-markdown: rdiscount
+markdown: kramdown
 
 author:
     name: Adam Brett

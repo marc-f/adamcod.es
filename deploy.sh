@@ -28,6 +28,12 @@ if [[ $_currbranch == $_origbranch ]]; then # we should generate the site
     # generate the site
     "$_generate" ${_opts[@]} . "$_site"
 
+    # add any new files
+    "$_git" add .
+
+    # commit all changes with a default message
+    "$_git" commit -a -m "updated cache @ $(date +"%F %T")"
+
     # switch to branch the site will be stored
     "$_git" checkout "$_destbranch"
 
