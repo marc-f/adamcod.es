@@ -44,7 +44,19 @@
 
 // Base CSS
 @import "bootstrap/type.less";
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-bottom: @baseLineHeight / 2;
+}
+
 @import "bootstrap/code.less";
+pre,
+code {
+    font-size: 12px;
+}
+
 @import "bootstrap/tables.less";
 
 // Components: Nav
@@ -61,19 +73,19 @@ html {
 }
 
 body {
-    width: 600px;
+    width: 760px;
 
     position: relative;
 
     margin: 0 auto;
-    padding: 0 180px;
+    padding: 0 100px;
 }
 
 header {
     position: fixed;
-    top: 400px;
+    top: 440px;
 
-    padding-left: 450px;
+    padding-left: 610px;
 }
 
     header p {
@@ -95,9 +107,9 @@ nav {
     width: 140px;
 
     position: fixed;
-    top: 300px;
+    top: 380px;
 
-    padding-left: 450px;
+    padding-left: 610px;
 
     font-family: @headingsFontFamily;
     font-size: 14px;
@@ -120,7 +132,7 @@ nav {
     }
 
 article {
-    width: 400px;
+    width: 560px;
 
     position: relative;
     z-index: 1;
@@ -164,7 +176,7 @@ article {
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 800px) {
     body {
         width: auto;
     }
@@ -211,8 +223,9 @@ article {
         font-size: 14px;
     }
 
-    pre {
-        font-size: 12px;
+    pre,
+    code {
+        font-size: 10px;
     }
 
     h1, header p strong a {
