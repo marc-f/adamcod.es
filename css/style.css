@@ -352,6 +352,12 @@ small {
 cite {
   font-style: normal;
 }
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-bottom: 0.8em;
+}
 code,
 pre {
   padding: 0 3px 2px;
@@ -397,6 +403,10 @@ pre code {
 .pre-scrollable {
   max-height: 340px;
   overflow-y: scroll;
+}
+pre,
+code {
+  font-size: 12px;
 }
 table {
   max-width: 100%;
@@ -680,15 +690,15 @@ html {
   border-top: 5px solid #0088cc;
 }
 body {
-  width: 600px;
+  width: 760px;
   position: relative;
   margin: 0 auto;
-  padding: 0 180px;
+  padding: 0 100px;
 }
 header {
   position: fixed;
-  top: 400px;
-  padding-left: 450px;
+  top: 440px;
+  padding-left: 610px;
 }
 header p {
   margin-top: 1.7em;
@@ -703,8 +713,8 @@ header p strong a {
 nav {
   width: 140px;
   position: fixed;
-  top: 300px;
-  padding-left: 450px;
+  top: 380px;
+  padding-left: 610px;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   font-weight: bold;
@@ -718,7 +728,7 @@ nav a {
   color: #333333;
 }
 article {
-  width: 400px;
+  width: 560px;
   position: relative;
   z-index: 1;
   margin: 120px 200px 60px 0;
@@ -750,7 +760,7 @@ article p.meta {
     padding-right: 20px;
   }
 }
-@media (max-width: 640px) {
+@media (max-width: 800px) {
   body {
     width: auto;
   }
@@ -785,8 +795,9 @@ article p.meta {
   li {
     font-size: 14px;
   }
-  pre {
-    font-size: 12px;
+  pre,
+  code {
+    font-size: 10px;
   }
   h1,
   header p strong a {
