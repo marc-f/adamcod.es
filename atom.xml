@@ -4,13 +4,31 @@
   <title>Adam Codes</title>
   <link href="http://example.com/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2012-08-10T15:38:15+01:00</updated>
+  <updated>2012-08-10T16:02:28+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2012/08/10/introducing-tweetest-php-test-framework</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2012/08/10/introducing-tweetest-php-test-framework.html"/>
+    <title>Introducing Tweetest Php Test Framework</title>
+    <published>2012-08-10T00:00:00+01:00</published>
+    <updated>2012-08-10T00:00:00+01:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    <content type="html">&lt;p&gt;A few weeks ago I stumbled upon the &lt;a href=&quot;http://twitto.org/&quot;&gt;Twitto&lt;/a&gt; ‘Web Framework in a Tweet’ by &lt;a href=&quot;http://fabien.potencier.org/&quot;&gt;Fabien Potencier&lt;/a&gt;, creator of the Symphony Framework.&lt;/p&gt;
+
+&lt;p&gt;I was sure I had come across it before, as well as the &lt;a href=&quot;http://f055.net/article/the-140-character-webapp-challenge/&quot;&gt;140 Character Web-App Challenge&lt;/a&gt; that has inspired it, but not paid much attention to either.  What made a difference this time, however, was that earlier that day I had written a tiny test function for a disposable proof of concept that didn’t warrant a full unit testing framework.  I opened up my file from earlier that day, and after a few tweaks, &lt;a href=&quot;https://twitter.com/sixdaysad/status/223484283254349824&quot;&gt;tweeted&lt;/a&gt; the result.&lt;/p&gt;
+
+&lt;p&gt;Since then (mostly for fun) I decided to see if I could replicate all of the assertions from PHPUnit with my tiny test function and nothing more.  It turns out, &lt;a href=&quot;http://adambrett.github.com/tweetest&quot;&gt;you can&lt;/a&gt;, so I gave tweetest a name, created a &lt;a href=&quot;http://github.com/adambrett/tweetest&quot;&gt;GitHub repo&lt;/a&gt; and even a &lt;a href=&quot;http://adambrett.github.com/tweetest&quot;&gt;website&lt;/a&gt; with some documentation to show others what could be done.&lt;/p&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2012/07/03/anatomy-of-a-good-commit-message</id>
