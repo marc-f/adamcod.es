@@ -1,0 +1,25 @@
+<?php
+
+class MagicPublicProperty {
+    protected $_primaryKey = 'id';
+
+    public function __set($property, $value) {
+        if($property == 'primaryKey') {
+            $name = get_class($this);
+            throw new Exception("Unable to set property `{$property}` on"
+                . " objects of type `{$name}`");
+        }
+    }
+
+    public function __get($property) {
+        if($property == 'primaryKey' && isset($this->_primaryKey)) {
+            return $this->_primaryKey;
+        }
+    }
+
+    public function __isset($property) {
+        if($property == 'primaryKey') {
+            return isset($this->_primaryKey);
+        }
+    }
+}

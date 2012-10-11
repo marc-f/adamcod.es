@@ -21,11 +21,11 @@ Whilst re-working an area of our internal CRM, we came up with the idea of cards
 
 Here's an initial concept for a contact card:
 
-![Contact Card Square](/assets/img/posts/contact-card-square.png)
+![Contact Card Square](/img/posts/contact-card-square.png)
 
 Pretty good, but we decided we can do a bit bitter, and rounded pictures would be a bit friendlier:
 
-![Contact Card Round](/assets/img/posts/contact-card-face.png)
+![Contact Card Round](/img/posts/contact-card-face.png)
 
 Only problem, that makes coding the thumbnails a lot harder.  Our users aren't going to upload nice transparent rounded pictures for us, so we're going to have to find a way to process them ourselves.
 
@@ -49,7 +49,7 @@ We first pass in the position we want the ellipse drawn at, which is the exact c
 
 Once we have our mask created, if we were to save it, it would look something like this:
 
-![Contact Card Mask](/assets/img/posts/contact-card-mask.png)
+![Contact Card Mask](/img/posts/contact-card-mask.png)
 
 We don't want to output our mask though, we just want to use it to make parts of our square thumbnail transparent.  To do that we use Imagine's built-in applyMask filter, passing the mask we created earlier in as the only parameter.  We can then return this image so we can use it in our scripts.
 
