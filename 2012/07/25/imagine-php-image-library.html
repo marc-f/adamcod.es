@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+    <title>Make a circle thumbnail with the Imagine PHP Image Library</title>
+
+    
+
+    <meta name="author" content="Adam Brett">
+
+	<!-- style -->
+	<link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
+
+	<!-- fonts -->
+	<link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans" rel="stylesheet" type="text/css">
+
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<header>
+	    <p>
+	        <strong><a href="http://adamcod.es">adamcod.es</a></strong><br />
+    		by <a href="http://adambrett.co.uk">Adam Brett</a>
+    	</p>
+	</header>
+
+	<nav>
+		<ul>
+			<!--li><a href="http://adambrett.co.uk/about">About</a></li-->
+			<li><a href="/archive.html">Archive</a></li>
+			<li><a href="http://feeds.feedburner.com/adamcodes/">Subscribe</a></li>
+		</ul>
+	</nav>
+
+    <article>
+
+    <h1><a href="http://adamcod.es/2012/07/25/imagine-php-image-library.html">Make a circle thumbnail with the Imagine PHP Image Library</a></h1>
+    <p class="meta"><time datetime="2012-07-25">Wednesday, July 25, 2012</time></p>
+    <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2012/07/25/imagine-php-image-library.html" data-text="Make a circle thumbnail with the Imagine PHP Image Library by @sixdaysad">Tweet</a></div>
+
+
+
+    <h2 id="what-is-imagine">What is Imagine</h2>
+
+<p>Image processing in PHP is <em>really</em> unpleasant.  Imagine is a PHP 5.3 library which makes image processing suck way less.  According to the <a href="http://imagine.readthedocs.org">documentation</a>:</p>
+
+<blockquote>
+  <p><a href="https://github.com/avalanche123/Imagine">Imagine</a> is a[n] OOP library for image manipulation built in PHP 5.3 using the latest best practices and thoughtful design that should allow for decoupled and unit-testable code.</p>
+</blockquote>
+
+<p>Put simply, Imagine is a nicely PSR-0 namespace&#8217;d wrapper that provides a consistent interface for lower level Gd, ImageMagick and GMagick functionality.  And <em>consistency is good</em>.</p>
+
+<p>If you haven&#8217;t heard of Imagine, or aren&#8217;t familiar with its concepts, go <a href="https://speakerdeck.com/u/avalanche123/p/introduction-to-imagine">here</a> and read the presentation first, as the code below assumes a knowledge of its features concepts.</p>
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>Whilst re-working an area of our internal CRM, we came up with the idea of cards.  These would be little snippets of information about people, companies, products and other CRM objects related to the page you&#8217;re on, neatly stacked in order of importance down the right-hand side of a page.</p>
+
+<p>Here&#8217;s an initial concept for a contact card:</p>
+
+<p><img src="/img/posts/contact-card-square.png" alt="Contact Card Square" /></p>
+
+<p>Pretty good, but we decided we can do a bit bitter, and rounded pictures would be a bit friendlier:</p>
+
+<p><img src="/img/posts/contact-card-face.png" alt="Contact Card Round" /></p>
+
+<p>Only problem, that makes coding the thumbnails a lot harder.  Our users aren&#8217;t going to upload nice transparent rounded pictures for us, so we&#8217;re going to have to find a way to process them ourselves.</p>
+
+<h2 id="enter-imagine">Enter Imagine</h2>
+
+<p>Having read about Imagine, it had peaked my interested, and I&#8217;d wanted to use it on a project for a while.  It turns out that creating a circle thumbnail with Imagine is actually really easy.  Much like most custom things in Imagine, you want to create a filter, I called mine <code>CircleThumbnailFilter</code> (original, I know).  It looks like this:</p>
+
+<div><script src="https://gist.github.com/3060605.js?file=CircleThumbnailFilter.php"></script>
+<noscript><pre><code>&lt;?php
+class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
+{
+    private $imagine;
+
+    public function __construct(Imagine\Image\ImagineInterface $imagine,
+        Imagine\Image\BoxInterface $size)
+    {
+        $this-&gt;imagine = $imagine;
+        $this-&gt;size = $size;
+    }
+
+    public function apply(Imagine\Image\ImageInterface $image)
+    {
+        // create a thumbnail
+        $thumbnail = $image-&gt;thumbnail(
+            $this-&gt;size,
+            Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND
+        );
+
+        // create a new image to hold our mask
+        // make the background white
+        $mask = $this-&gt;imagine-&gt;create($this-&gt;size, new Imagine\Image\Color('fff'));
+
+        // draw a black circle at the center of our new image
+        // use $this-&gt;size to make it full width and height
+        $mask-&gt;draw()
+            -&gt;ellipse(
+                new Imagine\Image\Point\Center($this-&gt;size),
+                $this-&gt;size,
+                new Imagine\Image\Color('000', 0),
+                true
+            );
+
+        // apply the mask to the thumbnail and return it
+        return $thumbnail-&gt;applyMask($mask);
+    }
+}</code></pre></noscript></div>
+
+<p>The constructor is fairly self explanatory, it takes an instance of your imagine interface, and a box instance which is used to control the size of your thumbnail.</p>
+
+<p>The apply function is the one that does the work, it is required to take exactly one parameter, an instance of <code>Imagine\Image\ImageInterface</code> which is enforced by <code>Imagine\Filter\FilterInterface</code>.</p>
+
+<p>The first thing we do is resize our image, if someone uploads a 1000x1000 image, we want to scale it down.</p>
+
+<p>Next, we create a canvas and call it <code>$mask</code>.  We so this by calling the <code>create</code> method on the <code>ImageInterface</code> we passed to our constructor.  We pass in the <code>BoxInterface</code> we also passed to our constructor to tell it the size of the image we want to create, and a new <code>Imagine\Image\Color</code> to tell it the background colour we want.  We then end up with a brand-new instance of <code>Imagine\Image\ImageInterface</code> in <code>$mask</code>.</p>
+
+<p>Next, we call the draw method on the image stored in $mask to load the <code>Drawer</code> object, and then we tell it to draw us an ellipse.</p>
+
+<p>We first pass in the position we want the ellipse drawn at, which is the exact center of the Box we&#8217;ve been using all the way through, we tell it that we want our ellipse to be the same size as our box (i.e. to fill it), and we tell it to make it black, with no transparency, and finally we pass <code>true</code> which tells it that it should be filled, rather than an outline.</p>
+
+<p>Once we have our mask created, if we were to save it, it would look something like this:</p>
+
+<p><img src="/img/posts/contact-card-mask.png" alt="Contact Card Mask" /></p>
+
+<p>We don&#8217;t want to output our mask though, we just want to use it to make parts of our square thumbnail transparent.  To do that we use Imagine&#8217;s built-in applyMask filter, passing the mask we created earlier in as the only parameter.  We can then return this image so we can use it in our scripts.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>To use the filter, you need to include Imagine using <a href="http://imagine.readthedocs.org/en/latest/usage/introduction.html#installation">one of the methods in the documentation</a>, I recommend installing it via <a href="http://getcomposer.org">composer</a>, as Imagine is available on <a href="http://packagist.org/packages/imagine/Imagine">packagist</a>, and then using the composer autoloader to load Imagine via the PSR-0 namespace syntax.</p>
+
+<p>You will also need to autoload or require the CircleThumbnailFilter object somehow, you could put it in your app&#8217;s namespace or just do it the old-school way with <code>require_once</code>.  Either way, when both are loaded, you can run the circle filter like so:</p>
+
+<div><script src="https://gist.github.com/3060605.js?file=usage.php"></script>
+<noscript><pre><code>&lt;?php
+
+$imagine = new Imagine\Gd\Imagine();
+$filter  = new CircleThumbnailFilter($imagine, new Imagine\Image\Box(100, 100));
+
+$filter-&gt;apply($imagine-&gt;open('/path/to/square/image.jpg'))
+    -&gt;save('/path/to/circle/image.png');</code></pre></noscript></div>
+
+<p>Make sure that no-matter what your input format (which isn&#8217;t really important, Imagine should know what to do with most valid image formats), make sure you output it as something with transparency (preferably png).  Don&#8217;t do what I did and spend 40 minutes wondering why the transparency mask wasn&#8217;t applying when you were outputting as a jpg.</p>
+
+</article>
+
+
+	<footer>
+		<p>Copyright &copy; 2012 <a href="http://adambrett.co.uk">Adam Brett</a>.  All rights reserved.</p>
+	</footer>
+
+	<script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-10572636-6']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

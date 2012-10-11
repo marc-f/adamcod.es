@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+    <title>Git - Help! I made my changes on the wrong branch (easy fix)</title>
+
+    
+
+    <meta name="author" content="Adam Brett">
+
+	<!-- style -->
+	<link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
+
+	<!-- fonts -->
+	<link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans" rel="stylesheet" type="text/css">
+
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<header>
+	    <p>
+	        <strong><a href="http://adamcod.es">adamcod.es</a></strong><br />
+    		by <a href="http://adambrett.co.uk">Adam Brett</a>
+    	</p>
+	</header>
+
+	<nav>
+		<ul>
+			<!--li><a href="http://adambrett.co.uk/about">About</a></li-->
+			<li><a href="/archive.html">Archive</a></li>
+			<li><a href="http://feeds.feedburner.com/adamcodes/">Subscribe</a></li>
+		</ul>
+	</nav>
+
+    <article>
+
+    <h1><a href="http://adamcod.es/2012/07/04/git-changes-wrong-branch.html">Git - Help! I made my changes on the wrong branch (easy fix)</a></h1>
+    <p class="meta"><time datetime="2012-07-04">Wednesday, July 04, 2012</time></p>
+    <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2012/07/04/git-changes-wrong-branch.html" data-text="Git - Help! I made my changes on the wrong branch (easy fix) by @sixdaysad">Tweet</a></div>
+
+
+
+    <h2 id="weve-all-done-it">We&#8217;ve all done it</h2>
+
+<p>You get an emergency email from your boss and have to immediately drop everything you&#8217;re doing to solve his problem.  You listen to what&#8217;s wrong and make all the necessary changes, test it, and then you&#8217;re ready to commit, only you&#8217;re on <code>feature/awesome-new-stuff</code> and forgot to checkout <code>develop</code> before you made your changes. ****.</p>
+
+<p><em>All is not lost</em><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
+
+<p>Pre-git, I have no idea how I would have fixed this.  Separating your fixes with your feature changes would probably have been done by hand, and taken ages.</p>
+
+<p>However thanks to git we can simply checkout the correct branch, and and our untracked changes will move with us.</p>
+
+<h2 id="if-youve-not-committed-yet">If you&#8217;ve not committed yet</h2>
+
+<p>First, make sure all of your <em>feature</em> changes are committed to the correct branch (but <em>not</em> the fixes you want to move!), then:</p>
+
+<div><script src="https://gist.github.com/3047748.js?file=checkout.sh"></script>
+<noscript><pre><code>git checkout &lt;branch&gt;</code></pre></noscript></div>
+
+<p>Be sure to replace <code>&lt;branch&gt;</code> with the name of the branch you actually want to commit to.</p>
+
+<h2 id="if-youve-already-committed-the-changes">If you&#8217;ve already committed the changes</h2>
+
+<p>If you&#8217;ve already committed your changes, you need to do a SOFT reset. A soft reset will put your changes back into the index, instead of destroying them like a HARD reset would:</p>
+
+<div><script src="https://gist.github.com/3047748.js?file=soft-reset.sh"></script>
+<noscript><pre><code>git reset --soft HEAD^</code></pre></noscript></div>
+
+<p>A quick note here, the ^ is the number of commits to roll-back, so if you wanted to go back 2 commits, you&#8217;d use:</p>
+
+<div><script src="https://gist.github.com/3047748.js?file=soft-reset-2.sh"></script>
+<noscript><pre><code>git reset --soft HEAD^^</code></pre></noscript></div>
+
+<p>and for 3 commits</p>
+
+<div><script src="https://gist.github.com/3047748.js?file=soft-reset-3.sh"></script>
+<noscript><pre><code>git reset --soft HEAD^^^</code></pre></noscript></div>
+
+<p>and so on&#8230; then you can run the <a href="#if-youve-not-committed-yet">checkout</a> command above.</p>
+
+<h2 id="if-there-is-a-conflict-between-the-two-branches">If there is a conflict between the two branches</h2>
+
+<p>If the changes you want to move will conflict with something on the branch you&#8217;re moving to git will simply refuse to checkout the new branch.  In this instance you want to use the stash-checkout-pop command like so:</p>
+
+<div><script src="https://gist.github.com/3047748.js?file=stash-checkout-pop.sh"></script>
+<noscript><pre><code>git stash &amp;&amp; git checkout &lt;branch&gt; &amp;&amp; git stash pop</code></pre></noscript></div>
+
+<p>This will stash the changes so you have nothing to move, then checkout the new branch (as with nothing to move there can be no conflicts), and finally pop the stashed changes into the new branch ready for committing.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Unless you&#8217;ve made changes in the same files as your fixes, you&#8217;ll have to find another way, sorry!<a href="#fnref:1" rel="reference">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+</article>
+
+
+	<footer>
+		<p>Copyright &copy; 2012 <a href="http://adambrett.co.uk">Adam Brett</a>.  All rights reserved.</p>
+	</footer>
+
+	<script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-10572636-6']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

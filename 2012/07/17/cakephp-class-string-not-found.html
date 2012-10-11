@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-    <title>The lorem ipsum</title>
+    <title>Class 'String' not found in app/Model/User.php on line xx</title>
 
     
 
@@ -40,17 +40,23 @@
 
     <article>
 
-    <h1><a href="http://adamcod.es/2012/06/29/welcome-to-the-first-post.html">The lorem ipsum</a></h1>
-    <p class="meta"><time datetime="2012-06-29">Friday, June 29, 2012</time></p>
-    <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2012/06/29/welcome-to-the-first-post.html" data-text="The lorem ipsum by @sixdaysad">Tweet</a></div>
+    <h1><a href="http://adamcod.es/2012/07/17/cakephp-class-string-not-found.html">Class 'String' not found in app/Model/User.php on line xx</a></h1>
+    <p class="meta"><time datetime="2012-07-17">Tuesday, July 17, 2012</time></p>
+    <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2012/07/17/cakephp-class-string-not-found.html" data-text="Class 'String' not found in app/Model/User.php on line xx by @sixdaysad">Tweet</a></div>
 
 
 
-    <p>Hello, this is a test.</p>
+    <p>This is a really easy to fix error that occurs in a very specific situation.  Namely when developing an application in CakePHP that makes use of the ACL behavior whilst also having a <code>beforeSave</code> method on the User model.  It can be pretty frustrating at first because there&#8217;s nothing about it on the Internet, and as far as you can tell, there isn&#8217;t an error on line xx, and you&#8217;re not using the String object anywhere.</p>
 
-<p>Ever since I got my first low spec VPS I&#8217;ve been interested in finding more efficient ways of using those resources.  I&#8217;ve looked at all sorts of caching and server tweaks aimed as consuming less resources and had some successes, and quite a lot of failures, so when I first came across the jekyll blogging engine a few years ago <em>it just made sense</em>.</p>
+<p>It&#8217;s happening because of a missing options array on the <code>beforeSave</code> method you added to the User model.  Simply change:</p>
 
-<p>Ever since then I&#8217;ve wanted to try using it, but for one reason or another never got around to it.  Now that&#8217;s going to change, this is my first foray into blogging with jekyll, and I&#8217;m going to see how it goes.  Stay tuned.</p>
+<p><code>public function beforeSave() {</code></p>
+
+<p>to</p>
+
+<p><code>function beforeSave($options = array()) {</code></p>
+
+<p>and make sure that you call <code>parent::beforeSave($options)</code> somewhere in your method definition.</p>
 
 </article>
 

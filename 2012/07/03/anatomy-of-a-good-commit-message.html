@@ -46,17 +46,17 @@
 
 
 
-    <p>The developers at my new job have been using subversion for the last 8 years, and with a few exceptions, huge <em>code-bomb</em> style commits covering numerous features and changes (and with generic one-line commit messages) seem to have been the norm.  Source control was used primarily for backup (a sin I think many teams are guilty of at one point or another), and wasn’t used to its full potential, so no-one really paid attention to commit messages or the size of commits; after they were written they were never referenced again.</p>
+    <p>The developers at my new job have been using subversion for the last 8 years, and with a few exceptions, huge <em>code-bomb</em> style commits covering numerous features and changes (and with generic one-line commit messages) seem to have been the norm.  Source control was used primarily for backup (a sin I think many teams are guilty of at one point or another), and wasn&#8217;t used to its full potential, so no-one really paid attention to commit messages or the size of commits; after they were written they were never referenced again.</p>
 
 <p>When I joined the team, they had already researched and seen the benefits of Git and wanted to move as soon as possible. With my advocation and re-iteration of the various benefits management were quickly convinced and the work was scheduled.  I wanted to make sure Git became a useful tool for the whole team and once everything was ready to be moved across, that meant introducing the idea of smaller atomic commits with better (more useful) commit messages.</p>
 
-<p>There are already a few <a href="http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">good</a> <a href="http://lbrandy.com/blog/2009/03/writing-better-commit-messages/">posts</a> and <a href="http://programmers.stackexchange.com/questions/42110/can-you-recommend-a-good-commit-message-template-guidelines-to-enforce-in-the">discussions</a> about what makes a good commit message, but they all lack the rigidity that I felt we were going to need to break 8 years of bad habit.  I wanted a system I could present that wasn’t going to be overwhelming to a team of widely varying skill levels, on top of getting used to a new SCM, a new way of working (with feature branches/git flow) and smaller atomic commits.</p>
+<p>There are already a few <a href="http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">good</a> <a href="http://lbrandy.com/blog/2009/03/writing-better-commit-messages/">posts</a> and <a href="http://programmers.stackexchange.com/questions/42110/can-you-recommend-a-good-commit-message-template-guidelines-to-enforce-in-the">discussions</a> about what makes a good commit message, but they all lack the rigidity that I felt we were going to need to break 8 years of bad habit.  I wanted a system I could present that wasn&#8217;t going to be overwhelming to a team of widely varying skill levels, on top of getting used to a new SCM, a new way of working (with feature branches/git flow) and smaller atomic commits.</p>
 
-<p>Whilst the information already out there is great, it doesn’t provide the copy, paste, and fill-in-the-blanks kind of template I wanted for the junior developers so they didn’t have to think too much about their commit messages (at least until they became more familiar with the new tools and processes), and those already familiar with good commit practices had a rock solid base to work from.</p>
+<p>Whilst the information already out there is great, it doesn&#8217;t provide the copy, paste, and fill-in-the-blanks kind of template I wanted for the junior developers so they didn&#8217;t have to think too much about their commit messages (at least until they became more familiar with the new tools and processes), and those already familiar with good commit practices had a rock solid base to work from.</p>
 
 <h2 id="template">Template</h2>
 
-<p>With that in mind, I compiled the various posts and discussions on commit messages into the following template, the bulk of the template is from <a href="http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">here</a> with a couple of minor modifications.  It’s <a href="https://github.com/blog/926-shiny-new-commit-styles">widely accepted</a> as the best example of a good commit message:</p>
+<p>With that in mind, I compiled the various posts and discussions on commit messages into the following template, the bulk of the template is from <a href="http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">here</a> with a couple of minor modifications.  It&#8217;s <a href="https://github.com/blog/926-shiny-new-commit-styles">widely accepted</a> as the best example of a good commit message:</p>
 
 <pre><code>Action: Capitalized, short (50 chars or less) summary
 
@@ -103,7 +103,7 @@ Relation: #issue
       <li>Tidy</li>
     </ul>
 
-    <p>And should accurately describe what you’re doing with this commit.  If you’re doing more than one of these actions in a commit, you should probably consider breaking them into smaller commits.</p>
+    <p>And should accurately describe what you&#8217;re doing with this commit.  If you&#8217;re doing more than one of these actions in a commit, you should probably consider breaking them into smaller commits.</p>
   </li>
   <li>
     <p>The last line of the description should be one of the following statuses, followed by a hash (#) and the issue number from the tracker, if relevant:</p>
@@ -114,11 +114,11 @@ Relation: #issue
       <li>References</li>
     </ul>
 
-    <p>Your keywords may vary, but in our issue tracker <em>fixes</em> and <em>closes</em> are keywords that will assign statuses to an issue, <em>references</em> doesn’t do anything, but including the issue number with a # will link the commit to that issue, so it’s nice to know that you’re just putting it in there to reference the issue.</p>
+    <p>Your keywords may vary, but in our issue tracker <em>fixes</em> and <em>closes</em> are keywords that will assign statuses to an issue, <em>references</em> doesn&#8217;t do anything, but including the issue number with a # will link the commit to that issue, so it&#8217;s nice to know that you&#8217;re just putting it in there to reference the issue.</p>
   </li>
 </ol>
 
-<p>These rules haven’t been in use very long, and aren’t set in stone.  As time goes on we might find ourselves relaxing them, adding to them, or changing them all together.  As a base to work from they pretty solid right now and should stand us in good stead for the foreseeable future.</p>
+<p>These rules haven&#8217;t been in use very long, and aren&#8217;t set in stone.  As time goes on we might find ourselves relaxing them, adding to them, or changing them all together.  As a base to work from they pretty solid right now and should stand us in good stead for the foreseeable future.</p>
 
 </article>
 

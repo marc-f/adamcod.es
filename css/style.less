@@ -86,22 +86,24 @@ header {
     top: 440px;
 
     padding-left: 610px;
-}
 
-    header p {
+    p {
         margin-top: 1.7em;
 
         text-align: left;
+
+        strong {
+            a {
+                font-family: @headingsFontFamily;
+                font-size: 36px;
+
+                color: @headingsColor;
+
+                text-decoration: none;
+            }
+        }
     }
-
-    header p strong a {
-        font-family: @headingsFontFamily;
-        font-size: 36px;
-
-        color: @headingsColor;
-
-        text-decoration: none;
-    }
+}
 
 nav {
     width: 140px;
@@ -114,22 +116,19 @@ nav {
     font-family: @headingsFontFamily;
     font-size: 14px;
     font-weight: bold;
-}
 
-    nav ul {
+    ul {
         margin: 0;
 
         list-style-type: none;
     }
 
-    nav li {
-    }
-
-    nav a {
+    a {
         text-decoration: none;
 
         color: @textColor;
     }
+}
 
 article {
     width: 560px;
@@ -138,22 +137,42 @@ article {
     z-index: 1;
 
     margin: 120px 200px 60px 0;
-}
 
-    article h1 {
+    h1 {
         line-height: 1.6em;
     }
 
-    article p.meta {
+    img {
+        display: block;
+
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    p.meta {
         margin: -10px 0 10px;
 
         font-family: @headingsFontFamily;
 
         color: @gray;
     }
+}
 
 /* Modules
 -------------------------------------------------- */
+.footnotes {
+    margin-top: 30px;
+
+    font-size: 0.8em;
+}
+
+.gist-meta {
+    padding: 0 .5em !important;
+
+    font-size: 10px !important;
+    line-height: 2em !important;
+}
+
 #disqus_thread {
     width: 400px;
 
@@ -200,19 +219,19 @@ article {
     nav {
         text-align: center;
         width: auto;
+
+        ul {
+            display: inline-block;
+
+            li {
+                display: inline-block;
+
+                margin: 0 10px;
+
+                line-height: 1.6em;
+            }
+        }
     }
-
-        nav ul {
-            display: inline-block;
-        }
-
-        nav li {
-            display: inline-block;
-
-            margin: 0 10px;
-
-            line-height: 1.6em;
-        }
 }
 
 @media (max-width: 480px) {
