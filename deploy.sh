@@ -16,10 +16,10 @@ _origbranch="master"
 _destbranch="gh-pages"
 
 # directory holding the generated site -- should be outside this repo
-_site="$("/bin/mktemp" -d /tmp/_site.XXXXXXXXX)"
+_site="$("mktemp" -d /tmp/_site.XXXXXXXXX)"
 
 # the current branch
-_currbranch="$(/bin/grep "^*" < <("$_git" branch) | $_prefix/cut -d' ' -f2)"
+_currbranch="$(grep "^*" < <("$_git" branch) | $_prefix/cut -d' ' -f2)"
 
 if [[ $_currbranch == $_origbranch ]]; then # we should generate the site
     # go to root dir of the repo
@@ -39,7 +39,7 @@ if [[ $_currbranch == $_origbranch ]]; then # we should generate the site
 
     # overwrite existing files
     builtin shopt -s dotglob
-    /bin/cp -rf "$_site"/* .
+    cp -rf "$_site"/* .
     builtin shopt -u dotglob
 
     # add any new files
@@ -55,7 +55,7 @@ if [[ $_currbranch == $_origbranch ]]; then # we should generate the site
     "$_git" push origin "$_destbranch"
 
     # cleanup
-    /bin/rm -rfv "$_site"
+    rm -rfv "$_site"
 
     # return
     "$_git" checkout "$_origbranch"
