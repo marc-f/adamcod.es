@@ -1,14 +1,18 @@
 <article>
+    <div class="instapaper_ignore entry-unrelated">
 {% if page.title %}
-    <h1><a href="http://adamcod.es{{ page.url }}">{{ page.title }}</a></h1>
-    <p class="meta"><time datetime="{{ page.date | date: "%Y-%m-%d" }}">{{ page.date | date: "%A, %B %d, %Y" }}</time></p>
+    <h1 class="entry-title"><a href="http://adamcod.es{{ page.url }}">{{ page.title }}</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="{{ page.date | date: "%Y-%m-%d" }}">{{ page.date | date: "%A, %B %d, %Y" }}</time></p>
     <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es{{ page.url }}" data-text="{{ page.title }} by @sixdaysad">Tweet</a></div>
 {% endif %}
 {% if post.title %}
-    <h1><a href="http://adamcod.es{{ post.url }}">{{ post.title }}</a></h1>
-    <p class="meta"><time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%A, %B %d, %Y" }}</time></p>
+    <h1 class="entry-title"><a href="http://adamcod.es{{ post.url }}">{{ post.title }}</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%A, %B %d, %Y" }}</time></p>
     <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es{{ post.url }}" data-text="{{ post.title }} by @sixdaysad">Tweet</a></div>
 {% endif %}
+    </div>
 
-    {{ content }}
+    <div class="entry-content">
+        {{ content }}
+    </div>
 </article>
