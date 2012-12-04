@@ -24,8 +24,8 @@
 </head>
 <body>
 	<header>
-	    <p>
-	        <strong><a href="http://adamcod.es">adamcod.es</a></strong><br />
+	    <p class="author vcard">
+	        <strong><a href="http://adamcod.es" rel="author">adamcod.es</a></strong><br />
     		by <a href="http://adambrett.co.uk">Adam Brett</a>
     	</p>
 	</header>
@@ -39,14 +39,17 @@
 	</nav>
 
     <article>
+    <div class="instapaper_ignore entry-unrelated">
 
-    <h1><a href="http://adamcod.es/2012/07/03/anatomy-of-a-good-commit-message.html">Anatomy Of A Good Commit Message</a></h1>
-    <p class="meta"><time datetime="2012-07-03">Tuesday, July 03, 2012</time></p>
+    <h1 class="entry-title"><a href="http://adamcod.es/2012/07/03/anatomy-of-a-good-commit-message.html">Anatomy Of A Good Commit Message</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="2012-07-03">Tuesday, July 03, 2012</time></p>
     <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2012/07/03/anatomy-of-a-good-commit-message.html" data-text="Anatomy Of A Good Commit Message by @sixdaysad">Tweet</a></div>
 
 
+    </div>
 
-    <p>The developers at my new job have been using subversion for the last 8 years, and with a few exceptions, huge <em>code-bomb</em> style commits covering numerous features and changes (and with generic one-line commit messages) seem to have been the norm.  Source control was used primarily for backup (a sin I think many teams are guilty of at one point or another), and wasn&#8217;t used to its full potential, so no-one really paid attention to commit messages or the size of commits; after they were written they were never referenced again.</p>
+    <div class="entry-content">
+        <p>The developers at my new job have been using subversion for the last 8 years, and with a few exceptions, huge <em>code-bomb</em> style commits covering numerous features and changes (and with generic one-line commit messages) seem to have been the norm.  Source control was used primarily for backup (a sin I think many teams are guilty of at one point or another), and wasn&#8217;t used to its full potential, so no-one really paid attention to commit messages or the size of commits; after they were written they were never referenced again.</p>
 
 <p>When I joined the team, they had already researched and seen the benefits of Git and wanted to move as soon as possible. With my advocation and re-iteration of the various benefits management were quickly convinced and the work was scheduled.  I wanted to make sure Git became a useful tool for the whole team and once everything was ready to be moved across, that meant introducing the idea of smaller atomic commits with better (more useful) commit messages.</p>
 
@@ -120,6 +123,7 @@ Relation: #issue
 
 <p>These rules haven&#8217;t been in use very long, and aren&#8217;t set in stone.  As time goes on we might find ourselves relaxing them, adding to them, or changing them all together.  As a base to work from they pretty solid right now and should stand us in good stead for the foreseeable future.</p>
 
+    </div>
 </article>
 
 

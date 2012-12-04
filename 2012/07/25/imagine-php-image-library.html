@@ -24,8 +24,8 @@
 </head>
 <body>
 	<header>
-	    <p>
-	        <strong><a href="http://adamcod.es">adamcod.es</a></strong><br />
+	    <p class="author vcard">
+	        <strong><a href="http://adamcod.es" rel="author">adamcod.es</a></strong><br />
     		by <a href="http://adambrett.co.uk">Adam Brett</a>
     	</p>
 	</header>
@@ -39,14 +39,17 @@
 	</nav>
 
     <article>
+    <div class="instapaper_ignore entry-unrelated">
 
-    <h1><a href="http://adamcod.es/2012/07/25/imagine-php-image-library.html">Make a circle thumbnail with the Imagine PHP Image Library</a></h1>
-    <p class="meta"><time datetime="2012-07-25">Wednesday, July 25, 2012</time></p>
+    <h1 class="entry-title"><a href="http://adamcod.es/2012/07/25/imagine-php-image-library.html">Make a circle thumbnail with the Imagine PHP Image Library</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="2012-07-25">Wednesday, July 25, 2012</time></p>
     <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2012/07/25/imagine-php-image-library.html" data-text="Make a circle thumbnail with the Imagine PHP Image Library by @sixdaysad">Tweet</a></div>
 
 
+    </div>
 
-    <h2 id="what-is-imagine">What is Imagine</h2>
+    <div class="entry-content">
+        <h2 id="what-is-imagine">What is Imagine</h2>
 
 <p>Image processing in PHP is <em>really</em> unpleasant.  Imagine is a PHP 5.3 library which makes image processing suck way less.  According to the <a href="http://imagine.readthedocs.org">documentation</a>:</p>
 
@@ -151,6 +154,7 @@ $filter-&gt;apply($imagine-&gt;open('/path/to/square/image.jpg'))
 
 <p>Make sure that no-matter what your input format (which isn&#8217;t really important, Imagine should know what to do with most valid image formats), make sure you output it as something with transparency (preferably png).  Don&#8217;t do what I did and spend 40 minutes wondering why the transparency mask wasn&#8217;t applying when you were outputting as a jpg.</p>
 
+    </div>
 </article>
 
 

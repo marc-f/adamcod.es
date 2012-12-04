@@ -24,8 +24,8 @@
 </head>
 <body>
 	<header>
-	    <p>
-	        <strong><a href="http://adamcod.es">adamcod.es</a></strong><br />
+	    <p class="author vcard">
+	        <strong><a href="http://adamcod.es" rel="author">adamcod.es</a></strong><br />
     		by <a href="http://adambrett.co.uk">Adam Brett</a>
     	</p>
 	</header>
@@ -39,14 +39,17 @@
 	</nav>
 
     <article>
+    <div class="instapaper_ignore entry-unrelated">
 
-    <h1><a href="http://adamcod.es/2012/07/13/unchangable-public-variables-in-php.html">Unchangable Public Variables In PHP</a></h1>
-    <p class="meta"><time datetime="2012-07-13">Friday, July 13, 2012</time></p>
+    <h1 class="entry-title"><a href="http://adamcod.es/2012/07/13/unchangable-public-variables-in-php.html">Unchangable Public Variables In PHP</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="2012-07-13">Friday, July 13, 2012</time></p>
     <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2012/07/13/unchangable-public-variables-in-php.html" data-text="Unchangable Public Variables In PHP by @sixdaysad">Tweet</a></div>
 
 
+    </div>
 
-    <p>If you&#8217;ve ever had a use-case where you want to make a class property publicly readable, but not writable, (without adding a getter), this is how you do it.</p>
+    <div class="entry-content">
+        <p>If you&#8217;ve ever had a use-case where you want to make a class property publicly readable, but not writable, (without adding a getter), this is how you do it.</p>
 
 <h2 id="disclaimer">Disclaimer</h2>
 
@@ -157,6 +160,7 @@ Is accessible: Passed
 Is internally changeable: Passed
 Exception if set: Passed</code></pre></noscript></div>
 
+    </div>
 </article>
 
 

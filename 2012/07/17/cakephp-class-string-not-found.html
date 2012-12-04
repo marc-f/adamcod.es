@@ -24,8 +24,8 @@
 </head>
 <body>
 	<header>
-	    <p>
-	        <strong><a href="http://adamcod.es">adamcod.es</a></strong><br />
+	    <p class="author vcard">
+	        <strong><a href="http://adamcod.es" rel="author">adamcod.es</a></strong><br />
     		by <a href="http://adambrett.co.uk">Adam Brett</a>
     	</p>
 	</header>
@@ -39,14 +39,17 @@
 	</nav>
 
     <article>
+    <div class="instapaper_ignore entry-unrelated">
 
-    <h1><a href="http://adamcod.es/2012/07/17/cakephp-class-string-not-found.html">Class 'String' not found in app/Model/User.php on line xx</a></h1>
-    <p class="meta"><time datetime="2012-07-17">Tuesday, July 17, 2012</time></p>
+    <h1 class="entry-title"><a href="http://adamcod.es/2012/07/17/cakephp-class-string-not-found.html">Class 'String' not found in app/Model/User.php on line xx</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="2012-07-17">Tuesday, July 17, 2012</time></p>
     <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2012/07/17/cakephp-class-string-not-found.html" data-text="Class 'String' not found in app/Model/User.php on line xx by @sixdaysad">Tweet</a></div>
 
 
+    </div>
 
-    <p>This is a really easy to fix error that occurs in a very specific situation.  Namely when developing an application in CakePHP that makes use of the ACL behavior whilst also having a <code>beforeSave</code> method on the User model.  It can be pretty frustrating at first because there&#8217;s nothing about it on the Internet, and as far as you can tell, there isn&#8217;t an error on line xx, and you&#8217;re not using the String object anywhere.</p>
+    <div class="entry-content">
+        <p>This is a really easy to fix error that occurs in a very specific situation.  Namely when developing an application in CakePHP that makes use of the ACL behavior whilst also having a <code>beforeSave</code> method on the User model.  It can be pretty frustrating at first because there&#8217;s nothing about it on the Internet, and as far as you can tell, there isn&#8217;t an error on line xx, and you&#8217;re not using the String object anywhere.</p>
 
 <p>It&#8217;s happening because of a missing options array on the <code>beforeSave</code> method you added to the User model.  Simply change:</p>
 
@@ -58,6 +61,7 @@
 
 <p>and make sure that you call <code>parent::beforeSave($options)</code> somewhere in your method definition.</p>
 
+    </div>
 </article>
 
 
