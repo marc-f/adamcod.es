@@ -50,7 +50,7 @@ They both have very little controller logic.  A controller action would basicall
 
 Then you look at the logging situation.  Slim is logging to `./dist/rest/logs`, Cake is logging to `./dist/web/app/tmp/logs`, and your use-cases use monolog[^2] to log to somewhere else.  Yuk.
 
-The guys in camp 2, who kind of get PSR-3, are now thinking: Wouldn't it be great if we could just use monolog throughout to log to `./logs`?  That's what PSR-3 is for.
+The guys in camp 2, who kind of gets PSR-3, are now thinking: Wouldn't it be great if we could just use monolog throughout to log to `./logs`?  That's what PSR-3 is for.
 
 No! _No cookies for you_.
 
