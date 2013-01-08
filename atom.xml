@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://example.com/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-01-08T15:06:37+00:00</updated>
+  <updated>2013-01-08T15:13:34+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -70,7 +70,7 @@
 
 &lt;p&gt;Then you look at the logging situation.  Slim is logging to &lt;code&gt;./dist/rest/logs&lt;/code&gt;, Cake is logging to &lt;code&gt;./dist/web/app/tmp/logs&lt;/code&gt;, and your use-cases use monolog&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to log to somewhere else.  Yuk.&lt;/p&gt;
 
-&lt;p&gt;The guys in camp 2, who kind of get PSR-3, are now thinking: Wouldn’t it be great if we could just use monolog throughout to log to &lt;code&gt;./logs&lt;/code&gt;?  That’s what PSR-3 is for.&lt;/p&gt;
+&lt;p&gt;The guys in camp 2, who kind of gets PSR-3, are now thinking: Wouldn’t it be great if we could just use monolog throughout to log to &lt;code&gt;./logs&lt;/code&gt;?  That’s what PSR-3 is for.&lt;/p&gt;
 
 &lt;p&gt;No! &lt;em&gt;No cookies for you&lt;/em&gt;.&lt;/p&gt;
 
