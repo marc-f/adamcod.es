@@ -49,15 +49,15 @@
     </div>
 
     <div class="entry-content">
-        <p>If you&#8217;ve ever had a use-case where you want to make a class property publicly readable, but not writable, (without adding a getter), this is how you do it.</p>
+        <p>If you’ve ever had a use-case where you want to make a class property publicly readable, but not writable, (without adding a getter), this is how you do it.</p>
 
 <h2 id="disclaimer">Disclaimer</h2>
 
-<p>Obviously, the easiest (and probably correct/best) way to do this is to add a getter to the class that returns the value of the private/protected property.  However this is a trick to make it appear as a normal property (in case you don&#8217;t want any getters in your API, for example).</p>
+<p>Obviously, the easiest (and probably correct/best) way to do this is to add a getter to the class that returns the value of the private/protected property.  However this is a trick to make it appear as a normal property (in case you don’t want any getters in your API, for example).</p>
 
 <h2 id="code">Code</h2>
 
-<p>This trick involves using PHP&#8217;s magic methods and looks like this:</p>
+<p>This trick involves using PHP’s magic methods and looks like this:</p>
 
 <div><script src="https://gist.github.com/3104351.js?file=MagicPublicProperty.php"></script>
 <noscript><pre><code>&lt;?php
@@ -88,9 +88,9 @@ class MagicPublicProperty {
 
 <p>Here we have a protected property that is obviously only accessible to instances of this class or child classes.</p>
 
-<p>Below that we are using PHP&#8217;s magic methods <code>__get</code> and <code>__isset</code> to intercept calls to this class&#8217; properties and we&#8217;re checking to see if the property attempting to be accessed is <code>primaryKey</code>.  If it is, we return either the <code>isset</code> result or the value, depending on what we want to do.  This bit is fairly straight forward.</p>
+<p>Below that we are using PHP’s magic methods <code>__get</code> and <code>__isset</code> to intercept calls to this class’ properties and we’re checking to see if the property attempting to be accessed is <code>primaryKey</code>.  If it is, we return either the <code>isset</code> result or the value, depending on what we want to do.  This bit is fairly straight forward.</p>
 
-<p>To stop anyone from attempting to set the value of this property from outside of the class, we need to add something to the <code>__set</code> magic method, if we didn&#8217;t, it could lead to unexpected results.  We <em>could</em> just trap it and return, doing nothing, but to make sure no-one does this accidentally in their code expecting it work, we should throw an exception with a helpful message.</p>
+<p>To stop anyone from attempting to set the value of this property from outside of the class, we need to add something to the <code>__set</code> magic method, if we didn’t, it could lead to unexpected results.  We <em>could</em> just trap it and return, doing nothing, but to make sure no-one does this accidentally in their code expecting it work, we should throw an exception with a helpful message.</p>
 
 <p>What if you want it to be modified from outside of the class too?</p>
 
@@ -98,7 +98,7 @@ class MagicPublicProperty {
 
 <h3 id="tests">Tests</h3>
 
-<p>Here are some quick tests to prove it&#8217;s working as expected:</p>
+<p>Here are some quick tests to prove it’s working as expected:</p>
 
 <div><script src="https://gist.github.com/3104351.js?file=tests.php"></script>
 <noscript><pre><code>&lt;?php

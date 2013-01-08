@@ -51,7 +51,7 @@
     <div class="entry-content">
         <h2 id="background">Background</h2>
 
-<p>You&#8217;re working on <code>feature/awesome-new-stuff</code> and have a whole bunch of changes that you don&#8217;t want to commit yet, and you get a call about a bug that needs to be fixed asap.  You checkout develop, create a hotfix branch and make your changes.  Then you do <code>git status</code> and see all of your experimental changes from <code>feature/awesome-new-stuff</code> have come with you, making it harder to spot the changes relating only to the hotfix.</p>
+<p>You’re working on <code>feature/awesome-new-stuff</code> and have a whole bunch of changes that you don’t want to commit yet, and you get a call about a bug that needs to be fixed asap.  You checkout develop, create a hotfix branch and make your changes.  Then you do <code>git status</code> and see all of your experimental changes from <code>feature/awesome-new-stuff</code> have come with you, making it harder to spot the changes relating only to the hotfix.</p>
 
 <h2 id="the-quick-and-dirty">The Quick and Dirty</h2>
 
@@ -79,11 +79,11 @@ git commit -a -m 'WIP'
 git add .
 git commit --amend</code></pre></noscript></div>
 
-<p>Because you are working locally in git commits can be undone and re-done at will, it&#8217;s only when you push the commit to a central repository that you need to pay serious attention.</p>
+<p>Because you are working locally in git commits can be undone and re-done at will, it’s only when you push the commit to a central repository that you need to pay serious attention.</p>
 
-<p>So create a work in progress commit, and then use <code>git commit --amend</code> to add to it often.  Then when you go to switch branches to work on another feature you don&#8217;t have to worry about stashing and popping or bringing changes with you.</p>
+<p>So create a work in progress commit, and then use <code>git commit --amend</code> to add to it often.  Then when you go to switch branches to work on another feature you don’t have to worry about stashing and popping or bringing changes with you.</p>
 
-<p>When you&#8217;re ready for the real commit on a branch you can run:</p>
+<p>When you’re ready for the real commit on a branch you can run:</p>
 
 <div><script src="https://gist.github.com/3075876.js?file=finish.sh"></script>
 <noscript><pre><code>git reset --soft HEAD~
