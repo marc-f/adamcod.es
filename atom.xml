@@ -3,9 +3,9 @@ layout: nil
 ---
 <?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
- 
+
   <title>Adam Codes</title>
-  <link href="http://example.com/"/>
+  <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
   <updated>{{ site.time | date_to_xmlschema }}</updated>
   <id>http://adamcod.es/</id>
@@ -28,5 +28,5 @@ layout: nil
     <content type="html">{{ post.content | xml_escape }}</content>
   </entry>
   {% endfor %}
- 
+
 </feed>
