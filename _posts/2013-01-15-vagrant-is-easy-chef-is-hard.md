@@ -3,7 +3,7 @@ title: Vagrant is easy - Chef is hard.
 layout: post
 ---
 
-This is part 1 of a 2 part quickstart to using Vagrant and Chef to speed up and simplify your development environment.  If you're already familiar with Vagrant and just want to find out about Chef, go to [part 2 here](/2013/01/22/vagrant-is-easy-chef-is-hard-part2.html).
+This is part 1 of a 2 part quickstart to using Vagrant and Chef to speed up and simplify your development environment.  If you're already familiar with Vagrant and just want to find out about Chef, go to [part 2 here](/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html).
 
 If you haven't started using Chef[^1] and Vagrant[^2] yet, you should, it's awesome and in a few short has totally changed my development environment.
 
@@ -98,7 +98,7 @@ There are a couple of important concepts in Vagrant
 
         This completely removes all trace of the VM from your system (but not the basebox or provisioner).
 
-This should be enough to get you started using Vagrant.  If you follow these steps, then run `vagrant up` you should have a functioning VM, and the key commands should be enough to give you a great grounding in how to use vagrant.  Now carry on reading [part 2](/2013/01/22/vagrant-is-easy-chef-is-hard-part2.html) to find out how to make your VM actually do something useful.
+This should be enough to get you started using Vagrant.  If you follow these steps, then run `vagrant up` you should have a functioning VM, and the key commands should be enough to give you a great grounding in how to use vagrant.  Now carry on reading [part 2](/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html) to find out how to make your VM actually do something useful.
 
 
 [^1]: http://www.opscode.com/chef
