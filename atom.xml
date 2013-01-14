@@ -4,13 +4,755 @@
   <title>Adam Codes</title>
   <link href="http://example.com/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-01-11T11:32:42+00:00</updated>
+  <updated>2013-01-14T10:02:07+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/01/15/vagrant-is-easy-chef-is-hard-part2</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html"/>
+    <title>Vagrant is easy - Chef is hard (Part 2).</title>
+    <published>2013-01-15T00:00:00+00:00</published>
+    <updated>2013-01-15T00:00:00+00:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    <content type="html">&lt;p&gt;This is part 2 of a 2 part quick-start to using Vagrant&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Chef&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to speed up and simplify your development environment.  If you haven’t read the first part, and aren’t already familiar with Vagrant go to &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;part 1 here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In part 1 we covered the key commands and config settings you need to get vagrant up and running quickly with little-to-no fuss.  But that was the easy part.  Now comes the hard part.  Chef.&lt;/p&gt;
+
+&lt;h2 id=&quot;chef&quot;&gt; Chef&lt;/h2&gt;
+
+&lt;p&gt;The reason Chef is so hard, and the reason it has such as steep learning curve, is that every single blog post or tutorial, and even the chef manual itself, all deal with low-level Chef.  That is not what we want.  As a developer I have a hundred things to do and no time to do them.  I don’t care about low-level stuff.  I want stuff that Just Works.  So here we go.  This is the least amount of knowledge you need to get a lamp stack up and running on Vagrant.  As a side effect of that, you’ll actually learn quite a bit of Chef along the way.&lt;/p&gt;
+
+&lt;h3 id=&quot;key-points&quot;&gt;Key Points&lt;/h3&gt;
+
+&lt;p&gt;Before we start, there are a couple of key definitions you’re going to need to learn to make your life simpler.  They aren’t difficult, and I’ll do my best to distil them down to a basic level.&lt;/p&gt;
+
+&lt;h4 id=&quot;cookbooks&quot;&gt;Cookbooks&lt;/h4&gt;
+
+&lt;p&gt;Installing things (apache, mysql, php etc) is done by something called Cookbooks.  Cookbooks are a collection of Templates and &lt;em&gt;Recipes&lt;/em&gt; (and a few other things we don’t care about right now) that  tell Chef how to install something.&lt;/p&gt;
+
+&lt;h5 id=&quot;recipes&quot;&gt;Recipes&lt;/h5&gt;
+
+&lt;p&gt;At a basic level, a &lt;em&gt;Recipe&lt;/em&gt; is a ruby file that calls a bunch of Chef functions to install something.&lt;/p&gt;
+
+&lt;h5 id=&quot;templates&quot;&gt;Templates&lt;/h5&gt;
+
+&lt;p&gt;A template is much like a PHP app template with variable replacements, loops etc, but for system config files.  Think v-hosts, httpd.conf, php.ini etc.&lt;/p&gt;
+
+&lt;h5 id=&quot;lwrp&quot;&gt; LWRP&lt;/h5&gt;
+
+&lt;p&gt;You will see LWRPs mentioned a lot and it’s not immediately obvious what they are.  It stands for &lt;em&gt;Light Weight Resource Providers&lt;/em&gt;.  But really they’re functions that do something Chefy (like install a Pecl Module/PEAR Library in the PHP Cookbook).  They should just call them that.  You don’t really need to use these yet, but I figured you’d want to know what they are when you see them mentioned elsewhere.&lt;/p&gt;
+
+&lt;h4 id=&quot;chef-server-vs-chef-solo&quot;&gt;Chef Server vs Chef Solo&lt;/h4&gt;
+
+&lt;p&gt;Chef comes in two flavours.  Chef Solo and Chef Server.  Chef is always run on the guest or machine being provisioned, not your own machine or workstation.  That means it needs to have the cookbooks copied across in order for it to know where they are.  Chef Server takes care of this for you (the copying across), as well as managing a central repository of your cookbooks.&lt;/p&gt;
+
+&lt;p&gt;Chef Server can also do some other fancy stuff (such as provisioning new EC2 instances for you), but unless you’re using it for a live server or professional dev-ops (and we’re not), forget about it.  We can copy the cookbooks across ourselves (or in reality vagrant will).&lt;/p&gt;
+
+&lt;p&gt;One final point of note: Opscode (the company behaind chef) will host a Chef server for you, or you can do it yourself.  It would appear Chef can provision it’s own Chef Server, but I’ve not tried.&lt;/p&gt;
+
+&lt;h4 id=&quot;roles&quot;&gt; Roles&lt;/h4&gt;
+
+&lt;p&gt;A role is simply a type of server.  E.g. If you have a distributed architecture with a load balancer, 2x web servers and 2x database servers, your roles would be “Load Balancer”, “Web Server”, and “Database Server”.  That’s a role.&lt;/p&gt;
+
+&lt;p&gt;A role is not limiting, in reality it’s a name given to a collection of cookbooks you want to run.  E.g. You specify that your webserver roll should run the apache, php, and mysql cookbooks.  The cookbooks that a particular role should run is called a “Run List” in Chef, that’s because the name of the Chef function you pass the cookbooks to run to is &lt;code&gt;run_list&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;extra-credit&quot;&gt; Extra Credit&lt;/h4&gt;
+
+&lt;p&gt;You don’t need to know about this, but I will cover it here for completeness.  Chef also has the concepts of “Nodes” and “Data-Bags”.  I haven’t used these features, but my understanding is that a “Node” is an instance of a Role.  So you have your 2x webservers, each using the “Web Server” role.  Each one of those is a Node.&lt;/p&gt;
+
+&lt;p&gt;From my understanding, “Data-Bags” provide additional data to your Recipes, this could be a list of admins or databases to create, or something similar.  I haven’t used them, so I’m not familiar with them.&lt;/p&gt;
+
+&lt;h3 id=&quot;getting-started&quot;&gt; Getting Started&lt;/h3&gt;
+
+&lt;p&gt;Now the real quickstart.  You need a directory to hold your Chef related stuff, for simplicity when updating cookbooks, you need that directory managed with git.  This is fairly essential as managing updates to your cookbooks by hand would be a nightmare.  From your application’s root directory run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd ../
+mkdir -p chef/{cookbooks,data_bags,nodes,roles,site-cookbooks}
+cd chef
+git init .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That’s our basic directory structure.  Done.  Next we need to add some cookbooks.  Thankfully, there are a ton of them available on Github&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; that we can use.  We don’t need to write our own (most tutorials focus on writing your own… I don’t know why).&lt;/p&gt;
+
+&lt;p&gt;Now think about what you would normally do when building a new ubuntu VM.  First, you sort out apt to make sure everything is up to date.  Cookbooks live in, unsurprisingly, the cookbooks directory, so lets add the apt cookbook to take care of apt for us:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git submodule add https://github.com/opscode-cookbooks/apt.git cookbooks/apt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Great, now we want apache2 up and running:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git submodule add https://github.com/opscode-cookbooks/apache2.git cookbooks/apache2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Boom. Done.  MySQL?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git submodule add https://github.com/opscode-cookbooks/mysql.git cookbooks/mysql
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;PHP…&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git submodule add https://github.com/opscode-cookbooks/php.git cookbooks/php
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ok.  We have our cookbooks.  Now we need to add a role so Chef knows which ones to run (you could add a whole bunch of cookbooks here, then in the roll only run a select few).&lt;/p&gt;
+
+&lt;p&gt;So, create &lt;code&gt;roles/vagrant-test-box.rb&lt;/code&gt; and add the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Name of the role should match the name of the file
+name &quot;vagrant-test-box&quot;
+
+# Run list function we mentioned earlier
+run_list(
+    &quot;recipe[apt]&quot;,
+    &quot;recipe[apache2]&quot;,
+    &quot;recipe[mysql]&quot;,
+    &quot;recipe[php]&quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That’s it.  Done.  Now lets briefly go back to the Vagrantfile we created in part1:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Enable provisioning with chef solo, specifying a cookbooks path, roles
+# path, and data_bags path (all relative to this Vagrantfile), and adding
+# some recipes and/or roles.
+config.vm.provision :chef_solo do |chef|
+    chef.roles_path = &quot;../chef/roles&quot;
+    chef.cookbooks_path = [&quot;../chef/site-cookbooks&quot;, &quot;../chef/cookbooks&quot;]
+    chef.add_role &quot;vagrant-test-box&quot;
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See that bit at the bottom.  That’s how vagrant knows to use Chef, and where to find your cookbooks.  If you’ve stored your cookbooks somewhere other than where I’ve suggested, update the paths here, otherwise, let’s update the role to “vagrant-test-box”, as that’s what we just created, and then go back to your application root and run &lt;code&gt;vagrant up&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Everything should run successfully, you’ll see it all whizzing past as Chef installs it, and it will drop you back to a shell prompt with the VM running and provisioned.  Awesome.  You can have a quick test by visiting 192.168.33.33 in your browser, or www.example.vm if you installed the vagrant-hostmaster plugin.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/posts/successful-chef-provision.png&quot; alt=&quot;Successful Chef Provision&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now lets look at what was created in a bit more detail.  Run &lt;code&gt;vagrant ssh&lt;/code&gt; to login to the VM.  Now type &lt;code&gt;mysql -u root -p&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Uh oh.  Two problems.  First, we never set a password for the MySQL server, so we can’t login, second, if we run that command without a password, we get the error:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;MySQL Server isn’t installed?? Why??  Lets take a look at the cookbook.&lt;/p&gt;
+
+&lt;p&gt;When you add a cookbook to your run list as we did above, Chef will run the default recipe, which can be found in &lt;code&gt;recipes/default.rb&lt;/code&gt;.  So let’s take a look at &lt;code&gt;cookbooks/mysql/recipes/default.rb&lt;/code&gt; and see what’s going on.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;include_recipe &quot;mysql::client&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Right.  We installed the MySQL Client, but not MySQL Server.  The astute amongst you will have spotted another file in &lt;code&gt;cookbooks/mysql/recipes&lt;/code&gt; called &lt;code&gt;server.rb&lt;/code&gt;.  A cookbook can contain multiple recipes, and by default the MySQL cookbook only installs the MySQL Client, to install the server we also need to add the MySQL Server recipe to our run list.  You specify a recipe inside a cookbook other than the default using the &lt;code&gt;::&lt;/code&gt; syntax you can see above.  Lets modify our &lt;code&gt;vagrant-test-box&lt;/code&gt; role to look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Name of the role should match the name of the file
+name &quot;vagrant-test-box&quot;
+
+# Run list function we mentioned earlier
+run_list(
+    &quot;recipe[apt]&quot;,
+    &quot;recipe[apache2]&quot;,
+    &quot;recipe[mysql]&quot;,
+    &quot;recipe[mysql::server]&quot;,
+    &quot;recipe[php]&quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We’ve left the default MySQL recipe in there as we’re going to need the MySQL Client to administer our server.&lt;/p&gt;
+
+&lt;p&gt;Now run &lt;code&gt;vagrant provision&lt;/code&gt; to run Chef again, and let’s see what happens.&lt;/p&gt;
+
+&lt;p&gt;You got an error? Good.  What you’ve just come across is the complete disaster that is Chef error messages.  Totally useless.  What it’s actually complaining about is a missing constant: &lt;code&gt;Opscode::OpenSSL&lt;/code&gt;.  This is actually a symptom of something else.  Some cookbooks and recipes have dependencies on other cookbooks and recipes.  Specifically in this instance, the &lt;code&gt;mysql::server&lt;/code&gt; recipe depends on the &lt;code&gt;openssl&lt;/code&gt; cookbook.&lt;/p&gt;
+
+&lt;p&gt;Fortunately for us, the cookbooks in the opscode GitHub repository have fairly good README’s that list their dependencies fairly well.  Let’s take a look at the cookbooks we’ve included so far and see if they have any other dependencies we’ve missed.  Go ahead, I’ll wait.&lt;/p&gt;
+
+&lt;p&gt;Great, It looks like only &lt;code&gt;mysql::server&lt;/code&gt; has any dependencies.  Apache2 has some dependencies if you’re using RHEL or CentOS, and PHP does if you’re going to build it from source, but we’re not so we can just add the missing openssl cookbook and get on with it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd ../chef
+git submodule add https://github.com/opscode-cookbooks/openssl.git cookbooks/openssl
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now let’s add it to our run list before &lt;code&gt;mysql::server&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;run_list(
+    &quot;recipe[apt]&quot;,
+    &quot;recipe[openssl]&quot;,
+    &quot;recipe[apache2]&quot;,
+    &quot;recipe[mysql]&quot;,
+    &quot;recipe[mysql::server]&quot;,
+    &quot;recipe[php]&quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I’ve added it to just after apt for neatness.  You can add it anywhere you want before &lt;code&gt;mysql::server&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now let’s try again:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;vagrant provision
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Oh no… another cryptic error.  The key line here is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FATAL: You must set node['mysql']['server_debian_password'], node['mysql']['server_root_password'], node['mysql']['server_repl_password'] in chef-solo mode. For more information, see https://github.com/opscode-cookbooks/mysql#chef-solo-note
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We forgot to set our root password so we can login to the server, and Chef knows it, so it won’t let us proceed without it.  Now we need to learn about &lt;code&gt;override_attributes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;override_attributes(
+    &quot;mysql&quot; =&amp;gt; {
+        &quot;server_root_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
+        &quot;server_repl_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
+        &quot;server_debian_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo'
+    }
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Not massively scary.  Put this in your &lt;code&gt;vagrant-test-box.rb&lt;/code&gt; role before your run list.  This function allows you to override some defaults setup in the cookbooks on a per-role basis.  Nothing too difficult, it is again often documented in the cookbook’s README, or is fairly easy to find by searching the cookbooks’s templates or recipes for things like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;node['apache']['log_dir']
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That’s a fairly good indication we can overwrite that attribute in our role by adding the key to our override attributes function call:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;override_attributes(
+    &quot;apache&quot; =&amp;gt; {
+        &quot;log_dir&quot; =&amp;gt; &quot;/srv/logs&quot; # new attribute overridden
+    },
+    &quot;mysql&quot; =&amp;gt; {
+        &quot;server_root_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
+        &quot;server_repl_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
+        &quot;server_debian_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo'
+    }
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ok, don’t add that to your role for real, as we haven’t created that directory so it will cause an error.&lt;/p&gt;
+
+&lt;p&gt;Now your role should look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Name of the role should match the name of the file
+name &quot;vagrant-test-box&quot;
+
+override_attributes(
+    &quot;mysql&quot; =&amp;gt; {
+        &quot;server_root_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
+        &quot;server_repl_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
+        &quot;server_debian_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo'
+    }
+)
+
+# Run list function we mentioned earlier
+run_list(
+    &quot;recipe[apt]&quot;,
+    &quot;recipe[openssl]&quot;,
+    &quot;recipe[apache2]&quot;,
+    &quot;recipe[mysql]&quot;,
+    &quot;recipe[mysql::server]&quot;,
+    &quot;recipe[php]&quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Save the file and run another &lt;code&gt;vagrant provision&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Are you noticing a pattern here?  Well done.  That’s how we can debug our recipes.  Change -&amp;gt; &lt;code&gt;vagrant provision&lt;/code&gt; -&amp;gt; Error -&amp;gt; Repeat until it works.  If the error isn’t obvious, Google is your friend.  Chef will also always give you a stack trace which will show you the recipe and line giving the error, a quick read of the source can usually give you a good indication of what’s really going on.  It reads close to plain English, so you stand a good chance of understanding even if you don’t know Ruby.&lt;/p&gt;
+
+&lt;p&gt;This time it should run successfully, so log back in with &lt;code&gt;vagrant ssh&lt;/code&gt; and try to connect to MySQL with&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mysql -u root -piloverandompasswordsbutthiswilldo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It should drop you into a &lt;code&gt;mysql&amp;gt;&lt;/code&gt; prompt, where you can run &lt;code&gt;show databases;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mysql&amp;gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
++--------------------+
+2 rows in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is looking good.  Type &lt;code&gt;quit&lt;/code&gt; to exit MySQL, now type &lt;code&gt;php --version&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;PHP 5.3.2-1ubuntu4.18 with Suhosin-Patch (cli) (built: Sep 12 2012 19:33:42)
+Copyright (c) 1997-2009 The PHP Group
+Zend Engine v2.3.0, Copyright (c) 1998-2010 Zend Technologies
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Even better. Now let’s enable the default site and test Apache.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo a2ensite default
+sudo service apache2 reload
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You’ll notice we didn’t need to type a password, vagrant was good enough to add itself to the automatic sudoer’s list.  Now visit www.example.vm or 192.168.33.33 if you aren’t using the hostmaster plugin.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/posts/it-works.png&quot; alt=&quot;Apache Default Site&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We’re getting there.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;echo &quot;&amp;lt;?php phpinfo();&quot; | sudo tee /var/www/info.php
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Visit www.example.vm/info.php or 192.168.33.33/info.php to see if it works.  Damn, it downloaded the file.  Ok.  A quick look through the recipes in the Apache2 cookbook shows a &lt;code&gt;mod_php5&lt;/code&gt; recipe.  We probably need to add that, so lets add it to our run list and try again:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Run list function we mentioned earlier
+run_list(
+    &quot;recipe[apt]&quot;,
+    &quot;recipe[openssl]&quot;,
+    &quot;recipe[apache2]&quot;,
+    &quot;recipe[apache2::mod_php5]&quot;,
+    &quot;recipe[mysql]&quot;,
+    &quot;recipe[mysql::server]&quot;,
+    &quot;recipe[php]&quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now run &lt;code&gt;vagrant provision&lt;/code&gt; and try to load the info file in our browser again when it’s finished.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/posts/not-found.png&quot; alt=&quot;Not Found&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;What’s that all about?  Well, Chef has just re-installed everything for you, so Apache’s config is all new again.  Let’s repeat the steps above.  Make a note we need to find a way to make our virtual hosts persistent.  We’ll come back to it soon.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;vagrant ssh
+sudo a2ensite default
+sudo service apache2 reload
+echo &quot;&amp;lt;?php phpinfo();&quot; | sudo tee /var/www/info.php
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now try to load info.php again.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/posts/vagrant-phpinfo.png&quot; alt=&quot;Vagrant phpinfo()&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Success!  But a quick scan of the &lt;code&gt;info.php&lt;/code&gt; output shows the MySQL section is missing.  Let’s verify that.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;php --info | grep mysql
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Nothing.  Let’s check the PHP cookbook.  There’s a &lt;code&gt;module_mysql&lt;/code&gt; recipe! Excellent.  Are you spotting another pattern here?  Nothing is enabled by default with the opscode cookbooks, if it’s optional, you have to specify it.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Run list function we mentioned earlier
+run_list(
+    &quot;recipe[apt]&quot;,
+    &quot;recipe[openssl]&quot;,
+    &quot;recipe[apache2]&quot;,
+    &quot;recipe[apache2::mod_php5]&quot;,
+    &quot;recipe[mysql]&quot;,
+    &quot;recipe[mysql::server]&quot;,
+    &quot;recipe[php]&quot;,
+    &quot;recipe[php::module_mysql]&quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now run &lt;code&gt;vagrant provision&lt;/code&gt; again.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;vagrant ssh
+php --info | grep mysql
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Much better.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/posts/vagrant-mysql-info.png&quot; alt=&quot;Vagrant php mysql info&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;That just leaves us with one last thing.  Getting our data and virtual hosts to persist between provisions.&lt;/p&gt;
+
+&lt;p&gt;I know I said we wouldn’t need them, but to get our virtual host to point at our code and persist between provisions, we need to use a LWRP.  Specifically the &lt;code&gt;web_app&lt;/code&gt; LWRP from the apache2 cookbook.&lt;/p&gt;
+
+&lt;p&gt;This may or may not be the &lt;em&gt;right&lt;/em&gt; way to do this, but I know it works so it’s how I’m going to do it until I find a better way.  Create a directory in &lt;code&gt;chef/site-cookbooks&lt;/code&gt; called &lt;code&gt;apache2&lt;/code&gt;.  Inside there, create another directory called &lt;code&gt;recipes&lt;/code&gt;.  Now add a file called &lt;code&gt;vhosts.rb&lt;/code&gt; with the content:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#
+# Cookbook Name:: apache2
+# Recipe:: vhosts
+#
+# Copyright 2012, Adam Brett. All Rights Reserved.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+include_recipe &quot;apache2&quot;
+
+web_app &quot;example&quot; do
+  server_name &quot;www.example.vm&quot;
+  server_aliases [&quot;example.vm&quot;]
+  allow_override &quot;all&quot;
+  docroot &quot;/srv/site/&quot;
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Remember how in our &lt;code&gt;Vagrantfile&lt;/code&gt; we told Vagrant to mount the current directory at &lt;code&gt;/srv/site&lt;/code&gt;?  That’s so our source code was available in the VM.&lt;/p&gt;
+
+&lt;p&gt;Now we create a custom recipe (hence the site-cookbooks location), and import the apache2 default recipe.&lt;/p&gt;
+
+&lt;p&gt;There’s something important to note here.  If you create a recipe in &lt;code&gt;site-cookbooks&lt;/code&gt; that has a recipe of the exact same name and location as one in &lt;code&gt;cookbooks&lt;/code&gt;, the one in &lt;code&gt;site-cookbooks&lt;/code&gt; will be used.  This allows you to extend or modify the opscode cookbooks without having to modify them directly.  This is why we used git to manage this directory.  We can now very easily update all of our cookbooks with git without worrying about overwriting any of our custom modifications.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;web_app&lt;/code&gt; LWRP (or function) is defined in &lt;code&gt;cookbooks/apache2/definitions/web_app.rb&lt;/code&gt;. If you open this file and take a look, you can see in here lots of calls to &lt;code&gt;params[:something]&lt;/code&gt;.  These are the params you can pass to the function call.  You can also see it’s using the template &lt;code&gt;web_app.conf.erb&lt;/code&gt;.  Open this file in the &lt;code&gt;apache2/templates/default&lt;/code&gt; directory and you can see a bunch more params you can pass to this function/LWRP.  We only need to use a couple so we’ll leave the recipe as it is.&lt;/p&gt;
+
+&lt;p&gt;You include your own recipes in the run list exactly as you would a normal one, so lets add ours:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Run list function we mentioned earlier
+run_list(
+    &quot;recipe[apt]&quot;,
+    &quot;recipe[openssl]&quot;,
+    &quot;recipe[apache2]&quot;,
+    &quot;recipe[apache2::mod_php5]&quot;,
+    &quot;recipe[mysql]&quot;,
+    &quot;recipe[mysql::server]&quot;,
+    &quot;recipe[php]&quot;,
+    &quot;recipe[php::module_mysql]&quot;,
+    &quot;recipe[apache2::vhosts]&quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now run &lt;code&gt;vagrant provision&lt;/code&gt; again, and visit www.example.vm in your browser.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/posts/vagrant-local-website.png&quot; alt=&quot;Vagrant Local Website&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Success!  Any index.html you have in your application root should now be loaded in your browser.  If you need to load an &lt;code&gt;index.php&lt;/code&gt; or something else, add the &lt;code&gt;directory_index&lt;/code&gt; paramter to the web_app LWRP call.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;web_app &quot;example&quot; do
+  server_name &quot;www.example.vm&quot;
+  server_aliases [&quot;example.vm&quot;]
+  directory_index [&quot;index.html&quot;, &quot;index.php&quot;]
+  allow_override &quot;all&quot;
+  docroot &quot;/srv/site/&quot;
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So we’re pretty close.  All that’s left now to have something &lt;em&gt;really&lt;/em&gt; useful is to import our database schema.&lt;/p&gt;
+
+&lt;p&gt;Fortunately for us, the guys have opscode have a cookbook for that too.  It’s called database, and we’re going to need some LWRP providers from it again.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd ../chef
+git submodule add https://github.com/opscode-cookbooks/database.git cookbooks/database
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;database&lt;/code&gt; cookbook recipe &lt;code&gt;mysql&lt;/code&gt; has a dependency on the &lt;code&gt;build-essential&lt;/code&gt; cookbook, so let’s add that too.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git submodule add https://github.com/opscode-cookbooks/build-essential.git cookbooks/build-essential
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now add the database::mysql recipe, build-essential default recipe, and another custom one we’re about to create to your run list.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Run list function we mentioned earlier
+run_list(
+    &quot;recipe[apt]&quot;,
+    &quot;recipe[build-essential]&quot;,
+    &quot;recipe[openssl]&quot;,
+    &quot;recipe[apache2]&quot;,
+    &quot;recipe[apache2::mod_php5]&quot;,
+    &quot;recipe[mysql]&quot;,
+    &quot;recipe[mysql::server]&quot;,
+    &quot;recipe[php]&quot;,
+    &quot;recipe[php::module_mysql]&quot;,
+    &quot;recipe[apache2::vhosts]&quot;,
+    &quot;recipe[database::mysql]&quot;,
+    &quot;recipe[database::import]&quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now let’s setup that custom recipe.  Bear in mind, there is probably a &lt;em&gt;correct&lt;/em&gt; way to do this.  I’m not aware of it, and this way &lt;em&gt;works&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mkdir -p site-cookbooks/database/recipes
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then add &lt;code&gt;import.rb&lt;/code&gt; in your newly created directory with the following content:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#
+# Cookbook Name:: database
+# Recipe:: import
+#
+# Copyright 2012, Adam Brett. All Rights Reserved.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+include_recipe &quot;database::mysql&quot;
+
+# Store this in a variable so we don't keep repeating it
+mysql_connection_info = {
+    :host =&amp;gt; &quot;localhost&quot;,
+    :username =&amp;gt; 'root',
+    # automatically get this from the override_attributes call!
+    :password =&amp;gt; node['mysql']['server_root_password']
+}
+
+# my_database = database name
+mysql_database 'my_database' do
+  connection mysql_connection_info
+  action :create
+end
+
+# import an sql dump from your app_root/data/dump.sql to the my_database database
+execute &quot;import&quot; do
+  command &quot;mysql -u root -p\&quot;#{node['mysql']['server_root_password']}\&quot; my_database &amp;lt; /srv/site/data/dump.sql&quot;
+  action :run
+end
+
+# this isn't really necessary, as we're using root and not creating a database
+# user, but I'm including it and commenting it out so you can see what it looks like
+# mysql_database_user 'my_user' do
+#  connection mysql_connection_info
+#  database_name 'my_database'
+#  action :grant
+# end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, make sure the database dump exists, and run &lt;code&gt;vagrant provision&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Error!&lt;/p&gt;
+
+&lt;p&gt;Again!&lt;/p&gt;
+
+&lt;p&gt;It turns out that there is some weirdness with Chef and build-essential and Ruby Gems (which is what gives us the database LWRPs).  A quick scan of the build-essential README reveals we need to add:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;default_attributes(
+    &quot;build_essential&quot; =&amp;gt; {
+        &quot;compiletime&quot; =&amp;gt; true
+    }
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;to our role definition.  Go ahead and do that, so the whole thing should look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Name of the role should match the name of the file
+name &quot;vagrant-test-box&quot;
+
+default_attributes(
+    &quot;build_essential&quot; =&amp;gt; {
+        &quot;compiletime&quot; =&amp;gt; true
+    }
+)
+
+override_attributes(
+    &quot;mysql&quot; =&amp;gt; {
+        &quot;server_root_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
+        &quot;server_repl_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
+        &quot;server_debian_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo'
+    }
+)
+
+# Run list function we mentioned earlier
+run_list(
+    &quot;recipe[apt]&quot;,
+    &quot;recipe[build-essential]&quot;,
+    &quot;recipe[openssl]&quot;,
+    &quot;recipe[apache2]&quot;,
+    &quot;recipe[apache2::mod_php5]&quot;,
+    &quot;recipe[mysql]&quot;,
+    &quot;recipe[mysql::server]&quot;,
+    &quot;recipe[php]&quot;,
+    &quot;recipe[php::module_mysql]&quot;,
+    &quot;recipe[apache2::vhosts]&quot;,
+    &quot;recipe[database::mysql]&quot;,
+    &quot;recipe[database::import]&quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then run it again &lt;code&gt;vagrant provision&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;All done? Let’s verify it worked:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;vagrant ssh
+mysql -u root -piloverandompasswordsbutthiswilldo
+
+
+mysql&amp;gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| my_database        |
+| mysql              |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql&amp;gt; use my_database;
+Database changed
+
+mysql&amp;gt; show tables;
++-----------------------+
+| Tables_in_my_database |
++-----------------------+
+| my_table              |
++-----------------------+
+1 row in set (0.00 sec)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Success!  You should now be able to put your vagrant database details into your app and have it load as expected, and if not, I hope I’ve given you access to the tools and knowledge you need to start experimenting and debugging for yourself.&lt;/p&gt;
+
+&lt;p&gt;In the months and year to come Vagrant and Chef are going to become as indispensable as syntax highlighting for any serious developer, so please give it a go and let me know on &lt;a href=&quot;http://twitter.com/sixdaysad&quot;&gt;twitter&lt;/a&gt; if there’s anything you think needs improving or clarifying in this post!&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;http://vagrantup.com&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;http://www.opscode.com/chef&lt;a href=&quot;#fnref:2&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;https://github.com/opscode-cookbooks/&lt;a href=&quot;#fnref:3&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <id>http://adamcod.es/2013/01/15/vagrant-is-easy-chef-is-hard</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/01/15/vagrant-is-easy-chef-is-hard.html"/>
+    <title>Vagrant is easy - Chef is hard.</title>
+    <published>2013-01-15T00:00:00+00:00</published>
+    <updated>2013-01-15T00:00:00+00:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    <content type="html">&lt;p&gt;This is part 1 of a 2 part quickstart to using Vagrant and Chef to speed up and simplify your development environment.  If you’re already familiar with Vagrant and just want to find out about Chef, go to &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html&quot;&gt;part 2 here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you haven’t started using Chef&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Vagrant&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; yet, you should, it’s awesome and in a few short has totally changed my development environment.&lt;/p&gt;
+
+&lt;p&gt;The only problem is that getting started with Chef is really really hard, and there is no good documentation out there for it.  Not even the manual.  Today I’m going to change that.  If you’re a developer and just want to build a consistent and reliable test environment, pay close attention.&lt;/p&gt;
+
+&lt;p&gt;Just before Christmas we had a massive office refurbish.  The office was shut and completely inaccessible for just over a week, which meant I spent the week working from home, without access to our UAT box.  Normally this wouldn’t be a problem, I’d just have developed locally and uploaded when back in the office, except the issue I was working on was very specific to the PHP version we were running, our ops guys wouldn’t upgrade and that meant I needed an environment as close to live as possible for testing.&lt;/p&gt;
+
+&lt;p&gt;I took this opportunity to pick-up vagrant.  I’d heard about it before, even installed it, but never really used it.&lt;/p&gt;
+
+&lt;h2 id=&quot;vagrant&quot;&gt; Vagrant&lt;/h2&gt;
+
+&lt;p&gt;Think of vagrant as a command line script for VirtualBox&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.  I’m going to skip over how to install both, as it’s really easy just following the instructions on their websites.&lt;/p&gt;
+
+&lt;p&gt;There are a couple of important concepts in Vagrant&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Baseboxes&lt;/p&gt;
+
+    &lt;p&gt;Baseboxes are virtual machine images.  This is the default start state of your VM.  Think of setting up a new VM, then saving a snapshot so that you can restore to that point any time you want.  That’s like a basebox.  Except baseboxes are scripted, so they’re way cooler.&lt;/p&gt;
+
+    &lt;p&gt;Lots of people have created baseboxes for you already&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;, so you don’t need to create your own.  The default is &lt;code&gt;lucid32&lt;/code&gt;, an ubuntu basebox.  This will probably be fine unless you know why you need another one.&lt;/p&gt;
+
+    &lt;p&gt;Key Command (to add a new box): &lt;code&gt;vagrant box add lucid32 http://files.vagrantup.com/lucid32.box&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;code&gt;lucid32&lt;/code&gt; is how you’ll reference the box locally, the url is where it can be downloaded.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;VagrantFile&lt;/p&gt;
+
+    &lt;p&gt;&lt;code&gt;Vagrantfile&lt;/code&gt; is the name of a textfile in the root of your project.  It provides all of the config settings, such as which directories on the host to mount in the VM (your code, etc), as well as networking config.&lt;/p&gt;
+
+    &lt;p&gt;You’ll want to end up with a &lt;code&gt;Vagrantfile&lt;/code&gt; that looks something like this:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; Vagrant::Config.run do |config|
+   # Your local name for the basebox you want to use.
+   config.vm.box = &quot;lucid32&quot;
+
+   # Assign this VM to a host-only network IP, allowing you to access it
+   # via the IP. Host-only networks can talk to the host machine as well as
+   # any other machines on the same network, but cannot be accessed (through this
+   # network interface) by any external networks.
+   config.vm.network :hostonly, &quot;192.168.33.33&quot;
+
+   # Use the vagrant hostmaster plugin[^5] to automatically add a domain name
+   config.vm.host_name = &quot;www.example.vm&quot;
+
+   # Share an additional folder to the guest VM. The first argument is
+   # an identifier, the second is the path on the guest to mount the
+   # folder, and the third is the path on the host to the actual folder.
+   # You can add as many of these as you like, anywhere you like
+   config.vm.share_folder &quot;v-data&quot;, &quot;/srv/data&quot;, &quot;../data&quot;, :nfs =&amp;gt; true
+   config.vm.share_folder &quot;v-site&quot;, &quot;/srv/site&quot;, &quot;.&quot;, :nfs =&amp;gt; true
+
+   # Enable provisioning with chef solo, specifying a cookbooks path, roles
+   # path, and data_bags path (all relative to this Vagrantfile), and adding
+   # some recipes and/or roles.
+   config.vm.provision :chef_solo do |chef|
+     chef.roles_path = &quot;../chef/roles&quot;
+     chef.cookbooks_path = [&quot;../chef/site-cookbooks&quot;, &quot;../chef/cookbooks&quot;]
+     chef.add_role &quot;webserver&quot;
+   end
+ end
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;Key Command (to add a new Vagrantfile to your current project): &lt;code&gt;vagrant init&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Baseboxes are normally empty&lt;/p&gt;
+
+    &lt;p&gt;When you have a base ubuntu install, you can’t do much with it, that’s the same with baseboxes.  While you could build a basebox that already has everything you need installed, that’s not really using it to the best of its ability.  To get anything installed, you need a provisioner, and that’s where Chef comes in.  You can also use puppet, but don’t worry too much about that for now, provisioning is the hard part and we’ll cover it in the next post.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;There are 6 key commands you will need with vagrant&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;code&gt;vagrant up&lt;/code&gt;&lt;/p&gt;
+
+        &lt;p&gt;This starts the VM if it’s not already running.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;code&gt;vagrant suspend&lt;/code&gt;&lt;/p&gt;
+
+        &lt;p&gt;This saves the machine state and temporarily shuts down the VM.  Running &lt;code&gt;vagrant up&lt;/code&gt; will bring it back again exactly as it was.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;code&gt;vagrant ssh&lt;/code&gt;&lt;/p&gt;
+
+        &lt;p&gt;Login to your VM using ssh.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;code&gt;vagrant provision&lt;/code&gt;&lt;/p&gt;
+
+        &lt;p&gt;This re-runs your provisioner of choice (e.g. if you’ve updated something) without having to start from scratch.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;code&gt;vagrant reload&lt;/code&gt;&lt;/p&gt;
+
+        &lt;p&gt;This resets the VM to the basebox’s original state and re-runs your provisioner.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;&lt;code&gt;vagrant destroy&lt;/code&gt;&lt;/p&gt;
+
+        &lt;p&gt;This completely removes all trace of the VM from your system (but not the basebox or provisioner).&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This should be enough to get you started using Vagrant.  If you follow these steps, then run &lt;code&gt;vagrant up&lt;/code&gt; you should have a functioning VM, and the key commands should be enough to give you a great grounding in how to use vagrant.  Now carry on reading &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html&quot;&gt;part 2&lt;/a&gt; to find out how to make your VM actually do something useful.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;http://www.opscode.com/chef&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;http://vagrantup.com&lt;a href=&quot;#fnref:2&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;https://www.virtualbox.org&lt;a href=&quot;#fnref:3&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;http://vagrantbox.es&lt;a href=&quot;#fnref:4&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/01/08/why-psr3-doesnt-make-sense</id>
