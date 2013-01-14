@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://example.com/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-01-14T10:02:07+00:00</updated>
+  <updated>2013-01-14T10:31:48+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -562,7 +562,7 @@ run_list(
 )
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Then run it again &lt;code&gt;vagrant provision&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Then run it again: &lt;code&gt;vagrant provision&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;All done? Let’s verify it worked:&lt;/p&gt;
 
@@ -592,9 +592,9 @@ mysql&amp;gt; show tables;
 1 row in set (0.00 sec)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Success!  You should now be able to put your vagrant database details into your app and have it load as expected, and if not, I hope I’ve given you access to the tools and knowledge you need to start experimenting and debugging for yourself.&lt;/p&gt;
+&lt;p&gt;Success!  You should now be able to put your vagrant database details into your app and have it load as expected, and if not, I should have given you access to the tools and knowledge you need to start experimenting and debugging for yourself.&lt;/p&gt;
 
-&lt;p&gt;In the months and year to come Vagrant and Chef are going to become as indispensable as syntax highlighting for any serious developer, so please give it a go and let me know on &lt;a href=&quot;http://twitter.com/sixdaysad&quot;&gt;twitter&lt;/a&gt; if there’s anything you think needs improving or clarifying in this post!&lt;/p&gt;
+&lt;p&gt;In the months and years to come Vagrant and Chef are going to become as indispensable for any serious developer, so please give it a go and let me know on &lt;a href=&quot;http://twitter.com/sixdaysad&quot;&gt;twitter&lt;/a&gt; if there’s anything you think needs improving or clarifying in this post!&lt;/p&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
@@ -624,17 +624,17 @@ mysql&amp;gt; show tables;
     </author>
     <content type="html">&lt;p&gt;This is part 1 of a 2 part quickstart to using Vagrant and Chef to speed up and simplify your development environment.  If you’re already familiar with Vagrant and just want to find out about Chef, go to &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html&quot;&gt;part 2 here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;If you haven’t started using Chef&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Vagrant&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; yet, you should, it’s awesome and in a few short has totally changed my development environment.&lt;/p&gt;
+&lt;p&gt;If you haven’t started using Chef&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Vagrant&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; yet, you should, it’s awesome and in a few short weeks has totally changed my development environment.&lt;/p&gt;
 
-&lt;p&gt;The only problem is that getting started with Chef is really really hard, and there is no good documentation out there for it.  Not even the manual.  Today I’m going to change that.  If you’re a developer and just want to build a consistent and reliable test environment, pay close attention.&lt;/p&gt;
+&lt;p&gt;The only problem is that it’s not much use on its own, and getting started with Chef/Puppet is really really hard as there is no good documentation out there for it.  Not even the manual.  Today I’m going to change that.  If you’re a developer and just want to build a consistent and reliable test environment, as quickly and with as little hassle as possible pay close attention.&lt;/p&gt;
 
-&lt;p&gt;Just before Christmas we had a massive office refurbish.  The office was shut and completely inaccessible for just over a week, which meant I spent the week working from home, without access to our UAT box.  Normally this wouldn’t be a problem, I’d just have developed locally and uploaded when back in the office, except the issue I was working on was very specific to the PHP version we were running, our ops guys wouldn’t upgrade and that meant I needed an environment as close to live as possible for testing.&lt;/p&gt;
+&lt;p&gt;Just before Christmas we had a massive office refurb.  The office was shut and completely inaccessible for just over a week, which meant I spent the week working from home, without access to our UAT box.  Normally this wouldn’t be a problem, I’d just have developed locally and uploaded when back in the office, except the issue I was working on was very specific to the PHP version we were running, our ops guys wouldn’t upgrade and that meant I needed an environment as close to live as possible for testing.&lt;/p&gt;
 
 &lt;p&gt;I took this opportunity to pick-up vagrant.  I’d heard about it before, even installed it, but never really used it.&lt;/p&gt;
 
 &lt;h2 id=&quot;vagrant&quot;&gt; Vagrant&lt;/h2&gt;
 
-&lt;p&gt;Think of vagrant as a command line script for VirtualBox&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.  I’m going to skip over how to install both, as it’s really easy just following the instructions on their websites.&lt;/p&gt;
+&lt;p&gt;Think of vagrant as a command line script for VirtualBox&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.  I’m going to skip over how to install both, as it’s really easy just following the instructions on their websites.  You will need the latest VirtualBox and Vagrant installed for this to work though.&lt;/p&gt;
 
 &lt;p&gt;There are a couple of important concepts in Vagrant&lt;/p&gt;
 
@@ -696,7 +696,7 @@ mysql&amp;gt; show tables;
     &lt;p&gt;When you have a base ubuntu install, you can’t do much with it, that’s the same with baseboxes.  While you could build a basebox that already has everything you need installed, that’s not really using it to the best of its ability.  To get anything installed, you need a provisioner, and that’s where Chef comes in.  You can also use puppet, but don’t worry too much about that for now, provisioning is the hard part and we’ll cover it in the next post.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;There are 6 key commands you will need with vagrant&lt;/p&gt;
+    &lt;p&gt;There are 6 key commands you will need day-to-day for vagrant&lt;/p&gt;
 
     &lt;ul&gt;
       &lt;li&gt;
@@ -712,7 +712,7 @@ mysql&amp;gt; show tables;
       &lt;li&gt;
         &lt;p&gt;&lt;code&gt;vagrant ssh&lt;/code&gt;&lt;/p&gt;
 
-        &lt;p&gt;Login to your VM using ssh.&lt;/p&gt;
+        &lt;p&gt;Login to your VM using ssh.  Vagrant uses its own private/public keys which are automatically copied to the VM, so there’s no username/password to worry about.&lt;/p&gt;
       &lt;/li&gt;
       &lt;li&gt;
         &lt;p&gt;&lt;code&gt;vagrant provision&lt;/code&gt;&lt;/p&gt;

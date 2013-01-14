@@ -34,7 +34,8 @@
 		<ul>
 			<!--li><a href="http://adambrett.co.uk/about">About</a></li-->
 			<li><a href="/archive.html">Archive</a></li>
-			<li><a href="http://feeds.feedburner.com/adamcodes/">Subscribe</a></li>
+            <li><a href="http://feeds.feedburner.com/adamcodes/">Subscribe</a></li>
+			<li><a href="http://twitter.com/sixdaysad/">Contact</a></li>
 		</ul>
 	</nav>
 
@@ -51,17 +52,17 @@
     <div class="entry-content">
         <p>This is part 1 of a 2 part quickstart to using Vagrant and Chef to speed up and simplify your development environment.  If you’re already familiar with Vagrant and just want to find out about Chef, go to <a href="/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html">part 2 here</a>.</p>
 
-<p>If you haven’t started using Chef<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> and Vagrant<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> yet, you should, it’s awesome and in a few short has totally changed my development environment.</p>
+<p>If you haven’t started using Chef<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> and Vagrant<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> yet, you should, it’s awesome and in a few short weeks has totally changed my development environment.</p>
 
-<p>The only problem is that getting started with Chef is really really hard, and there is no good documentation out there for it.  Not even the manual.  Today I’m going to change that.  If you’re a developer and just want to build a consistent and reliable test environment, pay close attention.</p>
+<p>The only problem is that it’s not much use on its own, and getting started with Chef/Puppet is really really hard as there is no good documentation out there for it.  Not even the manual.  Today I’m going to change that.  If you’re a developer and just want to build a consistent and reliable test environment, as quickly and with as little hassle as possible pay close attention.</p>
 
-<p>Just before Christmas we had a massive office refurbish.  The office was shut and completely inaccessible for just over a week, which meant I spent the week working from home, without access to our UAT box.  Normally this wouldn’t be a problem, I’d just have developed locally and uploaded when back in the office, except the issue I was working on was very specific to the PHP version we were running, our ops guys wouldn’t upgrade and that meant I needed an environment as close to live as possible for testing.</p>
+<p>Just before Christmas we had a massive office refurb.  The office was shut and completely inaccessible for just over a week, which meant I spent the week working from home, without access to our UAT box.  Normally this wouldn’t be a problem, I’d just have developed locally and uploaded when back in the office, except the issue I was working on was very specific to the PHP version we were running, our ops guys wouldn’t upgrade and that meant I needed an environment as close to live as possible for testing.</p>
 
 <p>I took this opportunity to pick-up vagrant.  I’d heard about it before, even installed it, but never really used it.</p>
 
 <h2 id="vagrant"> Vagrant</h2>
 
-<p>Think of vagrant as a command line script for VirtualBox<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>.  I’m going to skip over how to install both, as it’s really easy just following the instructions on their websites.</p>
+<p>Think of vagrant as a command line script for VirtualBox<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>.  I’m going to skip over how to install both, as it’s really easy just following the instructions on their websites.  You will need the latest VirtualBox and Vagrant installed for this to work though.</p>
 
 <p>There are a couple of important concepts in Vagrant</p>
 
@@ -123,7 +124,7 @@
     <p>When you have a base ubuntu install, you can’t do much with it, that’s the same with baseboxes.  While you could build a basebox that already has everything you need installed, that’s not really using it to the best of its ability.  To get anything installed, you need a provisioner, and that’s where Chef comes in.  You can also use puppet, but don’t worry too much about that for now, provisioning is the hard part and we’ll cover it in the next post.</p>
   </li>
   <li>
-    <p>There are 6 key commands you will need with vagrant</p>
+    <p>There are 6 key commands you will need day-to-day for vagrant</p>
 
     <ul>
       <li>
@@ -139,7 +140,7 @@
       <li>
         <p><code>vagrant ssh</code></p>
 
-        <p>Login to your VM using ssh.</p>
+        <p>Login to your VM using ssh.  Vagrant uses its own private/public keys which are automatically copied to the VM, so there’s no username/password to worry about.</p>
       </li>
       <li>
         <p><code>vagrant provision</code></p>
