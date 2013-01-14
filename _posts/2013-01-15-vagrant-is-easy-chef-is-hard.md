@@ -5,17 +5,17 @@ layout: post
 
 This is part 1 of a 2 part quickstart to using Vagrant and Chef to speed up and simplify your development environment.  If you're already familiar with Vagrant and just want to find out about Chef, go to [part 2 here](/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html).
 
-If you haven't started using Chef[^1] and Vagrant[^2] yet, you should, it's awesome and in a few short has totally changed my development environment.
+If you haven't started using Chef[^1] and Vagrant[^2] yet, you should, it's awesome and in a few short weeks has totally changed my development environment.
 
-The only problem is that getting started with Chef is really really hard, and there is no good documentation out there for it.  Not even the manual.  Today I'm going to change that.  If you're a developer and just want to build a consistent and reliable test environment, pay close attention.
+The only problem is that it's not much use on its own, and getting started with Chef/Puppet is really really hard as there is no good documentation out there for it.  Not even the manual.  Today I'm going to change that.  If you're a developer and just want to build a consistent and reliable test environment, as quickly and with as little hassle as possible pay close attention.
 
-Just before Christmas we had a massive office refurbish.  The office was shut and completely inaccessible for just over a week, which meant I spent the week working from home, without access to our UAT box.  Normally this wouldn't be a problem, I'd just have developed locally and uploaded when back in the office, except the issue I was working on was very specific to the PHP version we were running, our ops guys wouldn't upgrade and that meant I needed an environment as close to live as possible for testing.
+Just before Christmas we had a massive office refurb.  The office was shut and completely inaccessible for just over a week, which meant I spent the week working from home, without access to our UAT box.  Normally this wouldn't be a problem, I'd just have developed locally and uploaded when back in the office, except the issue I was working on was very specific to the PHP version we were running, our ops guys wouldn't upgrade and that meant I needed an environment as close to live as possible for testing.
 
 I took this opportunity to pick-up vagrant.  I'd heard about it before, even installed it, but never really used it.
 
 ## Vagrant
 
-Think of vagrant as a command line script for VirtualBox[^3].  I'm going to skip over how to install both, as it's really easy just following the instructions on their websites.
+Think of vagrant as a command line script for VirtualBox[^3].  I'm going to skip over how to install both, as it's really easy just following the instructions on their websites.  You will need the latest VirtualBox and Vagrant installed for this to work though.
 
 There are a couple of important concepts in Vagrant
 
@@ -72,7 +72,7 @@ There are a couple of important concepts in Vagrant
 
     When you have a base ubuntu install, you can't do much with it, that's the same with baseboxes.  While you could build a basebox that already has everything you need installed, that's not really using it to the best of its ability.  To get anything installed, you need a provisioner, and that's where Chef comes in.  You can also use puppet, but don't worry too much about that for now, provisioning is the hard part and we'll cover it in the next post.
 
-4. There are 6 key commands you will need with vagrant
+4. There are 6 key commands you will need day-to-day for vagrant
 
     * `vagrant up`
 
@@ -84,7 +84,7 @@ There are a couple of important concepts in Vagrant
 
     * `vagrant ssh`
 
-        Login to your VM using ssh.
+        Login to your VM using ssh.  Vagrant uses its own private/public keys which are automatically copied to the VM, so there's no username/password to worry about.
 
     * `vagrant provision`
 

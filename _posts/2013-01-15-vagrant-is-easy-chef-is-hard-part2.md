@@ -506,7 +506,7 @@ to our role definition.  Go ahead and do that, so the whole thing should look li
     )
 
 
-Then run it again `vagrant provision`.
+Then run it again: `vagrant provision`.
 
 All done? Let's verify it worked:
 
@@ -535,9 +535,9 @@ All done? Let's verify it worked:
     +-----------------------+
     1 row in set (0.00 sec)
 
-Success!  You should now be able to put your vagrant database details into your app and have it load as expected, and if not, I hope I've given you access to the tools and knowledge you need to start experimenting and debugging for yourself.
+Success!  You should now be able to put your vagrant database details into your app and have it load as expected, and if not, I should have given you access to the tools and knowledge you need to start experimenting and debugging for yourself.
 
-In the months and year to come Vagrant and Chef are going to become as indispensable as syntax highlighting for any serious developer, so please give it a go and let me know on [twitter](http://twitter.com/sixdaysad) if there's anything you think needs improving or clarifying in this post!
+In the months and years to come Vagrant and Chef are going to become as indispensable for any serious developer, so please give it a go and let me know on [twitter](http://twitter.com/sixdaysad) if there's anything you think needs improving or clarifying in this post!
 
 [^1]: http://vagrantup.com
 [^2]: http://www.opscode.com/chef
