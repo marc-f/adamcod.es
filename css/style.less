@@ -66,11 +66,33 @@ code {
 @import "bootstrap/utilities.less"; // Has to be last to override when necessary
 
 
+/*
+    position
+    display and box model
+    font, leading, color, text
+    background and border
+    CSS3 properties like border-radius and box-shadow
+    and a handful of other purely visual properties
+*/
+
 /* Basic
 -------------------------------------------------- */
-html {
-    border-top: 5px solid @lightBlue;
+html:before {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 50;
+
+    display: block;
+
+    height: 5px;
+    width: 100%;
+
+    background: @lightBlue;
+
+    content: "";
 }
+
 
 body {
     width: 760px;
@@ -83,7 +105,7 @@ body {
 
 header {
     position: fixed;
-    top: 440px;
+    top: 45%;
 
     padding-left: 610px;
 
@@ -109,7 +131,7 @@ nav {
     width: 140px;
 
     position: fixed;
-    top: 380px;
+    top: 45%;
 
     padding-left: 610px;
 
@@ -118,7 +140,7 @@ nav {
     font-weight: bold;
 
     ul {
-        margin: 0;
+        margin: -50% 0 0;
 
         list-style-type: none;
     }
