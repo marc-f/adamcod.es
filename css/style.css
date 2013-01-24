@@ -406,7 +406,7 @@ pre code {
 }
 pre,
 code {
-  font-size: 12px;
+  font-size: 13px;
 }
 table {
   max-width: 100%;
@@ -769,7 +769,7 @@ article p.meta {
   font-size: 0.8em;
 }
 .gist {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.6em;
 }
 .gist pre {
