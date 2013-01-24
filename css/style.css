@@ -768,6 +768,13 @@ article p.meta {
   margin-top: 30px;
   font-size: 0.8em;
 }
+.gist {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+.gist pre {
+  white-space: pre;
+}
 .gist-meta {
   padding: 0 .5em !important;
   font-size: 10px !important;
