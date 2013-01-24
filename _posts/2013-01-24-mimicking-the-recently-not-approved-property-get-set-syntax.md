@@ -28,7 +28,7 @@ If we add `__isset` and `__unset` to the `Accessor` trait, we can replicate that
 
 {% gist 4621373 trait2.php %}
 
-Obviously this is a lot more verbose than the original RFC, but it does provide a way to mimic some of its functionality.  If you want to use it, you can see the full trait in [this gist](https://gist.github.com/4621373#file-trait2-php).
+Obviously this is a lot more verbose than the original RFC, but it does provide a way to mimic some of its functionality.  If you want to use it, you can see the full trait in [this gist](https://gist.github.com/4621373#file-trait-full-php).
 
 [^1]: https://wiki.php.net/rfc/propertygetsetsyntax-v1.2
 [^2]: http://php.net/manual/en/language.oop5.traits.php
