@@ -4,13 +4,159 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-01-22T16:46:52+00:00</updated>
+  <updated>2013-01-24T13:10:43+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/01/24/mimicking-the-recently-not-approved-property-get-set-syntax</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/01/24/mimicking-the-recently-not-approved-property-get-set-syntax.html"/>
+    <title>Mimicking the recently not approved Property Get/Set Syntax</title>
+    <published>2013-01-24T00:00:00+00:00</published>
+    <updated>2013-01-24T00:00:00+00:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    <content type="html">&lt;p&gt;There was a proposal&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; for a new getter and setter syntax that would have enabled you to write code like this:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=rfc.php&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+
+// Code sample indicating the terminology
+class TimePeriod
+{
+    private $Seconds;  // &amp;lt;-- Traditional Property
+
+    public $Hours {    // &amp;lt;-- Guarded Property
+        get() { return $this-&amp;gt;Seconds / 3600; }      // &amp;lt;-- Accessor, more specifically a getter
+        set($x) { $this-&amp;gt;Seconds = $x* 3600; }       // &amp;lt;-- Accessor, more specifically a setter
+        isset() { return isset($this-&amp;gt;Seconds); }    // &amp;lt;-- Accessor, more specifically an issetter
+        unset() { unset($this-&amp;gt;Seconds); }           // &amp;lt;-- Accessor, more specifically an unsetter
+    }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;The benefit here, is that accessing the properties directly on an instantiated object like this:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=rfc-test.php&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt; &amp;lt;?php
+ // Accessing the property is the same as accessing a class member
+ $time = new TimePeriod();
+ $time-&amp;gt;Hours = 12;  // Stored as 43200
+ echo $time-&amp;gt;Hours;  // Outputs 12&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Would result in the getters and setters being called transparently.  Neat!  There are plenty of use-cases for this, and it would drastically reduce the amount of code in a lot of libraries and frameworks that are simple getters and setters, but unfortunately a large enough minority of core-contributors disagreed, or weren’t happy with the syntax, or the implementation (or something), and the proposal failed to pass, so it won’t be making it into the language. Not so neat.&lt;/p&gt;
+
+&lt;p&gt;Fortunately, there is a way to replicate this functionality (albeit with less syntactic sugar) using PHP’s existing Magic Methods, and when combined with PHP 5.4’s traits&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, we get something pretty close.  Consider the following:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=trait1.php&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+trait Accessors
+{
+    public function __get($name)
+    {
+        $getter = &amp;quot;get{$name}&amp;quot;;
+        if (method_exists($this, $getter)) {
+            return $this-&amp;gt;$getter();
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        $setter = &amp;quot;set{$name}&amp;quot;;
+        if (method_exists($this, $setter)) {
+            return $this-&amp;gt;$setter($value);
+        }
+    }
+}
+
+// Code sample indicating the terminology
+class TimePeriod
+{
+    use Accessors;
+
+    private $Seconds;  // &amp;lt;-- Traditional Property
+
+    protected function getHours()
+    {
+        return $this-&amp;gt;Seconds / 3600;
+    }
+
+    protected function setHours($value)
+    {
+        return $this-&amp;gt;Seconds = $value * 3600;
+    }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Now if we run our test code again:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=rfc-test.php&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt; &amp;lt;?php
+ // Accessing the property is the same as accessing a class member
+ $time = new TimePeriod();
+ $time-&amp;gt;Hours = 12;  // Stored as 43200
+ echo $time-&amp;gt;Hours;  // Outputs 12&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;We get the correct output!  For PHP 5.3 we could add the magic methods directly into the class that wants to use them, or create a base class and extend everything we want to have access to the magic getter/setters from that, but that feels messy, traits seem like the cleanest way to do this.&lt;/p&gt;
+
+&lt;p&gt;If we add &lt;code&gt;__isset&lt;/code&gt; and &lt;code&gt;__unset&lt;/code&gt; to the &lt;code&gt;Accessor&lt;/code&gt; trait, we can replicate that functionality too:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=trait2.php&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;trait Accessors
+{
+    public function __isset($name)
+    {
+        $issetter = &amp;quot;isset{$name}&amp;quot;;
+        if (method_exists($this, $issetter)) {
+            return $this-&amp;gt;$issetter();
+        }
+    }
+
+    public function __unset($name)
+    {
+        $unsetter = &amp;quot;set{$name}&amp;quot;;
+        if (method_exists($this, $unsetter)) {
+            return $this-&amp;gt;$unsetter();
+        }
+    }
+}
+
+// Code sample indicating the terminology
+class TimePeriod
+{
+    use Accessors;
+
+    private $Seconds;  // &amp;lt;-- Traditional Property
+
+    protected function issetHours()
+    {
+        return isset($this-&amp;gt;Seconds);
+    }
+
+    protected function unsetHours($value)
+    {
+        return unset($this-&amp;gt;Seconds);
+    }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Obviously this is a lot more verbose than the original RFC, but it does provide a way to mimic some of its functionality.  If you want to use it, you can see the full trait in &lt;a href=&quot;https://gist.github.com/4621373#file-trait2-php&quot;&gt;this gist&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;https://wiki.php.net/rfc/propertygetsetsyntax-v1.2&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;http://php.net/manual/en/language.oop5.traits.php&lt;a href=&quot;#fnref:2&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/01/15/vagrant-is-easy-chef-is-hard-part2</id>
@@ -26,7 +172,7 @@
 
 &lt;p&gt;In part 1 we covered the key commands and config settings you need to get vagrant up and running quickly with little-to-no fuss.  But that was the easy part.  Now comes the hard part.  Chef.&lt;/p&gt;
 
-&lt;h2 id=&quot;chef&quot;&gt; Chef&lt;/h2&gt;
+&lt;h2 id=&quot;chef&quot;&gt;Chef&lt;/h2&gt;
 
 &lt;p&gt;The reason Chef is so hard, and the reason it has such as steep learning curve, is that every single blog post or tutorial, and even the chef manual itself, all deal with low-level Chef.  That is not what we want.  As a developer I have a hundred things to do and no time to do them.  I don’t care about low-level stuff.  I want stuff that Just Works.  So here we go.  This is the least amount of knowledge you need to get a lamp stack up and running on Vagrant.  As a side effect of that, you’ll actually learn quite a bit of Chef along the way.&lt;/p&gt;
 
@@ -46,7 +192,7 @@
 
 &lt;p&gt;A template is much like a PHP app template with variable replacements, loops etc, but for system config files.  Think v-hosts, httpd.conf, php.ini etc.&lt;/p&gt;
 
-&lt;h5 id=&quot;lwrp&quot;&gt; LWRP&lt;/h5&gt;
+&lt;h5 id=&quot;lwrp&quot;&gt;LWRP&lt;/h5&gt;
 
 &lt;p&gt;You will see LWRPs mentioned a lot and it’s not immediately obvious what they are.  It stands for &lt;em&gt;Light Weight Resource Providers&lt;/em&gt;.  But really they’re functions that do something Chefy (like install a Pecl Module/PEAR Library in the PHP Cookbook).  They should just call them that.  You don’t really need to use these yet, but I figured you’d want to know what they are when you see them mentioned elsewhere.&lt;/p&gt;
 
@@ -58,19 +204,19 @@
 
 &lt;p&gt;One final point of note: Opscode (the company behaind chef) will host a Chef server for you, or you can do it yourself.  It would appear Chef can provision it’s own Chef Server, but I’ve not tried.&lt;/p&gt;
 
-&lt;h4 id=&quot;roles&quot;&gt; Roles&lt;/h4&gt;
+&lt;h4 id=&quot;roles&quot;&gt;Roles&lt;/h4&gt;
 
 &lt;p&gt;A role is simply a type of server.  E.g. If you have a distributed architecture with a load balancer, 2x web servers and 2x database servers, your roles would be “Load Balancer”, “Web Server”, and “Database Server”.  That’s a role.&lt;/p&gt;
 
 &lt;p&gt;A role is not limiting, in reality it’s a name given to a collection of cookbooks you want to run.  E.g. You specify that your webserver roll should run the apache, php, and mysql cookbooks.  The cookbooks that a particular role should run is called a “Run List” in Chef, that’s because the name of the Chef function you pass the cookbooks to run to is &lt;code&gt;run_list&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h4 id=&quot;extra-credit&quot;&gt; Extra Credit&lt;/h4&gt;
+&lt;h4 id=&quot;extra-credit&quot;&gt;Extra Credit&lt;/h4&gt;
 
 &lt;p&gt;You don’t need to know about this, but I will cover it here for completeness.  Chef also has the concepts of “Nodes” and “Data-Bags”.  I haven’t used these features, but my understanding is that a “Node” is an instance of a Role.  So you have your 2x webservers, each using the “Web Server” role.  Each one of those is a Node.&lt;/p&gt;
 
 &lt;p&gt;From my understanding, “Data-Bags” provide additional data to your Recipes, this could be a list of admins or databases to create, or something similar.  I haven’t used them, so I’m not familiar with them.&lt;/p&gt;
 
-&lt;h3 id=&quot;getting-started&quot;&gt; Getting Started&lt;/h3&gt;
+&lt;h3 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h3&gt;
 
 &lt;p&gt;Now the real quickstart.  You need a directory to hold your Chef related stuff, for simplicity when updating cookbooks, you need that directory managed with git.  This is fairly essential as managing updates to your cookbooks by hand would be a nightmare.  From your application’s root directory run:&lt;/p&gt;
 
@@ -632,7 +778,7 @@ mysql&amp;gt; show tables;
 
 &lt;p&gt;I took this opportunity to pick-up vagrant.  I’d heard about it before, even installed it, but never really used it.&lt;/p&gt;
 
-&lt;h2 id=&quot;vagrant&quot;&gt; Vagrant&lt;/h2&gt;
+&lt;h2 id=&quot;vagrant&quot;&gt;Vagrant&lt;/h2&gt;
 
 &lt;p&gt;Think of vagrant as a command line script for VirtualBox&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.  I’m going to skip over how to install both, as it’s really easy just following the instructions on their websites.  You will need the latest VirtualBox and Vagrant installed for this to work though.&lt;/p&gt;
 
