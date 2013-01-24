@@ -694,12 +694,14 @@ table .span24 {
 */
 /* Basic
 -------------------------------------------------- */
+html {
+  border-top: 5px solid #0088cc;
+}
 body {
   width: 760px;
   position: relative;
   margin: 0 auto;
   padding: 0 100px;
-  border-top: 5px solid #0088cc;
 }
 header {
   position: fixed;
