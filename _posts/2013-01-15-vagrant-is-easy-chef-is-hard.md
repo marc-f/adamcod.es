@@ -13,7 +13,7 @@ Just before Christmas we had a massive office refurb.  The office was shut and c
 
 I took this opportunity to pick-up vagrant.  I'd heard about it before, even installed it, but never really used it.
 
-## Vagrant
+##Vagrant
 
 Think of vagrant as a command line script for VirtualBox[^3].  I'm going to skip over how to install both, as it's really easy just following the instructions on their websites.  You will need the latest VirtualBox and Vagrant installed for this to work though.
 

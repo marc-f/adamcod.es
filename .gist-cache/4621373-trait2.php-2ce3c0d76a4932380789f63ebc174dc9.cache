@@ -1,0 +1,36 @@
+trait Accessors
+{
+    public function __isset($name)
+    {
+        $issetter = "isset{$name}";
+        if (method_exists($this, $issetter)) {
+            return $this->$issetter();
+        }
+    }
+
+    public function __unset($name)
+    {
+        $unsetter = "set{$name}";
+        if (method_exists($this, $unsetter)) {
+            return $this->$unsetter();
+        }
+    }
+}
+
+// Code sample indicating the terminology
+class TimePeriod
+{
+    use Accessors;
+
+    private $Seconds;  // <-- Traditional Property
+
+    protected function issetHours()
+    {
+        return isset($this->Seconds);
+    }
+
+    protected function unsetHours($value)
+    {
+        return unset($this->Seconds);
+    }
+}

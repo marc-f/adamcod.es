@@ -5,11 +5,11 @@ title: Git - A clean branch switching strategy
 summary: Some git strategies swapping branches without bringing the uncommitted or experimental changes with you
 ---
 
-## Background ##
+##Background
 
 You're working on `feature/awesome-new-stuff` and have a whole bunch of changes that you don't want to commit yet, and you get a call about a bug that needs to be fixed asap.  You checkout develop, create a hotfix branch and make your changes.  Then you do `git status` and see all of your experimental changes from `feature/awesome-new-stuff` have come with you, making it harder to spot the changes relating only to the hotfix.
 
-## The Quick and Dirty ##
+##The Quick and Dirty
 
 The simplest way to avoid this is to stash any changes before you move to another branch, this looks something like this:
 

@@ -7,7 +7,7 @@ This is part 2 of a 2 part quick-start to using Vagrant[^1] and Chef[^2] to spee
 
 In part 1 we covered the key commands and config settings you need to get vagrant up and running quickly with little-to-no fuss.  But that was the easy part.  Now comes the hard part.  Chef.
 
-## Chef
+##Chef
 
 The reason Chef is so hard, and the reason it has such as steep learning curve, is that every single blog post or tutorial, and even the chef manual itself, all deal with low-level Chef.  That is not what we want.  As a developer I have a hundred things to do and no time to do them.  I don't care about low-level stuff.  I want stuff that Just Works.  So here we go.  This is the least amount of knowledge you need to get a lamp stack up and running on Vagrant.  As a side effect of that, you'll actually learn quite a bit of Chef along the way.
 
@@ -27,7 +27,7 @@ At a basic level, a _Recipe_ is a ruby file that calls a bunch of Chef functions
 
 A template is much like a PHP app template with variable replacements, loops etc, but for system config files.  Think v-hosts, httpd.conf, php.ini etc.
 
-##### LWRP
+#####LWRP
 
 You will see LWRPs mentioned a lot and it's not immediately obvious what they are.  It stands for _Light Weight Resource Providers_.  But really they're functions that do something Chefy (like install a Pecl Module/PEAR Library in the PHP Cookbook).  They should just call them that.  You don't really need to use these yet, but I figured you'd want to know what they are when you see them mentioned elsewhere.
 
@@ -39,19 +39,19 @@ Chef Server can also do some other fancy stuff (such as provisioning new EC2 ins
 
 One final point of note: Opscode (the company behaind chef) will host a Chef server for you, or you can do it yourself.  It would appear Chef can provision it's own Chef Server, but I've not tried.
 
-#### Roles
+####Roles
 
 A role is simply a type of server.  E.g. If you have a distributed architecture with a load balancer, 2x web servers and 2x database servers, your roles would be "Load Balancer", "Web Server", and "Database Server".  That's a role.
 
 A role is not limiting, in reality it's a name given to a collection of cookbooks you want to run.  E.g. You specify that your webserver roll should run the apache, php, and mysql cookbooks.  The cookbooks that a particular role should run is called a "Run List" in Chef, that's because the name of the Chef function you pass the cookbooks to run to is `run_list`.
 
-#### Extra Credit
+####Extra Credit
 
 You don't need to know about this, but I will cover it here for completeness.  Chef also has the concepts of "Nodes" and "Data-Bags".  I haven't used these features, but my understanding is that a "Node" is an instance of a Role.  So you have your 2x webservers, each using the "Web Server" role.  Each one of those is a Node.
 
 From my understanding, "Data-Bags" provide additional data to your Recipes, this could be a list of admins or databases to create, or something similar.  I haven't used them, so I'm not familiar with them.
 
-### Getting Started
+###Getting Started
 
 Now the real quickstart.  You need a directory to hold your Chef related stuff, for simplicity when updating cookbooks, you need that directory managed with git.  This is fairly essential as managing updates to your cookbooks by hand would be a nightmare.  From your application's root directory run:
 

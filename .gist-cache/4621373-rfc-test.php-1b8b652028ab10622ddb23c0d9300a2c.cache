@@ -1,0 +1,5 @@
+ <?php
+ // Accessing the property is the same as accessing a class member
+ $time = new TimePeriod();
+ $time->Hours = 12;  // Stored as 43200
+ echo $time->Hours;  // Outputs 12
