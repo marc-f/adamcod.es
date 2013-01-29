@@ -3,8 +3,9 @@
   --------------------------------------
   Copyright : All Rights Reserved.
   Author    : Adam Brett
-  Revision  : 1
+  Revision  : 2
   Date      : 28 Jun 2012
+  Date      : 28 Jan 2013
 
 /* Import Bootstrap
 -------------------------------------------------- */
@@ -19,7 +20,12 @@
 
 // Colours
 // -------------------------
-@lightBlue:              #0088CC;
+@baseColor:              @blue;
+
+// Links
+// -------------------------
+@linkColor:             @baseColor;
+@linkColorHover:        darken(@linkColor, 15%);
 
 // Typography
 // -------------------------
@@ -34,8 +40,7 @@
 
 @headingsFontFamily:    @altFontFamily; // empty to use BS default, @baseFontFamily
 @headingsFontWeight:    normal;         // instead of browser default, bold
-@headingsColor:         @lightBlue;     // empty to use BS default, @textColor
-
+@headingsColor:         @baseColor;     // empty to use BS default, @textColor
 
 @import "bootstrap/mixins.less";
 
@@ -77,24 +82,22 @@ code {
 
 /* Basic
 -------------------------------------------------- */
-// html:before {
-//     position: fixed;
-//     left: 0;
-//     top: 0;
-//     z-index: 50;
+body:before {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 50;
 
-//     display: block;
+    display: block;
 
-//     height: 5px;
-//     width: 100%;
+    height: 5px;
+    width: 100%;
 
-//     background: @lightBlue;
+    background: @baseColor;
 
-//     content: "";
-// }
-html {
-    border-top: 5px solid @lightBlue;
+    content: "";
 }
+
 
 body {
     width: 760px;
@@ -108,6 +111,8 @@ body {
 header {
     position: fixed;
     top: 50%;
+
+    z-index: 10;
 
     padding-left: 610px;
 
@@ -135,11 +140,14 @@ nav {
     position: fixed;
     top: 50%;
 
+    z-index: 10;
+
     padding-left: 610px;
 
     font-family: @headingsFontFamily;
     font-size: 14px;
     font-weight: bold;
+
 
     ul {
         margin: -50% 0 0;
@@ -155,10 +163,11 @@ nav {
 }
 
 article {
-    width: 560px;
+    min-width: 500px;
 
+    overflow: auto;
     position: relative;
-    z-index: 1;
+    z-index: 20;
 
     margin: 120px 200px 60px 0;
 
@@ -228,7 +237,7 @@ article {
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 960px) {
     body {
         width: auto;
     }

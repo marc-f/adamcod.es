@@ -3,8 +3,9 @@
   --------------------------------------
   Copyright : All Rights Reserved.
   Author    : Adam Brett
-  Revision  : 1
+  Revision  : 2
   Date      : 28 Jun 2012
+  Date      : 28 Jan 2013
 
 /* Import Bootstrap
 -------------------------------------------------- */
@@ -141,11 +142,11 @@ body {
   background-color: #ffffff;
 }
 a {
-  color: #0088cc;
+  color: #049cdb;
   text-decoration: none;
 }
 a:hover {
-  color: #005580;
+  color: #036690;
   text-decoration: underline;
 }
 p {
@@ -170,7 +171,7 @@ h6 {
   margin: 0;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
-  color: #0088cc;
+  color: #049cdb;
   text-rendering: optimizelegibility;
 }
 h1 small,
@@ -694,8 +695,16 @@ table .span24 {
 */
 /* Basic
 -------------------------------------------------- */
-html {
-  border-top: 5px solid #0088cc;
+body:before {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  display: block;
+  height: 5px;
+  width: 100%;
+  background: #049cdb;
+  content: "";
 }
 body {
   width: 760px;
@@ -706,6 +715,7 @@ body {
 header {
   position: fixed;
   top: 50%;
+  z-index: 10;
   padding-left: 610px;
 }
 header p {
@@ -715,13 +725,14 @@ header p {
 header p strong a {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 36px;
-  color: #0088cc;
+  color: #049cdb;
   text-decoration: none;
 }
 nav {
   width: 140px;
   position: fixed;
   top: 50%;
+  z-index: 10;
   padding-left: 610px;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -736,9 +747,10 @@ nav a {
   color: #333333;
 }
 article {
-  width: 560px;
+  min-width: 500px;
+  overflow: auto;
   position: relative;
-  z-index: 1;
+  z-index: 20;
   margin: 120px 200px 60px 0;
 }
 article h1 {
@@ -789,7 +801,7 @@ article p.meta {
     padding-right: 20px;
   }
 }
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   body {
     width: auto;
   }
