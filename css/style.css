@@ -751,7 +751,7 @@ article {
   overflow: auto;
   position: relative;
   z-index: 20;
-  margin: 120px 200px 60px 0;
+  margin: 120px 0 60px;
 }
 article h1 {
   line-height: 1.6em;
@@ -765,6 +765,11 @@ article p.meta {
   margin: -10px 0 10px;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #555555;
+}
+/* Layout
+-------------------------------------------------- */
+.layout-main {
+  margin-right: 200px;
 }
 /* Modules
 -------------------------------------------------- */

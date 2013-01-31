@@ -2,3 +2,19 @@
 layout: default
 ---
 {% include article.html %}
+
+<hr>
+
+<ul class="pager" />
+    {% if page.previous %}
+    <li class="previous">
+        <a href="{{page.previous.url}}">&larr; Previous</a>
+    </li>
+    {% endif %}
+
+    {% if page.next %}
+    <li class="next">
+        <a href="{{page.next.url}}">Next &rarr;</a>
+    </li>
+    {% endif %}
+</ul>

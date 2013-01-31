@@ -6,3 +6,12 @@ layout: default
 {% assign content = post.content %}
 {% include article.html %}
 
+<hr>
+
+<ul class="pager" />
+    {% if post.previous %}
+    <li class="previous">
+        <a href="{{post.previous.url}}">&larr; Previous</a>
+    </li>
+    {% endif %}
+</ul>
