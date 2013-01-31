@@ -53,7 +53,7 @@ ul ul,
 ul ol,
 ol ol,
 ol ul {
-  margin-bottom: @baseLineHeight / 2;
+    margin-bottom: @baseLineHeight / 2;
 }
 
 @import "bootstrap/code.less";
@@ -66,10 +66,16 @@ code {
 
 // Components: Nav
 @import "bootstrap/pager.less";
+.pager a {
+    .border-radius(1.6em);
+}
 
 // Utility classes
 @import "bootstrap/utilities.less"; // Has to be last to override when necessary
 
+/* Import Font-Awesome
+-------------------------------------------------- */
+@import "font-awesome/less/font-awesome.less";
 
 /*
     position
@@ -115,6 +121,7 @@ header {
     z-index: 10;
 
     padding-left: 610px;
+    padding-top: 50px;
 
     p {
         margin-top: 1.7em;
@@ -156,9 +163,25 @@ nav {
     }
 
     a {
+        display: inline-block;
+
+        margin: 5px 0;
+        padding: 5px 14px;
+
         text-decoration: none;
 
-        color: @textColor;
+        color: @gray;
+
+        background-color: #fff;
+        border: 1px solid #ddd;
+
+        .border-radius(1.6em);
+
+        &:hover {
+            text-decoration: none;
+
+            background-color: #f5f5f5;
+        }
     }
 }
 
