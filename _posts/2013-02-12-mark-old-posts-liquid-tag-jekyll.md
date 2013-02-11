@@ -3,7 +3,7 @@ layout: post
 title: Mark Old Posts as Deprecated in Jekyll
 ---
 
-This blog is built with jekyll[^1], a static blogging platform from the guys at github, and is also the engine behind github pages[^2], where this blog is hosted.
+This blog is built with jekyll[^1], which is a static blogging platform from the guys at github, and is also the engine behind github pages[^2], where this blog is hosted.
 
 I have written a simple plugin to add a LiquidTag[^3] to render a warning for all posts that reach a certain age.  This is particularly useful for technical blogs such as this one, where the things I'm writing about can move on pretty quickly.  The way something was done a year ago isn't necessarily the way I recommend doing it today.
 
