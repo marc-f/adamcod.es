@@ -4,13 +4,135 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-02-11T20:55:57+00:00</updated>
+  <updated>2013-02-11T22:25:51+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/02/12/mark-old-posts-liquid-tag-jekyll</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/02/12/mark-old-posts-liquid-tag-jekyll.html"/>
+    <title>Mark Old Posts as Deprecated in Jekyll</title>
+    <published>2013-02-12T00:00:00+00:00</published>
+    <updated>2013-02-12T00:00:00+00:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    <content type="html">&lt;p&gt;This blog is built with jekyll&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, a static blogging platform from the guys at github, and is also the engine behind github pages&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, where this blog is hosted.&lt;/p&gt;
+
+&lt;p&gt;I have written a simple plugin to add a LiquidTag&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; to render a warning for all posts that reach a certain age.  This is particularly useful for technical blogs such as this one, where the things I’m writing about can move on pretty quickly.  The way something was done a year ago isn’t necessarily the way I recommend doing it today.&lt;/p&gt;
+
+&lt;p&gt;If you have a Gemfile, add the &lt;code&gt;chronic&lt;/code&gt; gem and run &lt;code&gt;bundle install&lt;/code&gt;. If you don’t have a Gemfile, install the gem with &lt;code&gt;gem install chronic --no-ri --no-rdoc&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now you can add the &lt;code&gt;mark_old_post_tag.rb&lt;/code&gt; file to your &lt;code&gt;_plugins&lt;/code&gt; folder.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4757705.js?file=mark_old_posts.rb&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;# Mark Old Posts Liquid Tag
+#
+# A liquid tag for Jekyll sites to mark old posts as deprecated
+#
+# Usage:
+#     {% mark_old_posts &amp;lt;time_ago_in_words|date&amp;gt; %}
+#
+# Example:
+#     {% mark_old_posts 6 months ago %}
+#     {% mark_old_posts 1 year ago %}
+#     {% mark_old_posts 01/01/2012 %}
+#
+# Requires:
+#     chronic gem: sudo gem install chronic --no-ri --no-rdoc
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an &amp;quot;AS IS&amp;quot; BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# @author Adam Brett &amp;lt;adam@adambrett.co.uk&amp;gt;
+# @license BSD-3-Clause
+# @version 0.1
+# @link http://gist.github.com/adambrett/
+# @link http://adamcod.es/2013/02/12/mark-old-posts-liquid-tag-jekyll.html
+#
+
+require 'chronic'
+
+module Jekyll
+  class MarkOldPostTag &amp;lt; Liquid::Tag
+    def initialize(tag_name, cut_off, tokens)
+      super
+      @cut_off_date = Chronic.parse(cut_off)
+      @cut_off = cut_off
+    end
+
+    def render(context)
+      post_date = context.environments.first[&amp;quot;page&amp;quot;][&amp;quot;date&amp;quot;]
+
+      unless (post_date.is_a? Time) &amp;amp;&amp;amp;(@cut_off_date.is_a? Time)
+        return &amp;quot;&amp;quot;
+      end
+
+      if context.environments.first[&amp;quot;page&amp;quot;][&amp;quot;mark_old_post&amp;quot;] == false
+        return &amp;quot;&amp;quot;
+      end
+
+      if post_date &amp;gt; @cut_off_date
+        return &amp;quot;&amp;quot;
+      end
+
+      html_output_for context.environments.first[&amp;quot;page&amp;quot;][&amp;quot;date&amp;quot;]
+    end
+
+    def html_output_for(post_date)
+      post_date = post_date.strftime(&amp;quot;%A, %B %d, %Y&amp;quot;)
+      return &amp;lt;&amp;lt;-HTML
+&amp;lt;div class=&amp;quot;alert alert-warning&amp;quot;&amp;gt;
+  &amp;lt;h4&amp;gt;Out Of Date Warning&amp;lt;/h4&amp;gt;
+
+  &amp;lt;p&amp;gt;
+    This article was published on &amp;lt;strong&amp;gt;#{post_date}&amp;lt;/strong&amp;gt; which was
+    &amp;lt;strong&amp;gt;more than #{@cut_off}&amp;lt;/strong&amp;gt;, this means the content may be
+    out of date or no longer relevant.  You should &amp;lt;strong&amp;gt;verify that the
+    technical information in this article is still current&amp;lt;/strong&amp;gt; before
+    relying upon it for your own purposes.
+  &amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;
+      HTML
+    end
+  end
+end
+
+Liquid::Template.register_tag('mark_old_posts', Jekyll::MarkOldPostTag)
+&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the &lt;code&gt;html_output_for&lt;/code&gt; method if you want to change what’s output.&lt;/p&gt;
+
+&lt;p&gt;To render the warning message, add the tag: &lt;code&gt;{% mark_old_posts &amp;lt;time ago in words|date &amp;gt;%}&lt;/code&gt; wherever you want the HTML to be output.  You can specify any sort of date string that &lt;code&gt;chronic&lt;/code&gt; will understand here, such as &lt;code&gt;6 months ago&lt;/code&gt;, &lt;code&gt;12 months ago&lt;/code&gt;, or an actual date such as &lt;code&gt;01/01/2012&lt;/code&gt;.  You can see the example for this site on github&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;If you don’t want to deprecate an old post, set &lt;code&gt;mark_old_post: false&lt;/code&gt; in the YFM for the post or page and the plugin won’t render anything.&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;http://jekyllrb.com/&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;http://pages.github.com/&lt;a href=&quot;#fnref:2&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;http://liquidmarkup.org/&lt;a href=&quot;#fnref:3&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
+      &lt;p&gt;https://github.com/adambrett/adamcod.es/blob/57014bd1d57ce765ec6b674796abe9bfc8f93a44/_includes/article.html#L8&lt;a href=&quot;#fnref:4&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/01/24/mimicking-the-recently-not-approved-property-get-set-syntax</id>
