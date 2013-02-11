@@ -1,6 +1,7 @@
 ---
 layout: post
 title: The lorem ipsum
+mark_old_post: false
 ---
 
 Hello, this is a test.

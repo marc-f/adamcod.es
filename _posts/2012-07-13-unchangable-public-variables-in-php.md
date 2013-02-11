@@ -7,11 +7,11 @@ summary: If you've ever had a use-case where you want to make a class property p
 
 If you've ever had a use-case where you want to make a class property publicly readable, but not writable, (without adding a getter), this is how you do it.
 
-## Disclaimer ##
+##Disclaimer##
 
 Obviously, the easiest (and probably correct/best) way to do this is to add a getter to the class that returns the value of the private/protected property.  However this is a trick to make it appear as a normal property (in case you don't want any getters in your API, for example).
 
-## Code ##
+##Code##
 
 This trick involves using PHP's magic methods and looks like this:
 
@@ -27,7 +27,7 @@ What if you want it to be modified from outside of the class too?
 
 Make it public (duh).
 
-### Tests ###
+###Tests###
 
 Here are some quick tests to prove it's working as expected:
 

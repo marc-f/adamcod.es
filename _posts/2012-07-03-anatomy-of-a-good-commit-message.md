@@ -1,5 +1,6 @@
 ---
 layout: post
+mark_old_post: false
 ---
 
 The developers at my new job have been using subversion for the last 8 years, and with a few exceptions, huge _code-bomb_ style commits covering numerous features and changes (and with generic one-line commit messages) seem to have been the norm.  Source control was used primarily for backup (a sin I think many teams are guilty of at one point or another), and wasn't used to its full potential, so no-one really paid attention to commit messages or the size of commits; after they were written they were never referenced again.
@@ -10,7 +11,7 @@ There are already a few [good](http://tbaggery.com/2008/04/19/a-note-about-git-c
 
 Whilst the information already out there is great, it doesn't provide the copy, paste, and fill-in-the-blanks kind of template I wanted for the junior developers so they didn't have to think too much about their commit messages (at least until they became more familiar with the new tools and processes), and those already familiar with good commit practices had a rock solid base to work from.
 
-## Template ##
+##Template##
 
 With that in mind, I compiled the various posts and discussions on commit messages into the following template, the bulk of the template is from [here](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) with a couple of minor modifications.  It's [widely accepted](https://github.com/blog/926-shiny-new-commit-styles) as the best example of a good commit message:
 
@@ -37,7 +38,7 @@ With that in mind, I compiled the various posts and discussions on commit messag
 
     Relation: #issue
 
-## Rules ##
+##Rules##
 
 1. The body of a commit is mandatory.  You should explain to those who might be looking back over your code why you did what you did in this commit.
 

@@ -5,7 +5,7 @@ title: Make a circle thumbnail with the Imagine PHP Image Library
 summary: A Filter for the Imagine PHP Image Library to create circle thumbnails
 ---
 
-## What is Imagine ##
+##What is Imagine##
 
 Image processing in PHP is _really_ unpleasant.  Imagine is a PHP 5.3 library which makes image processing suck way less.  According to the [documentation](http://imagine.readthedocs.org):
 
@@ -15,7 +15,7 @@ Put simply, Imagine is a nicely PSR-0 namespace'd wrapper that provides a consis
 
 If you haven't heard of Imagine, or aren't familiar with its concepts, go [here](https://speakerdeck.com/u/avalanche123/p/introduction-to-imagine) and read the presentation first, as the code below assumes a knowledge of its features concepts.
 
-## The Problem ##
+##The Problem##
 
 Whilst re-working an area of our internal CRM, we came up with the idea of cards.  These would be little snippets of information about people, companies, products and other CRM objects related to the page you're on, neatly stacked in order of importance down the right-hand side of a page.
 
@@ -29,7 +29,7 @@ Pretty good, but we decided we can do a bit bitter, and rounded pictures would b
 
 Only problem, that makes coding the thumbnails a lot harder.  Our users aren't going to upload nice transparent rounded pictures for us, so we're going to have to find a way to process them ourselves.
 
-## Enter Imagine ##
+##Enter Imagine##
 
 Having read about Imagine, it had peaked my interested, and I'd wanted to use it on a project for a while.  It turns out that creating a circle thumbnail with Imagine is actually really easy.  Much like most custom things in Imagine, you want to create a filter, I called mine `CircleThumbnailFilter` (original, I know).  It looks like this:
 
@@ -53,7 +53,7 @@ Once we have our mask created, if we were to save it, it would look something li
 
 We don't want to output our mask though, we just want to use it to make parts of our square thumbnail transparent.  To do that we use Imagine's built-in applyMask filter, passing the mask we created earlier in as the only parameter.  We can then return this image so we can use it in our scripts.
 
-## Usage ##
+##Usage##
 
 To use the filter, you need to include Imagine using [one of the methods in the documentation](http://imagine.readthedocs.org/en/latest/usage/introduction.html#installation), I recommend installing it via [composer](http://getcomposer.org), as Imagine is available on [packagist](http://packagist.org/packages/imagine/Imagine), and then using the composer autoloader to load Imagine via the PSR-0 namespace syntax.
 

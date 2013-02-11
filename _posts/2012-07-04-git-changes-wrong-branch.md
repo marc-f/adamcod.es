@@ -5,7 +5,7 @@ title: Git - Help! I made my changes on the wrong branch (easy fix)
 summary: A simple git one-liner that will help you when you make changes to the wrong branch
 ---
 
-## We've all done it ##
+##We've all done it##
 
 You get an emergency email from your boss and have to immediately drop everything you're doing to solve his problem.  You listen to what's wrong and make all the necessary changes, test it, and then you're ready to commit, only you're on `feature/awesome-new-stuff` and forgot to checkout `develop` before you made your changes. \*\*\*\*.
 
@@ -15,7 +15,7 @@ Pre-git, I have no idea how I would have fixed this.  Separating your fixes with
 
 However thanks to git we can simply checkout the correct branch, and and our untracked changes will move with us.
 
-## If you've not committed yet ##
+##If you've not committed yet##
 
 First, make sure all of your *feature* changes are committed to the correct branch (but *not* the fixes you want to move!), then:
 
@@ -23,7 +23,7 @@ First, make sure all of your *feature* changes are committed to the correct bran
 
 Be sure to replace `<branch>` with the name of the branch you actually want to commit to.
 
-## If you've already committed the changes ##
+##If you've already committed the changes##
 
 If you've already committed your changes, you need to do a SOFT reset. A soft reset will put your changes back into the index, instead of destroying them like a HARD reset would:
 
@@ -39,7 +39,7 @@ and for 3 commits
 
 and so on... then you can run the [checkout](#if-youve-not-committed-yet) command above.
 
-## If there is a conflict between the two branches ##
+##If there is a conflict between the two branches##
 
 If the changes you want to move will conflict with something on the branch you're moving to git will simply refuse to checkout the new branch.  In this instance you want to use the stash-checkout-pop command like so:
 
