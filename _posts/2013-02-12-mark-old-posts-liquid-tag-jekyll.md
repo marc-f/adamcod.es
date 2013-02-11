@@ -17,8 +17,11 @@ Now you can add the `mark_old_post_tag.rb` file to your `_plugins` folder.
 
 It's not very customisable at the moment.  At some point in the future I'd like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the `html_output_for` method.
 
-To render the warning message, add the tag: `{% mark_old_posts <time ago in words|date>%}` wherever you want the HTML to be output.
+To render the warning message, add the tag: `{% mark_old_posts <time ago in words|date>%}` wherever you want the HTML to be output.  You can specify any sort of date string that `chronic` will understand here, such as `6 months ago`, `12 months ago`, or an actual date such as `01/01/2012`.  You can see the example for this on github[^4]
+
+If you don't want to deprecate an old post, set `mark_old_post: false` in the YFM for the post or page.
 
 [^1]: http://jekyllrb.com/
 [^2]: http://pages.github.com/
 [^3]: http://liquidmarkup.org/
+[^4]: https://github.com/adambrett/adamcod.es/blob/57014bd1d57ce765ec6b674796abe9bfc8f93a44/_includes/article.html#L8
