@@ -146,7 +146,7 @@ end
 Liquid::Template.register_tag('mark_old_posts', Jekyll::MarkOldPostTag)
 </code></pre></noscript></div>
 
-<p>It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the <code>html_output_for</code> method if you want to change what’s output.</p>
+<p>It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the <code>html_output_for</code> method if you want to change anything.</p>
 
 <p>To render the warning message, add the tag: <code>{% mark_old_posts &lt;time ago in words|date &gt;%}</code> wherever you want the HTML to be output.  You can specify any sort of date string that <code>chronic</code> will understand here, such as <code>6 months ago</code>, <code>12 months ago</code>, or an actual date such as <code>01/01/2012</code>.  You can see the example for this site on github<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup></p>
 

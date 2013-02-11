@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-02-11T22:31:56+00:00</updated>
+  <updated>2013-02-11T22:41:30+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -111,7 +111,7 @@ end
 Liquid::Template.register_tag('mark_old_posts', Jekyll::MarkOldPostTag)
 &lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
-&lt;p&gt;It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the &lt;code&gt;html_output_for&lt;/code&gt; method if you want to change what’s output.&lt;/p&gt;
+&lt;p&gt;It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the &lt;code&gt;html_output_for&lt;/code&gt; method if you want to change anything.&lt;/p&gt;
 
 &lt;p&gt;To render the warning message, add the tag: &lt;code&gt;{% mark_old_posts &amp;lt;time ago in words|date &amp;gt;%}&lt;/code&gt; wherever you want the HTML to be output.  You can specify any sort of date string that &lt;code&gt;chronic&lt;/code&gt; will understand here, such as &lt;code&gt;6 months ago&lt;/code&gt;, &lt;code&gt;12 months ago&lt;/code&gt;, or an actual date such as &lt;code&gt;01/01/2012&lt;/code&gt;.  You can see the example for this site on github&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
