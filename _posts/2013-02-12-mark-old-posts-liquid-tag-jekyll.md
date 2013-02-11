@@ -15,7 +15,7 @@ Now you can add the `mark_old_post_tag.rb` file to your `_plugins` folder.
 
 {% gist 4757705 mark_old_posts.rb %}
 
-It's not very customisable at the moment.  At some point in the future I'd like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the `html_output_for` method if you want to change what's output.
+It's not very customisable at the moment.  At some point in the future I'd like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the `html_output_for` method if you want to change anything.
 
 To render the warning message, add the tag: `{% raw %}{% mark_old_posts <time ago in words|date >%}{% endraw %}` wherever you want the HTML to be output.  You can specify any sort of date string that `chronic` will understand here, such as `6 months ago`, `12 months ago`, or an actual date such as `01/01/2012`.  You can see the example for this site on github[^4]
 
