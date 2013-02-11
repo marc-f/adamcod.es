@@ -61,6 +61,8 @@
 
 <p>I have written a simple plugin to add a LiquidTag<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> to render a warning for all posts that reach a certain age.  This is particularly useful for technical blogs such as this one, where the things I’m writing about can move on pretty quickly.  The way something was done a year ago isn’t necessarily the way I recommend doing it today.</p>
 
+<h2 id="using-the-plugin">Using the Plugin</h2>
+
 <p>If you have a Gemfile, add the <code>chronic</code> gem and run <code>bundle install</code>. If you don’t have a Gemfile, install the gem with <code>gem install chronic --no-ri --no-rdoc</code>.</p>
 
 <p>Now you can add the <code>mark_old_post_tag.rb</code> file to your <code>_plugins</code> folder.</p>
@@ -147,6 +149,8 @@ Liquid::Template.register_tag('mark_old_posts', Jekyll::MarkOldPostTag)
 <p>It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the <code>html_output_for</code> method if you want to change what’s output.</p>
 
 <p>To render the warning message, add the tag: <code>{% mark_old_posts &lt;time ago in words|date &gt;%}</code> wherever you want the HTML to be output.  You can specify any sort of date string that <code>chronic</code> will understand here, such as <code>6 months ago</code>, <code>12 months ago</code>, or an actual date such as <code>01/01/2012</code>.  You can see the example for this site on github<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup></p>
+
+<h2 id="excluding-postspages">Excluding Posts/Pages</h2>
 
 <p>If you don’t want to deprecate an old post, set <code>mark_old_post: false</code> in the YFM for the post or page and the plugin won’t render anything.</p>
 

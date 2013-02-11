@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-02-11T22:29:36+00:00</updated>
+  <updated>2013-02-11T22:31:56+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -25,6 +25,8 @@
     <content type="html">&lt;p&gt;This blog is built with jekyll&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, which is a static blogging platform from the guys at github, and is also the engine behind github pages&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, where this blog is hosted.&lt;/p&gt;
 
 &lt;p&gt;I have written a simple plugin to add a LiquidTag&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; to render a warning for all posts that reach a certain age.  This is particularly useful for technical blogs such as this one, where the things I’m writing about can move on pretty quickly.  The way something was done a year ago isn’t necessarily the way I recommend doing it today.&lt;/p&gt;
+
+&lt;h2 id=&quot;using-the-plugin&quot;&gt;Using the Plugin&lt;/h2&gt;
 
 &lt;p&gt;If you have a Gemfile, add the &lt;code&gt;chronic&lt;/code&gt; gem and run &lt;code&gt;bundle install&lt;/code&gt;. If you don’t have a Gemfile, install the gem with &lt;code&gt;gem install chronic --no-ri --no-rdoc&lt;/code&gt;.&lt;/p&gt;
 
@@ -112,6 +114,8 @@ Liquid::Template.register_tag('mark_old_posts', Jekyll::MarkOldPostTag)
 &lt;p&gt;It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the &lt;code&gt;html_output_for&lt;/code&gt; method if you want to change what’s output.&lt;/p&gt;
 
 &lt;p&gt;To render the warning message, add the tag: &lt;code&gt;{% mark_old_posts &amp;lt;time ago in words|date &amp;gt;%}&lt;/code&gt; wherever you want the HTML to be output.  You can specify any sort of date string that &lt;code&gt;chronic&lt;/code&gt; will understand here, such as &lt;code&gt;6 months ago&lt;/code&gt;, &lt;code&gt;12 months ago&lt;/code&gt;, or an actual date such as &lt;code&gt;01/01/2012&lt;/code&gt;.  You can see the example for this site on github&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;excluding-postspages&quot;&gt;Excluding Posts/Pages&lt;/h2&gt;
 
 &lt;p&gt;If you don’t want to deprecate an old post, set &lt;code&gt;mark_old_post: false&lt;/code&gt; in the YFM for the post or page and the plugin won’t render anything.&lt;/p&gt;
 
