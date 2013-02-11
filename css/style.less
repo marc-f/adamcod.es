@@ -29,14 +29,14 @@
 
 // Typography
 // -------------------------
-@sansFontFamily:        "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
 @serifFontFamily:       "Cardo", Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace;
 
 @baseFontSize:          17px;
 @baseFontFamily:        @serifFontFamily;
 @baseLineHeight:        1.6em;
-@altFontFamily:         @sansFontFamily;
+@altFontFamily:         "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 @headingsFontFamily:    @altFontFamily; // empty to use BS default, @baseFontFamily
 @headingsFontWeight:    300;            // instead of browser default, bold
@@ -63,6 +63,24 @@ code {
 }
 
 @import "bootstrap/tables.less";
+
+// Components: common
+@import "bootstrap/wells.less";
+
+// Components: Buttons & Alerts
+@import "bootstrap/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
+.alert {
+    font-family: @sansFontFamily;
+    font-size: 14px;
+    line-height: 1.6em;
+
+    h1, h2, h3, h4, h5, h6 {
+        color: inherit;
+        font-family: @sansFontFamily;
+        font-size: 16px;
+        font-weight: bold;
+    }
+}
 
 // Components: Nav
 @import "bootstrap/pager.less";
@@ -211,6 +229,14 @@ article {
         font-family: @headingsFontFamily;
 
         color: @gray;
+    }
+
+    ol li li {
+        list-style-type: lower-latin;
+
+        li {
+            list-style-type: lower-roman;
+        }
     }
 }
 

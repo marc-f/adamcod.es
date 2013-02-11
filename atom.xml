@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-01-31T16:13:18+00:00</updated>
+  <updated>2013-02-11T20:55:57+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -30,13 +30,13 @@
 // Code sample indicating the terminology
 class TimePeriod
 {
-    private $Seconds;  // &amp;lt;-- Traditional Property
+    private $Seconds; // &amp;lt;-- Traditional Property
 
-    public $Hours {    // &amp;lt;-- Guarded Property
-        get() { return $this-&amp;gt;Seconds / 3600; }      // &amp;lt;-- Accessor, more specifically a getter
-        set($x) { $this-&amp;gt;Seconds = $x* 3600; }       // &amp;lt;-- Accessor, more specifically a setter
-        isset() { return isset($this-&amp;gt;Seconds); }    // &amp;lt;-- Accessor, more specifically an issetter
-        unset() { unset($this-&amp;gt;Seconds); }           // &amp;lt;-- Accessor, more specifically an unsetter
+    public $Hours { // &amp;lt;-- Guarded Property
+        get() { return $this-&amp;gt;Seconds / 3600; }   // &amp;lt;-- Accessor, more specifically a getter
+        set($x) { $this-&amp;gt;Seconds = $x* 3600; }    // &amp;lt;-- Accessor, more specifically a setter
+        isset() { return isset($this-&amp;gt;Seconds); } // &amp;lt;-- Accessor, more specifically an issetter
+        unset() { unset($this-&amp;gt;Seconds); }        // &amp;lt;-- Accessor, more specifically an unsetter
     }
 }&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
@@ -46,8 +46,8 @@ class TimePeriod
 &lt;noscript&gt;&lt;pre&gt;&lt;code&gt; &amp;lt;?php
  // Accessing the property is the same as accessing a class member
  $time = new TimePeriod();
- $time-&amp;gt;Hours = 12;  // Stored as 43200
- echo $time-&amp;gt;Hours;  // Outputs 12&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+ $time-&amp;gt;Hours = 12; // Stored as 43200
+ echo $time-&amp;gt;Hours; // Outputs 12&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;p&gt;Would result in the getters and setters being called transparently.  Neat!  There are plenty of use-cases for this, and it would drastically reduce the amount of code in a lot of libraries and frameworks that are simple getters and setters, but unfortunately a large enough minority of core-contributors disagreed, or weren’t happy with the syntax, or the implementation (or something), and the proposal failed to pass, so it won’t be making it into the language. Not so neat.&lt;/p&gt;
 
@@ -98,15 +98,16 @@ class TimePeriod
 &lt;noscript&gt;&lt;pre&gt;&lt;code&gt; &amp;lt;?php
  // Accessing the property is the same as accessing a class member
  $time = new TimePeriod();
- $time-&amp;gt;Hours = 12;  // Stored as 43200
- echo $time-&amp;gt;Hours;  // Outputs 12&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+ $time-&amp;gt;Hours = 12; // Stored as 43200
+ echo $time-&amp;gt;Hours; // Outputs 12&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;p&gt;We get the correct output!  For PHP 5.3 we could add the magic methods directly into the class that wants to use them, or create a base class and extend everything we want to have access to the magic getter/setters from that, but that feels messy, traits seem like the cleanest way to do this.&lt;/p&gt;
 
 &lt;p&gt;If we add &lt;code&gt;__isset&lt;/code&gt; and &lt;code&gt;__unset&lt;/code&gt; to the &lt;code&gt;Accessor&lt;/code&gt; trait, we can replicate that functionality too:&lt;/p&gt;
 
 &lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=trait2.php&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;trait Accessors
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+trait Accessors
 {
     public function __isset($name)
     {
@@ -1318,6 +1319,7 @@ echo &amp;quot;\n\n&amp;quot;;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div
 Is accessible: Passed
 Is internally changeable: Passed
 Exception if set: Passed&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
 </content>
   </entry>
   

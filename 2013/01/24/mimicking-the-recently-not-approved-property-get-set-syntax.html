@@ -51,6 +51,8 @@
     <p class="meta"><time pubdate class="published" datetime="2013-01-24">Thursday, January 24, 2013</time></p>
     <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2013/01/24/mimicking-the-recently-not-approved-property-get-set-syntax.html" data-text="Mimicking the recently not approved Property Get/Set Syntax by @sixdaysad">Tweet</a></div>
 
+    
+
 
     </div>
 
@@ -63,13 +65,13 @@
 // Code sample indicating the terminology
 class TimePeriod
 {
-    private $Seconds;  // &lt;-- Traditional Property
+    private $Seconds; // &lt;-- Traditional Property
 
-    public $Hours {    // &lt;-- Guarded Property
-        get() { return $this-&gt;Seconds / 3600; }      // &lt;-- Accessor, more specifically a getter
-        set($x) { $this-&gt;Seconds = $x* 3600; }       // &lt;-- Accessor, more specifically a setter
-        isset() { return isset($this-&gt;Seconds); }    // &lt;-- Accessor, more specifically an issetter
-        unset() { unset($this-&gt;Seconds); }           // &lt;-- Accessor, more specifically an unsetter
+    public $Hours { // &lt;-- Guarded Property
+        get() { return $this-&gt;Seconds / 3600; }   // &lt;-- Accessor, more specifically a getter
+        set($x) { $this-&gt;Seconds = $x* 3600; }    // &lt;-- Accessor, more specifically a setter
+        isset() { return isset($this-&gt;Seconds); } // &lt;-- Accessor, more specifically an issetter
+        unset() { unset($this-&gt;Seconds); }        // &lt;-- Accessor, more specifically an unsetter
     }
 }</code></pre></noscript></div>
 
@@ -79,8 +81,8 @@ class TimePeriod
 <noscript><pre><code> &lt;?php
  // Accessing the property is the same as accessing a class member
  $time = new TimePeriod();
- $time-&gt;Hours = 12;  // Stored as 43200
- echo $time-&gt;Hours;  // Outputs 12</code></pre></noscript></div>
+ $time-&gt;Hours = 12; // Stored as 43200
+ echo $time-&gt;Hours; // Outputs 12</code></pre></noscript></div>
 
 <p>Would result in the getters and setters being called transparently.  Neat!  There are plenty of use-cases for this, and it would drastically reduce the amount of code in a lot of libraries and frameworks that are simple getters and setters, but unfortunately a large enough minority of core-contributors disagreed, or weren’t happy with the syntax, or the implementation (or something), and the proposal failed to pass, so it won’t be making it into the language. Not so neat.</p>
 
@@ -131,15 +133,16 @@ class TimePeriod
 <noscript><pre><code> &lt;?php
  // Accessing the property is the same as accessing a class member
  $time = new TimePeriod();
- $time-&gt;Hours = 12;  // Stored as 43200
- echo $time-&gt;Hours;  // Outputs 12</code></pre></noscript></div>
+ $time-&gt;Hours = 12; // Stored as 43200
+ echo $time-&gt;Hours; // Outputs 12</code></pre></noscript></div>
 
 <p>We get the correct output!  For PHP 5.3 we could add the magic methods directly into the class that wants to use them, or create a base class and extend everything we want to have access to the magic getter/setters from that, but that feels messy, traits seem like the cleanest way to do this.</p>
 
 <p>If we add <code>__isset</code> and <code>__unset</code> to the <code>Accessor</code> trait, we can replicate that functionality too:</p>
 
 <div><script src="https://gist.github.com/4621373.js?file=trait2.php"></script>
-<noscript><pre><code>trait Accessors
+<noscript><pre><code>&lt;?php
+trait Accessors
 {
     public function __isset($name)
     {
