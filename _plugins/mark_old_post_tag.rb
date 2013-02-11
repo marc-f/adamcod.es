@@ -32,13 +32,16 @@ module Jekyll
   class MarkOldPostTag < Liquid::Tag
     def initialize(tag_name, cut_off, tokens)
       super
-
       @cut_off_date = Chronic.parse(cut_off)
       @cut_off = cut_off
     end
 
     def render(context)
       post_date = context.environments.first["page"]["date"]
+
+      unless (post_date.is_a? Time) &&(@cut_off_date.is_a? Time)
+        return ""
+      end
 
       if context.environments.first["page"]["mark_old_post"] == false
         return ""
