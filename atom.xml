@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-02-11T22:25:51+00:00</updated>
+  <updated>2013-02-11T22:29:36+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -22,7 +22,7 @@
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
-    <content type="html">&lt;p&gt;This blog is built with jekyll&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, a static blogging platform from the guys at github, and is also the engine behind github pages&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, where this blog is hosted.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This blog is built with jekyll&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, which is a static blogging platform from the guys at github, and is also the engine behind github pages&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, where this blog is hosted.&lt;/p&gt;
 
 &lt;p&gt;I have written a simple plugin to add a LiquidTag&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; to render a warning for all posts that reach a certain age.  This is particularly useful for technical blogs such as this one, where the things I’m writing about can move on pretty quickly.  The way something was done a year ago isn’t necessarily the way I recommend doing it today.&lt;/p&gt;
 
