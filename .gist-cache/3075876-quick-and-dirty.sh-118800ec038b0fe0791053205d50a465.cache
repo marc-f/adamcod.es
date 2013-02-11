@@ -1,0 +1,9 @@
+git stash
+git checkout develop
+git flow hotfix start <release>
+...
+<codecodecode>
+...
+git flow hotfix finish <release>
+git checkout feature/awesome-new-stuff
+git stash pop
