@@ -4,13 +4,450 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-02-11T22:41:30+00:00</updated>
+  <updated>2013-03-01T12:17:15+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/02/28/how-to-hire-a-developer</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/02/28/how-to-hire-a-developer.html"/>
+    <title>How to Hire a Developer</title>
+    <published>2013-02-28T00:00:00+00:00</published>
+    <updated>2013-02-28T00:00:00+00:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    <content type="html">&lt;p&gt;If you’ve ever been for a job interview, you know how hard it is to first get your CV noticed, and how daunting it can be to turn up to an interview or take a technical test, even if you would normally know your stuff inside out nerves can get to the best of us.&lt;/p&gt;
+
+&lt;p&gt;If you’ve never hired a developer before, you might not realise it can be just as difficult on the other side of the table.  How do you make sure you don’t overlook an awesome CV just because it doesn’t stand out?  How do you make sure you don’t come across as a complete tool in the interview and put off an amazing candidate?&lt;/p&gt;
+
+&lt;p&gt;I have been in the fortunate position to hire a number of people in a number of ways, ranging from other freelancers whilst I was freelancing, to filtering CV’s and administering technical tests when I was a Senior Developer, and now being on formal panel interviews as a Lead Developer.&lt;/p&gt;
+
+&lt;p&gt;Over that time (and through lots of trial and error), I’ve found a system that seems to work pretty well, and that’s what I’m going to outline below.&lt;/p&gt;
+
+&lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
+
+&lt;p&gt;First off, you need to sit down and outline exactly what this person is going to be doing.  What’s the first project you’re going to give them?  Are they going to be there primarily for support and bug-fixes so you can focus on new projects?  The answer to this questions is important, because it will determine the skills that you need this person to have, and the level that you will need them to be at.&lt;/p&gt;
+
+&lt;p&gt;For example, if they’re going to focus on new projects you want someone with experience writing specs and excellent communication skills.  If the project is going to have a front-end, you probably want someone with HTML+CSS+JS experience, not just PHP.  It would also be preferential if they had some user-interface design experience too, or maybe experience with Balsamiq (or your wireframe tool of choice)?&lt;/p&gt;
+
+&lt;p&gt;If you want someone who’s just going to be fixing bugs to free up &lt;em&gt;your&lt;/em&gt; time for new projects, then you can probably afford someone with a little less experience and train them up.  Or maybe your system has a lot of bugs and uses some cutting edge tech - you might need someone with more experience.&lt;/p&gt;
+
+&lt;h2 id=&quot;advertise&quot;&gt;Advertise&lt;/h2&gt;
+
+&lt;p&gt;Now you have your list of minimum requirements, it’s time to start collecting CV’s.  Put job postings on your web site, stack overflow, wherever you feel is relevant.  In my current and previous roles this involved speaking to and dealing with recruitment agencies that usually already have a database of CV’s with matching skills, but will charge you a percentage of the starting salary of your new recruit as a finders fee.&lt;/p&gt;
+
+&lt;p&gt;Another excellent place to find talent is universities.  Speak to your local CS professors or the uni’s careers department.  Make sure their best students know about the role.&lt;/p&gt;
+
+&lt;p&gt;Make your advert concise and to the point.  Don’t include stupid things like “Rock-star developers only”.  Everyone wants rock-star developers, make sure those rock-stars know why they should apply to your advert and not someone else’s.  Your Joel Test score could help, even if it’s not great you show the candidate you’re the kind of employer that knows what the Joel Test is, and not just some HR/recruiter/manager type.&lt;/p&gt;
+
+&lt;p&gt;If you are a HR/recruiter/manager type, there’s nothing wrong with that, but be aware bureaucracy tends to stifle techies and creative-types.  The best will always go where they have more freedom and liberal environments and because their skills are in demand, they have that option.&lt;/p&gt;
+
+&lt;p&gt;Finally, set a deadline.  You don’t want this going on forever.  Give it a reasonable amount of time, but not too much.  Something like 1-2 months time should suffice.&lt;/p&gt;
+
+&lt;h2 id=&quot;filter&quot;&gt;Filter&lt;/h2&gt;
+
+&lt;p&gt;Once your advert has been out there a while you will start to get CV’s come in.  Depending on the source and the level of skill you require, there is going to be a fairly high signal-to-noise ratio.  Especially if that source is recruitment agencies.  That means it’s going to be your job to filter out the candidates that don’t meet the minimum requirements.&lt;/p&gt;
+
+&lt;p&gt;Start a simple spreadsheet to keep track.  You will need the following columns across the top:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Candidate Name&lt;/p&gt;
+
+    &lt;p&gt;Some recruitment agencies won’t send you a name until the interview is confirmed for fear of you contacting the candidate directly to avoid paying their fee, so use some unique identifier until you know it.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Source&lt;/p&gt;
+
+    &lt;p&gt;You’ll want to know where you found this candidate when it comes to contacting them again, you may not have their direct contact details yet, so might need to go back to the job-board or recruitment agency to contact them.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Status&lt;/p&gt;
+
+    &lt;p&gt;Be consistent here, as this field will be a useful field to use AutoFilter on later.  I usually stick to:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;Phone&lt;/li&gt;
+      &lt;li&gt;Interview&lt;/li&gt;
+      &lt;li&gt;Call-back&lt;/li&gt;
+      &lt;li&gt;Rejected&lt;/li&gt;
+      &lt;li&gt;Maybe&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;These should be fairly self explanatory and will quickly let you know where the candidate is in the process.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Notes&lt;/p&gt;
+
+    &lt;p&gt;Use this to make any additional notes on the candidate.  Are they are star candidate?  If they’ve been rejected, why did you reject them?  It’s important to give good feedback so you can give people opportunity to improve.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;formatting&quot;&gt;Formatting&lt;/h3&gt;
+
+&lt;p&gt;When you start filtering, the first thing to do is check for CV formatting.  A CV is the first port of call, your first impression of a candidate, they’re trying to sell themselves to you.  If the CV is poorly formatted, poorly organised, a mishmash of fonts, 20 pages long, or just otherwise &lt;em&gt;painful to read&lt;/em&gt; (and some really will be) this person probably isn’t a very good communicator, and that’s going to mean they’ll likely have problems communicating as a member of your team.&lt;/p&gt;
+
+&lt;p&gt;Whether or not you reject them at this point because of this is really up to you; It will depend on your internal tolerances for this, and ultimately how much communication their role will entail.&lt;/p&gt;
+
+&lt;h3 id=&quot;skills&quot;&gt;Skills&lt;/h3&gt;
+
+&lt;p&gt;The next thing to look for is skills.  Do they list all of the required skills? Most of them?  Any extra desirable skills that are non-essential?  Skills should be easy to find and be realistic.&lt;/p&gt;
+
+&lt;p&gt;When I say realistic, I mean: I’ve had one list Windows Server 2009 among their core skills, another claim 15 years PHP experience when PHP was 13 years old, and another 4 years CakePHP experience when Cake was 3 years old.&lt;/p&gt;
+
+&lt;p&gt;I’m not saying these people were trying to pull a fast one, but when I see something like this it instantly turns me off.  You can throw their CVs away at this point if you want to.  Unfortunately I cannot.  As long as their core skills are listed and match our requirements, I am required by employment legislation that governs my employers industry to consider them.  So be careful, make sure you’re not bound by similar legislation too.&lt;/p&gt;
+
+&lt;h3 id=&quot;previous-employment&quot;&gt;Previous Employment&lt;/h3&gt;
+
+&lt;p&gt;Here we’re looking for just a couple of things.  We want to make sure they’ve done what we want them to do before and for the required amount of time (if you decided this was important in your requirements), and that the companies actually exist, and don’t belong to them and/or a family member.  There’s nothing wrong with this per-se (I freelanced for 4 years before getting my first full-time job), but it requires extra scrutiny to make sure it’s not made-up experience.  Obviously, Google is your friend here.&lt;/p&gt;
+
+&lt;p&gt;Make sure nothing stands out and that everything seems above board.  It’s important that everything they’re describing they’ve done makes sense, and seems logical for their previous job title and the salary that you’re offering.&lt;/p&gt;
+
+&lt;p&gt;If a “Senior Developer” lists looking after the company network or building office computers from components in their job role, then there is clearly something fishy.&lt;/p&gt;
+
+&lt;p&gt;If it all looks good, you can progress them to the next step.&lt;/p&gt;
+
+&lt;h2 id=&quot;rejections&quot;&gt;Rejections&lt;/h2&gt;
+
+&lt;p&gt;After a period of time (likely the deadline you set in your advert), you should have a spreadsheet with a list of potential candidates.  Now you can filter your spreadsheet, contact all of the rejections in one go (if you weren’t contacting them as you went along), and give them a good reason why they’re being rejected.  Be kind and courteous, these people showed an interest in working with you and your company.  Show them some respect and explain why they weren’t suited for the position.  Maybe give them some areas they could improve in.  Do not give them false hope.  You won’t keep their CV on file.&lt;/p&gt;
+
+&lt;h2 id=&quot;phone&quot;&gt;Phone&lt;/h2&gt;
+
+&lt;p&gt;Now you should have two lists of candidates.  “Phone” and “Maybe”.  Put the Maybe’s to one side for now.  For those you want to phone, you should have a set of simple technical questions.  The aim of the telephone interview is to make sure that they actually have the skills they list on their CV, and they’re not just meaningless words to them.&lt;/p&gt;
+
+&lt;p&gt;Contact each of the candidates in turn and arrange a time and date for a telephone interview.  Make it clear that you will be asking them a series of technical questions during the conversation, but it’s not a technical test, you simply want to gauge the level of their skills in the technologies they’ve listed on their CV before inviting them in for a face-to-face interview.  Make this appointment at least 24 hours in advance, you don’t want to surprise them with a bunch of technical questions if they’re not expecting it.&lt;/p&gt;
+
+&lt;h3 id=&quot;telephone-questions&quot;&gt;Telephone Questions&lt;/h3&gt;
+
+&lt;p&gt;When you are composing the technical questions for the telephone interview you should base them on your original requirements.  This means you will end up with one set of questions that you will ask everyone.  This is important to keep it fair.  Write them down, print them out, make it as consistent as possible.&lt;/p&gt;
+
+&lt;p&gt;Ask 2-3 questions about each technology, and make them increase in difficulty as you go on.&lt;/p&gt;
+
+&lt;p&gt;Do not ask anyone questions on a technology they don’t list on their CV.  That means if you have some questions on CSS3, as it’s a desirable but not essential skill, do not ask someone questions on CSS3 unless they explicitly list it as a skill.  If they list CSS as a skill, feel free to ask them if they know CSS3, if they answer yes, only then can you ask them your CSS3 questions.  Asking someone questions about something not on their CV is unfair.&lt;/p&gt;
+
+&lt;p&gt;Here is an example.  Our example job requires PHP5, HTML, and CSS, with Object Oriented Programming desirable.&lt;/p&gt;
+
+&lt;p&gt;Our questions would look like this:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;PHP
+    &lt;ol&gt;
+      &lt;li&gt;How long have you been using PHP?&lt;/li&gt;
+      &lt;li&gt;Can you explain how to list an array of items on the screen?&lt;/li&gt;
+      &lt;li&gt;Can you explain how to list a nested array of items on the screen?
+        &lt;ol&gt;
+          &lt;li&gt;Can you think of a way to make that more efficient? (Bonus points for mentioning recursion)&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;HTML
+    &lt;ol&gt;
+      &lt;li&gt;Can you explain how to link to another page?&lt;/li&gt;
+      &lt;li&gt;Can you explain how to make an ordered list of items?&lt;/li&gt;
+      &lt;li&gt;Can you explain semantic markup?&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;CSS
+    &lt;ol&gt;
+      &lt;li&gt;Can you explain how to change the font of a paragraph of text&lt;/li&gt;
+      &lt;li&gt;Can you explain how to change the colour of an active link&lt;/li&gt;
+      &lt;li&gt;Can you explain how to make a bullet point list with an image of a tick instead of a circle&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;OOP
+    &lt;ol&gt;
+      &lt;li&gt;Can you explain what you understand inheritance to mean&lt;/li&gt;
+      &lt;li&gt;Can you explain what polymorphism is?&lt;/li&gt;
+      &lt;li&gt;Can you explain what coupling and cohesion are and give good examples of each?&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;As you can see, these questions are pretty basic, they should be things that a professional has done hundreds of times and should have no problem explaining, we don’t want to trip anyone up or trick them, or try to be clever or make ourselves look good or anything like that.&lt;/p&gt;
+
+&lt;p&gt;The point here is that this isn’t a technical test.  To the interviewee it looks like we’re trying to gauge their skill level, and any competent candidate will easily ace these questions.  What we really want to do is make sure we’re not getting people listing skills on their CV without having real life experience.&lt;/p&gt;
+
+&lt;p&gt;In &lt;em&gt;my&lt;/em&gt; experience, a simple low-level test like this will weed out 75% of candidates.  As a phone interview takes 15 minutes, when compared to spending 1-2 hours on a face-to-face interview with a totally unqualified candidate we save ourselves a lot of time and hassle.&lt;/p&gt;
+
+&lt;p&gt;Now, let’s imagine for this fictitious role, we’ve received 3 CVs that we want to progress to the telephone interviews.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Joey lists PHP5, HTML, CSS, and OOP.&lt;/li&gt;
+  &lt;li&gt;Josh lists PHP4, HTML, and CSS&lt;/li&gt;
+  &lt;li&gt;Jane lists PHP5, HTML, and CSS.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here’s what the conversation might look like:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Joey&lt;/strong&gt;: Hello?&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: Hi is that Joey?&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: Yeah&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: Hi Joey it’s Bob from BobsInternetWidgets, I hope you were expecting my call?&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: Yep hello!&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: I just have a few questions for you based on the things on your CV.  This isn’t a technical test and it’s nothing to worry about at all, we just want to gauge where you are with the various skills you’ve listed before we invite you in for a face-to-face interview, is that okay?&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: Yep, no problem.&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: Okay here we go, how long have you been using PHP?&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: Umm, about 5 or 6 years&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: Great, we’re going to start off simply and get a little bit more difficult as we go&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: Okay&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: Can you explain how to list an array of items on the screen?&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: You would go “foreach dollar variablename as dollar value echo dollar value”&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: That’s great, now imagine that some of these values were also arrays, how would you go about listing those on the screen too&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: Umm, you’d probably do an if statement to check if it’s an array and if it is then do another foreach loop.&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: Excellent, is there any way you could see of improving that or making it more efficient?&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: I don’t think so&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: What about if the arrays could be nested at any depth, and you want to print all values, like an array of array of arrays&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: Ohhh! Recursion.  You’d write a function that calls itself passing in the new array.&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: Great thanks.  Now onto a little bit about HTML&lt;br /&gt;
+…&lt;em&gt;snip&lt;/em&gt;…&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: Well thanks for your time Joey, that’s great, we just have a few more of these to do and we’ll be in touch shortly to arrange a face-to-face.  Just before I go, is are there any questions you’d like to ask me?&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: I don’t think so at the moment.&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: Great, thanks, bye!&lt;br /&gt;
+&lt;strong&gt;Joey&lt;/strong&gt;: Bye  &lt;/p&gt;
+
+&lt;p&gt;Now you can repeat that conversation with Josh, except we won’t be asking Josh any questions about OOP, as he didn’t list it as a skill.  We might throw in additional question about why he’s only listed PHP4, and not PHP5, and ask if he has any PHP5 experience.  It’s up to you to make a judgement call on if you ask a follow up based on his answer.&lt;/p&gt;
+
+&lt;p&gt;Once we’ve spoken to Josh, we’ll speak to Jane.  Jane has listed PHP5 as a skill but not OOP.  This might be an oversight, as most companies now who use PHP5 use object oriented programming (or at least some form of what they think is object oriented programming), so we’ll ask her if she’s done any OOP work, and then make a judgement call on whether or not to ask the OOP questions.  If she hasn’t, that’s not a problem, she didn’t list it on her CV so we can’t expect her to answer questions about it.&lt;/p&gt;
+
+&lt;h3 id=&quot;bad-eggs&quot;&gt;Bad Eggs&lt;/h3&gt;
+
+&lt;p&gt;Occasionally when conducting a telephone interview you will get a bad egg.  Someone who listed all the right skills on their CV, but in real life can’t answer any questions about them.  These people sometimes get angry with you and quite indignatious.  This is a defence mechanism because you’ve caught them lying and ultimately they’re embarrassed.  There’s not a lot you can do about this.  Try to end the conversation as politely and quickly as possible, inform them you won’t be taking their application any further, and if they get too abusive, hang up.&lt;/p&gt;
+
+&lt;p&gt;On the flip side of this, you will get some people who are thoroughly nice, but still don’t know their stuff.  An unfortunate downside of this industry is that anyone with a text editor and a copy of HTML for Dummies will call themselves a web developer.  Don’t make this person feel bad or get angry with them, they obviously have a desire to learn and work in our industry, and that should be fostered and encouraged.&lt;/p&gt;
+
+&lt;p&gt;It will quickly become apparent when you have one of these people on the phone.  Try to end the interview as quickly as possible as ultimately, you’re not a charity and you need to get on.  You can say something along the lines of “that’s all the questions I have for you today, I’ll be in touch shortly to let you know how you got on”.  Move them to the rejected pile and politely inform them their skills aren’t what you’re looking for, or aren’t at the right level at the moment and you can’t take their application any further.  If you’re feeling super nice, give them some links they can read to brush up on the areas they were weak in.&lt;/p&gt;
+
+&lt;h2 id=&quot;face-to-face&quot;&gt;Face-to-Face&lt;/h2&gt;
+
+&lt;p&gt;Now you’ve conducted all of your phone interviews you should have a pretty solid grasp of where each of the candidates sits in terms of your skills requirements, you might even have a list of ones that impressed you the most.  Now is the time to ask them in for a face-to-face interview and technical test.  You could try to schedule all of the interviews for one day, or over a series of days, but believe me, it gets very boring very quickly.  I would recommend no more than 2 interviews in a day unless you have a specific reason to do more.&lt;/p&gt;
+
+&lt;p&gt;When arranging a time for interviews, I am in two minds, and haven’t developed a preference for AM or PM interviews.  A lot of the more “corporate” jobs I’ve interviewed for tend to be AM interviews, usually starting between 8 and 9:15 (even if the company normally starts at 9).  I’ve never had an interview for a “corporate” job start as late as 9.30.&lt;/p&gt;
+
+&lt;p&gt;My own experience of corporate types suggests this is some sort of power play.  I’ve attended enough breakfast meetings to know they are &lt;em&gt;always&lt;/em&gt; unnecessary, and the person insisting on them usually has some sort of complex.  The easy way for a candidate to gain the upper-hand is to show up before the interviewer, but really, who wants to be playing power games before they even have the job?&lt;/p&gt;
+
+&lt;p&gt;On the flip side, a PM interview is after lunch, and you’ll likely tire a lot quicker, but it gives the candidate plenty of time to find your premises, avoid rush-hour traffic, etc. so they’re more likely to show up on time (or early) by default.  Also, in my mind it’s easier to take an afternoon off work than a morning.  I don’t really know why.&lt;/p&gt;
+
+&lt;p&gt;Personally, I aim for one interview around 11AM and another around 1.30PM, and that’s it.  Assuming an interview lasts at most 3 hours, you’ll have 30 minutes between the two to grab some lunch.&lt;/p&gt;
+
+&lt;p&gt;Finally, make sure you are either flexible on the date, or you give the candidate enough notice to book the time off from their current job.&lt;/p&gt;
+
+&lt;h3 id=&quot;technical-test&quot;&gt;Technical Test&lt;/h3&gt;
+
+&lt;p&gt;Most jobs I’ve interviewed for administer the technical test after the panel interview.  I think that’s backwards.  I much prefer to administer the technical test &lt;em&gt;first&lt;/em&gt;.  This means I can mark it whilst the candidate takes a rest before the panel interview begins.  That way I know not to waste too much time on someone who doesn’t have the skills.  Either way, you absolutely must give the candidate a technical test.&lt;/p&gt;
+
+&lt;p&gt;The technical test should have more difficult questions than the telephone interview, you want to push them to the limits and expect them to get some questions wrong.  Get your current team to sit the test (under test conditions) before you give it to a candidate, that way you know if it’s too hard or too easy.&lt;/p&gt;
+
+&lt;p&gt;Make sure you administer the test on a computer, with an IDE and a test environment setup and working, but without an internet connection.  You’re most likely not looking for someone that can only copy &amp;amp; paste from google or stackoverflow, and the IDE should remind them of the correct function names and parameter orders if required.&lt;/p&gt;
+
+&lt;p&gt;When composing the test, you want it to cover all of your core skills and your desirable skills.  Give them same test to everyone, whether they listed all the skills or not, at this stage we are getting close to making a decision, so we need to be able to differentiate between candidates on a level playing field.  There are two methods of creating a technical test for an interview:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Ask Specific Questions&lt;/li&gt;
+  &lt;li&gt;Build a simple app&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;questions&quot;&gt;Questions&lt;/h4&gt;
+
+&lt;p&gt;If you’re going down the questions route, break the test down so you have one section per skill.  Going back to our example above, that would mean having a section on PHP, one on HTML, one on CSS, and one on OOP.  Score each section out of 10.  That means you can break down questions into two questions worth 5 points, 5 questions worth 2 points, 2 x 3’s and a 4, 3 x 2’s and a 4 etc.  You can tailor this depending on what you feel is most relevant for the skill level you’re recruiting for.&lt;/p&gt;
+
+&lt;p&gt;For each question write down a marking scheme.  Don’t just write down the correct answer.  You need to specifically say: This question is worth 2 points, I will give 1 point for &lt;em&gt;this&lt;/em&gt;, and 1 point for &lt;em&gt;this&lt;/em&gt; or &lt;em&gt;this&lt;/em&gt;.  I like to make my questions more difficult as they go on.&lt;/p&gt;
+
+&lt;p&gt;A section on PHP might look like this (I’ll only do two questions here, but you’d want 3 in the real test to make this section worth a total of 10 points):&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Write a function to return the area of a circle given the radius.  You can get the value of PI from the PHP function  &lt;code&gt;pi()&lt;/code&gt;. (2 Marks)&lt;/p&gt;
+
+    &lt;ol&gt;
+      &lt;li&gt;0.5 marks for correct use of &lt;code&gt;function() {}&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;0.5 marks for well named variables and function e.g. passing in &lt;code&gt;$radius&lt;/code&gt; instead of &lt;code&gt;$r&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;0.5 marks for correct behaviour&lt;/li&gt;
+      &lt;li&gt;0.5 marks for use of &lt;code&gt;^ 2&lt;/code&gt; instead of &lt;code&gt;$radius * $radius&lt;/code&gt; or a single line function vs multiple lines&lt;/li&gt;
+    &lt;/ol&gt;
+
+    &lt;p&gt;Example:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; function calculate_area($r) {
+     $area = pi() * $r ^ 2;
+     return $area;
+ }
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;This scores 0.5 for correctly using &lt;code&gt;function() {...}&lt;/code&gt;, 0.5 for correct behaviour, and 0.5 for using &lt;code&gt;^2&lt;/code&gt; which scores a total of 1.5/2.&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; function circleArea($radius) {
+     return pi() * $radius * $radius;
+ }
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;This scores 2/2 as even though they didn’t know about or didn’t use the power-of, they wrote a more succinct function with better variable naming.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Write a PHP function to output a nested HTML list of fruits given the following array (3 marks):&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; array(
+     'apples' =&amp;gt; array(
+         'Granny Smith',
+         'Golden Delicious',
+         'Red Delicious'
+     ),
+     'bananas',
+     'grapes',
+     'oranges' =&amp;gt; array(
+         'Valencia'
+     ),
+     'pears' =&amp;gt; array(
+         'Conference'
+     )
+ )
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;ol&gt;
+      &lt;li&gt;1 mark for correct functionality&lt;/li&gt;
+      &lt;li&gt;1 mark for correct use of recursion&lt;/li&gt;
+      &lt;li&gt;0.5 marks for well named variables&lt;/li&gt;
+      &lt;li&gt;0.5 marks for style (grammar, indentation, variable naming, verbosity, etc.)&lt;/li&gt;
+      &lt;li&gt;Give no points for this question if they use two separate functions&lt;/li&gt;
+    &lt;/ol&gt;
+
+    &lt;p&gt;Example:&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt; function print_fruits($fruits) {
+     $output = '&amp;lt;ul&amp;gt;';
+     foreach ($fruits as $index =&amp;gt; $value) {
+         $output .= '&amp;lt;li&amp;gt;';
+
+         if (is_array($value)) {
+             $output .= $index;
+             $output .= print_fruits($fruits);
+         } else {
+             $output .= $value;
+         }
+
+         $output .= '&amp;lt;/li&amp;gt;';
+     }
+
+     $output .= '&amp;lt;/ul&amp;gt;';
+
+     return $output;
+ }
+&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;p&gt;This scores 0.5 for correct functionality, it is correct but it returns the list and we asked for them to output it.  It scores 1 for the correct use of recursion, 0.5 for style as it’s fairly succinct, logical, well indented, easy to follow etc. giving a total of 2.5 marks out of 3.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You can see here how we’re outlining specifically where you’re going to award marks and what for.  Some of it can be subjective such as &lt;em&gt;0.5 marks for style&lt;/em&gt;, but I wouldn’t award a lot of marks like that.  It’s important here that we’re consistent so that someone who didn’t write the test would be able to use your marking scheme to mark the test just as you would have done.&lt;/p&gt;
+
+&lt;h4 id=&quot;build-an-app&quot;&gt;Build an App&lt;/h4&gt;
+
+&lt;p&gt;The “build an app” type tests are much more straight-forward to create, but much more difficult to mark.  Once the functionality is correct, it’s down to style, but you will also have to appreciate that the candidate will be nervous, and under time constraints, it probably won’t be their best work, give them some leeway.  After that you can only really score on style, naming conventions etc.  It would probably be really useful if you wrote some unit-tests for the candidate to code against, and for yourself when marking the test.&lt;/p&gt;
+
+&lt;p&gt;Some examples of this type of test would be:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;In 30 minutes write an application that allows you to add a list of songs to a MySQL database, list those songs, and then edit them&lt;/li&gt;
+  &lt;li&gt;Given this this rudimentary blog application [already written by you], in 30 minutes add anonymous commenting functionality to the posts&lt;/li&gt;
+  &lt;li&gt;In 45 minutes write a simple login script that uses PHP Sessions to secure a number of pages&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I have sat a few of this type of test, but cannot say much more about the process that goes on behind it, as it’s not a type of test I’ve ever set for a candidate.&lt;/p&gt;
+
+&lt;h3 id=&quot;panel&quot;&gt;Panel&lt;/h3&gt;
+
+&lt;p&gt;By the time we get to the panel interview you should have a pretty good idea of the technical ability of the candidate.  At this point, we want to discern more about their personality and ability to communicate technical ideas and concepts with you and any non-technical colleagues or users.&lt;/p&gt;
+
+&lt;p&gt;For the panel interview, we usually have the candidates potential direct line manager, a senior technical person from the team (that’s me), and a senior technical person from outside of the department (for impartiality).  For senior or managerial roles we also have the director of the company sit in, in your instance this may or may not be the candidates potential line manager, or it might be that your company is too large for the director to worry about such things.&lt;/p&gt;
+
+&lt;p&gt;We don’t like to have too many people present as it can be intimidating, so try to keep it to a bear minimum.  That being said, a competent candidate shouldn’t have any problem answering questions from a panel of 3-4 people.&lt;/p&gt;
+
+&lt;p&gt;With the questions themselves, write them down and decide them beforehand.  Ask everyone the same questions.  Plan to ask about 30 minutes of questions and make them open ended.  Split the interview into a few sections.  We use (roughly):&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Business &amp;amp; Logic Questions&lt;/p&gt;
+
+    &lt;p&gt;These questions are NOT the typical “Chicken Crossing” type questions.  Those type of questions are pointless and don’t show anything.  These should be more along the lines of experience and procedure checking.&lt;/p&gt;
+
+    &lt;p&gt;E.g. “You come in to work one morning and find a stack of post-it’s on your desk saying that an application you’re responsible for is broken, what do you do?”&lt;/p&gt;
+
+    &lt;p&gt;This is quite a telling question as people always answer it differently.  Some people go straight for error logs, others go straight to users for more detail.&lt;/p&gt;
+
+    &lt;p&gt;Most people will answer it with some kind of acceptable answer, but the key thing we’re looking for is escalation i.e. inform your superior and keep them informed so appropriate action can be taken with regards to customers/users.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Personality Questions&lt;/p&gt;
+
+    &lt;p&gt;Depending on the seniority of the role we’re hiring for these may vary from (paraphrasing from memory here) “How will you earn the respect of your peers” to “If someone on your team insists on doing something you know to be inefficient or wrong, what will you do?”  With the former we’re looking for something non-offensive, and with the later, what we’re really looking for is for them to try to perused their team member with logic, but if that fails ultimately use their seniority and say something like “no, do it my way” (but friendlier).&lt;/p&gt;
+
+    &lt;p&gt;We usually include something in this section on managing change too, as users are pretty much resistant to change wherever you work.  Something along the lines of “A new feature you’re introducing will improve the efficiency of 90% of your users, but increase workload for 5%, how do you go about explaining the benefits of the change to that 5%?”&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Technical Questions&lt;/p&gt;
+
+    &lt;p&gt;The candidate has already had enough technical questions, so keep these relatively light.  That said - they should be detailed enough for the candidate to talk for 1-2 minutes on the subject.  What we’re really trying to find out here is if they are effective communicators.  This really helps if there are non-technical people on the panel and &lt;em&gt;they&lt;/em&gt; understand what the candidate is saying.  A good example would be something like “Explain the components of a standard MVC framework” or “What steps would you take to optimise a slow performing query?”.&lt;/p&gt;
+
+    &lt;p&gt;Although we’re not &lt;em&gt;really&lt;/em&gt; testing their technical ability here, we still kind of are, so make sure these questions are sufficiently difficult for the level you’re recruiting for, but still light, i.e. something someone of that level should know inside out.  With that in mind, they can still screw themselves over here (see example below).&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Once you have all of your questions, print off a sheet with the questions on.  Include an area for each question with key words or phrases you’re looking for in the answer, an area for you to write notes about their answer, and then an area to grade their answer on a scale of 1-5.&lt;/p&gt;
+
+&lt;p&gt;Don’t be afraid to go off on a slight tangent or deviate from the questions if you feel the candidate needs pushing to explain their answer further.  For example (this is taken from a real interview answer):&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;You&lt;/strong&gt;: [Original question] If a front-end website is performing slowly, what would you do to speed it up?&lt;br /&gt;
+&lt;strong&gt;Candidate&lt;/strong&gt;: I’d load the page content via AJAX to minimise the number of requests and make the page appear as though it’s loading faster.&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: [Pushing the candidate] Okay, can you see any potential downsides to that for a front-end website?&lt;br /&gt;
+&lt;strong&gt;Candidate&lt;/strong&gt;: No, it should make all the pages load faster&lt;br /&gt;
+&lt;strong&gt;You&lt;/strong&gt;: [Last attempt to get a better answer] What about SEO or accessibility, what effect would loading the pages via AJAX have on those?&lt;br /&gt;
+&lt;strong&gt;Candidate&lt;/strong&gt;: It wouldn’t have any effect.  &lt;/p&gt;
+
+&lt;p&gt;Needless to say, this candidate didn’t get an offer, but your job is not to try and trick the candidate or catch them out.  They may have the knowledge and need a little help extracting it.&lt;/p&gt;
+
+&lt;p&gt;Scoring a candidates answer on a scale of 1-5 will help you if you’re trying to decide between two equally qualified candidates.  If you do the scoring as you go along, and get the rest of the panel to do the same you can average the panels scores and it may show a preference for one of the candidates.&lt;/p&gt;
+
+&lt;p&gt;At the end of the panel interview, thank the candidate for their time and ask them if they have any questions for you.  Allow 5-10 minutes to answer their questions, although most candidates I’ve interviewed only have 1 or 2 very minor questions.&lt;/p&gt;
+
+&lt;h3 id=&quot;finally&quot;&gt;Finally&lt;/h3&gt;
+
+&lt;p&gt;Now you should have enough information about your candidates to make an informed, logical decision.  If you’re still struggling, share it with your team, or the team that the candidate will be working with.  If anyone has any reservations then don’t hire that person, otherwise, it’s time to make them an offer.&lt;/p&gt;
+
+&lt;p&gt;For those people that you don’t make an offer, be honest with them as to why, you won’t do them any favours by lying or sparing their feelings.&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;This post ended up being pretty long, so in summary:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Write down the specific requirements for the job, do not compromise on these&lt;/li&gt;
+  &lt;li&gt;Advertise the position in as many places as possible&lt;/li&gt;
+  &lt;li&gt;Track your C.V.s in a central location and record their progress&lt;/li&gt;
+  &lt;li&gt;Pre-qualify candidates with a telephone interview&lt;/li&gt;
+  &lt;li&gt;Invite successful candidates for a face-to-face&lt;/li&gt;
+  &lt;li&gt;Give them a technical test, break it down into logical sections that test all of the requirements, allow 30 minutes&lt;/li&gt;
+  &lt;li&gt;Be consistent with your panel questions, grade on a scale&lt;/li&gt;
+  &lt;li&gt;If you or anyone on the panel/team has doubts, move on&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Be mindful of any laws or legislation related to recruitment in your field or industry&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Questions and comments can go on &lt;a href=&quot;https://twitter.com/sixdaysad&quot;&gt;twitter&lt;/a&gt;.  Let me know what you think!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Further Reading&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.joelonsoftware.com/articles/GuerrillaInterviewing3.html&quot;&gt;The Guerrilla Guide to Interviewing&lt;/a&gt; (Joel on Software)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://blog.calevans.com/nerd-herding/&quot;&gt;Nerd Herding&lt;/a&gt; (Cal Evans)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.codinghorror.com/blog/2005/03/on-interviewing-programmers.html&quot;&gt;On Interviewing Programmers&lt;/a&gt; (Jeff Atwood/CodingHorror)&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/02/12/mark-old-posts-liquid-tag-jekyll</id>
