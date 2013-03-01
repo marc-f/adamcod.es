@@ -15,9 +15,9 @@ Over that time (and through lots of trial and error), I've found a system that s
 
 First off, you need to sit down and outline exactly what this person is going to be doing.  What's the first project you're going to give them?  Are they going to be there primarily for support and bug-fixes so you can focus on new projects?  The answer to this questions is important, because it will determine the skills that you need this person to have, and the level that you will need them to be at.
 
-For example, if they're going to focus on new projects you want someone with experience writing specs and excellent communication skills.  If the project is going to have a front-end, you probably want someone with HTML+CSS+JS experience, not just PHP.  It would also be preferential if they had some user-interface design experience too, or maybe experience with Balsamiq?
+For example, if they're going to focus on new projects you want someone with experience writing specs and excellent communication skills.  If the project is going to have a front-end, you probably want someone with HTML+CSS+JS experience, not just PHP.  It would also be preferential if they had some user-interface design experience too, or maybe experience with Balsamiq (or your wireframe tool of choice)?
 
-If you want someone who's just going to be fixing bugs to free up your time for new projects, then you can probably afford someone with a little less experience and train them up.  Or maybe your system has a lot of bugs and uses some cutting edge tech - you might need someone with more experience.
+If you want someone who's just going to be fixing bugs to free up _your_ time for new projects, then you can probably afford someone with a little less experience and train them up.  Or maybe your system has a lot of bugs and uses some cutting edge tech - you might need someone with more experience.
 
 ##Advertise##
 
@@ -63,9 +63,9 @@ Start a simple spreadsheet to keep track.  You will need the following columns a
 
 ###Formatting###
 
-When you start filtering, the first thing to do is check for CV formatting.  A CV is the first port of call, your first impression of a candidate, they're trying to sell themselves to you.  If the CV is poorly formatted, poorly organised, a mishmash of fonts, 20 pages long, or just otherwise _painful_ to read (and some really will be) this person probably isn't a very good communicator, and that's going to mean they'll likely have problems communicating as a member of your team.
+When you start filtering, the first thing to do is check for CV formatting.  A CV is the first port of call, your first impression of a candidate, they're trying to sell themselves to you.  If the CV is poorly formatted, poorly organised, a mishmash of fonts, 20 pages long, or just otherwise _painful to read_ (and some really will be) this person probably isn't a very good communicator, and that's going to mean they'll likely have problems communicating as a member of your team.
 
-Whether or not you reject them at this point because of this is really up to you, will depend on your internal tolerances for this, and ultimately what their role will entail.
+Whether or not you reject them at this point because of this is really up to you; It will depend on your internal tolerances for this, and ultimately how much communication their role will entail.
 
 ###Skills###
 
@@ -73,11 +73,11 @@ The next thing to look for is skills.  Do they list all of the required skills? 
 
 When I say realistic, I mean: I've had one list Windows Server 2009 among their core skills, another claim 15 years PHP experience when PHP was 13 years old, and another 4 years CakePHP experience when Cake was 3 years old.
 
-Clearly these people were trying to pull a fast one.  You can throw their CVs away at this point.  Unfortunately I cannot.  As long as their core skills are listed and match our requirements, I am required by employment legislation that governs my employers industry to consider them.  So be careful, make sure you're not bound by similar legislation too.
+I'm not saying these people were trying to pull a fast one, but when I see something like this it instantly turns me off.  You can throw their CVs away at this point if you want to.  Unfortunately I cannot.  As long as their core skills are listed and match our requirements, I am required by employment legislation that governs my employers industry to consider them.  So be careful, make sure you're not bound by similar legislation too.
 
 ###Previous Employment###
 
-Here we're looking for just a couple of things.  We want to make sure they've done what we want them to do before and for the required amount of time (if you decided this was important in your requirements), and that the companies actually exist, and don't belong to them and/or a family member.  There's nothing wrong with this per-se (I freelanced for 4 years before getting my first full-time job), but it requires extra scrutiny to make sure it's not made-up experience.
+Here we're looking for just a couple of things.  We want to make sure they've done what we want them to do before and for the required amount of time (if you decided this was important in your requirements), and that the companies actually exist, and don't belong to them and/or a family member.  There's nothing wrong with this per-se (I freelanced for 4 years before getting my first full-time job), but it requires extra scrutiny to make sure it's not made-up experience.  Obviously, Google is your friend here.
 
 Make sure nothing stands out and that everything seems above board.  It's important that everything they're describing they've done makes sense, and seems logical for their previous job title and the salary that you're offering.
 
@@ -167,7 +167,7 @@ Here's what the conversation might look like:
 
 Now you can repeat that conversation with Josh, except we won't be asking Josh any questions about OOP, as he didn't list it as a skill.  We might throw in additional question about why he's only listed PHP4, and not PHP5, and ask if he has any PHP5 experience.  It's up to you to make a judgement call on if you ask a follow up based on his answer.
 
-Once we've spoken to Josh, we'll speak to Jane.  Jane has listed PHP5 as a skill but not OOP.  This might be an oversight, as most companies now who use PHP5 use object oriented programming, or at least what they think is object oriented programming, so we'll ask her if she's done any OOP work, and then make a judgement call on whether or not to ask the OOP questions.  If she hasn't, that's not a problem, she didn't list it on her CV so we can't expect her to answer questions about it.
+Once we've spoken to Josh, we'll speak to Jane.  Jane has listed PHP5 as a skill but not OOP.  This might be an oversight, as most companies now who use PHP5 use object oriented programming (or at least some form of what they think is object oriented programming), so we'll ask her if she's done any OOP work, and then make a judgement call on whether or not to ask the OOP questions.  If she hasn't, that's not a problem, she didn't list it on her CV so we can't expect her to answer questions about it.
 
 ###Bad Eggs###
 
@@ -294,7 +294,81 @@ Some examples of this type of test would be:
 * Given this this rudimentary blog application [already written by you], in 30 minutes add anonymous commenting functionality to the posts
 * In 45 minutes write a simple login script that uses PHP Sessions to secure a number of pages
 
-I have sat a few of this type of test myself, but cannot say much more about the process that goes on behind it, as it's not a type of test I've ever given to a candidate myself.
+I have sat a few of this type of test, but cannot say much more about the process that goes on behind it, as it's not a type of test I've ever set for a candidate.
 
 ###Panel###
 
+By the time we get to the panel interview you should have a pretty good idea of the technical ability of the candidate.  At this point, we want to discern more about their personality and ability to communicate technical ideas and concepts with you and any non-technical colleagues or users.
+
+For the panel interview, we usually have the candidates potential direct line manager, a senior technical person from the team (that's me), and a senior technical person from outside of the department (for impartiality).  For senior or managerial roles we also have the director of the company sit in, in your instance this may or may not be the candidates potential line manager, or it might be that your company is too large for the director to worry about such things.
+
+We don't like to have too many people present as it can be intimidating, so try to keep it to a bear minimum.  That being said, a competent candidate shouldn't have any problem answering questions from a panel of 3-4 people.
+
+With the questions themselves, write them down and decide them beforehand.  Ask everyone the same questions.  Plan to ask about 30 minutes of questions and make them open ended.  Split the interview into a few sections.  We use (roughly):
+
+1. Business & Logic Questions
+
+    These questions are NOT the typical "Chicken Crossing" type questions.  Those type of questions are pointless and don't show anything.  These should be more along the lines of experience and procedure checking.
+
+    E.g. "You come in to work one morning and find a stack of post-it's on your desk saying that an application you're responsible for is broken, what do you do?"
+
+    This is quite a telling question as people always answer it differently.  Some people go straight for error logs, others go straight to users for more detail.
+
+    Most people will answer it with some kind of acceptable answer, but the key thing we're looking for is escalation i.e. inform your superior and keep them informed so appropriate action can be taken with regards to customers/users.
+
+2. Personality Questions
+
+    Depending on the seniority of the role we're hiring for these may vary from (paraphrasing from memory here) "How will you earn the respect of your peers" to "If someone on your team insists on doing something you know to be inefficient or wrong, what will you do?"  With the former we're looking for something non-offensive, and with the later, what we're really looking for is for them to try to perused their team member with logic, but if that fails ultimately use their seniority and say something like "no, do it my way" (but friendlier).
+
+    We usually include something in this section on managing change too, as users are pretty much resistant to change wherever you work.  Something along the lines of "A new feature you're introducing will improve the efficiency of 90% of your users, but increase workload for 5%, how do you go about explaining the benefits of the change to that 5%?"
+
+3. Technical Questions
+
+    The candidate has already had enough technical questions, so keep these relatively light.  That said - they should be detailed enough for the candidate to talk for 1-2 minutes on the subject.  What we're really trying to find out here is if they are effective communicators.  This really helps if there are non-technical people on the panel and _they_ understand what the candidate is saying.  A good example would be something like "Explain the components of a standard MVC framework" or "What steps would you take to optimise a slow performing query?".
+
+    Although we're not _really_ testing their technical ability here, we still kind of are, so make sure these questions are sufficiently difficult for the level you're recruiting for, but still light, i.e. something someone of that level should know inside out.  With that in mind, they can still screw themselves over here (see example below).
+
+Once you have all of your questions, print off a sheet with the questions on.  Include an area for each question with key words or phrases you're looking for in the answer, an area for you to write notes about their answer, and then an area to grade their answer on a scale of 1-5.
+
+Don't be afraid to go off on a slight tangent or deviate from the questions if you feel the candidate needs pushing to explain their answer further.  For example (this is taken from a real interview answer):
+
+**You**: \[Original question\] If a front-end website is performing slowly, what would you do to speed it up?  
+**Candidate**: I'd load the page content via AJAX to minimise the number of requests and make the page appear as though it's loading faster.  
+**You**: \[Pushing the candidate\] Okay, can you see any potential downsides to that for a front-end website?  
+**Candidate**: No, it should make all the pages load faster  
+**You**: \[Last attempt to get a better answer\] What about SEO or accessibility, what effect would loading the pages via AJAX have on those?  
+**Candidate**: It wouldn't have any effect.  
+
+Needless to say, this candidate didn't get an offer, but your job is not to try and trick the candidate or catch them out.  They may have the knowledge and need a little help extracting it.
+
+Scoring a candidates answer on a scale of 1-5 will help you if you're trying to decide between two equally qualified candidates.  If you do the scoring as you go along, and get the rest of the panel to do the same you can average the panels scores and it may show a preference for one of the candidates.
+
+At the end of the panel interview, thank the candidate for their time and ask them if they have any questions for you.  Allow 5-10 minutes to answer their questions, although most candidates I've interviewed only have 1 or 2 very minor questions.
+
+###Finally###
+
+Now you should have enough information about your candidates to make an informed, logical decision.  If you're still struggling, share it with your team, or the team that the candidate will be working with.  If anyone has any reservations then don't hire that person, otherwise, it's time to make them an offer.
+
+For those people that you don't make an offer, be honest with them as to why, you won't do them any favours by lying or sparing their feelings.
+
+##Summary##
+
+This post ended up being pretty long, so in summary:
+
+* Write down the specific requirements for the job, do not compromise on these
+* Advertise the position in as many places as possible
+* Track your C.V.s in a central location and record their progress
+* Pre-qualify candidates with a telephone interview
+* Invite successful candidates for a face-to-face
+* Give them a technical test, break it down into logical sections that test all of the requirements, allow 30 minutes
+* Be consistent with your panel questions, grade on a scale
+* If you or anyone on the panel/team has doubts, move on
+* _Be mindful of any laws or legislation related to recruitment in your field or industry_
+
+Questions and comments can go on [twitter](https://twitter.com/sixdaysad).  Let me know what you think!
+
+**Further Reading**
+
+* [The Guerrilla Guide to Interviewing](http://www.joelonsoftware.com/articles/GuerrillaInterviewing3.html) (Joel on Software)
+* [Nerd Herding](http://blog.calevans.com/nerd-herding/) (Cal Evans)
+* [On Interviewing Programmers](http://www.codinghorror.com/blog/2005/03/on-interviewing-programmers.html) (Jeff Atwood/CodingHorror)
