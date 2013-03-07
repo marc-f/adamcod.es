@@ -7,4 +7,9 @@
         <loc>http://adamcod.es{{ page.url | remove: 'index.html' }}</loc>
     </url>
     {% endfor %}
+    {% for post in site.posts %}
+    <url>
+        <loc>http://adamcod.es{{ post.url | remove: 'index.html' }}</loc>
+    </url>
+    {% endfor %}
 </urlset>
