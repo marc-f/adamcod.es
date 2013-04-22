@@ -4,13 +4,52 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-03-07T17:58:57+00:00</updated>
+  <updated>2013-04-22T12:35:58+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/04/09/deprecated-not-depreciated</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/04/09/deprecated-not-depreciated.html"/>
+    <title>There's no <em>i</em> in deprecated</title>
+    <published>2013-04-09T00:00:00+01:00</published>
+    <updated>2013-04-09T00:00:00+01:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    <content type="html">&lt;p&gt;Yesterday I had a full day of interviews and one of the candidates said something that bothered me:&lt;/p&gt;
+
+&lt;p&gt;In the context of a language feature that is to be removed in a future version, he said that the feature was &lt;em&gt;depreciated&lt;/em&gt;, when I’m pretty sure he meant &lt;em&gt;deprecated&lt;/em&gt;.  At the time I let it go, but it turns out, he is not alone in his confusion&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;The difference in spelling is subtle, and both words have the same latin root.  However, in terms of computer programming, features are &lt;em&gt;deprecated&lt;/em&gt;, which in this context is synonymous for &lt;em&gt;obsolete&lt;/em&gt; or &lt;em&gt;superseded&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;To &lt;em&gt;deprec&lt;strong&gt;i&lt;/strong&gt;ate&lt;/em&gt; has no real context in computer programming, and instead refers to a decrease in value, for example in an asset or currency.&lt;/p&gt;
+
+&lt;p&gt;It’s an easy mistake to make.&lt;/p&gt;
+
+&lt;h2 id=&quot;further-reading&quot;&gt;Further Reading:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://english.stackexchange.com/questions/45295/why-is-there-confusion-between-depreciated-and-deprecated&quot;&gt;Stack Exchange&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.jonathangazeley.com/2009/07/deprecated-vs-depreciated/&quot;&gt;Jonathan Gazeley&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Depreciation&quot;&gt;WikiPedia - Depreciation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Deprecation&quot;&gt;WikiPedia - Deprecation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;http://stackoverflow.com/search?q=depreciated&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/03/07/composer-install-vs-composer-update</id>
