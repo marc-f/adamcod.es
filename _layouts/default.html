@@ -4,9 +4,9 @@
     <meta charset="utf-8">
 
     {% if page.title %}
-        <title>{{ page.title }} - adamcod.es</title>
+        <title>{{ page.title | strip_html }} - adamcod.es</title>
     {% elsif post.title %}
-        <title>{{ post.title }} - adamcod.es</title>
+        <title>{{ post.title | strip_html }} - adamcod.es</title>
     {% else %}
         <title>words on code - adamcod.es</title>
     {% endif %}
