@@ -6,7 +6,7 @@ _prefix="/usr/bin"
 _git="$_prefix/git"
 
 # site generation executable
-_generate="jekyll"
+_generate="bundle exec jekyll"
 # options for the generator
 _opts=(--no-safe --no-server --no-auto --kramdown)
 
