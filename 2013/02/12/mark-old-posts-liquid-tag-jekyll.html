@@ -57,9 +57,9 @@
     </div>
 
     <div class="entry-content">
-        <p>This blog is built with jekyll<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>, which is a static blogging platform from the guys at github, and is also the engine behind github pages<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>, where this blog is hosted.</p>
+        <p>This blog is built with jekyll<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>, which is a static blogging platform from the guys at github, and is also the engine behind github pages<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>, where this blog is hosted.</p>
 
-<p>I have written a simple plugin to add a LiquidTag<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> to render a warning for all posts that reach a certain age.  This is particularly useful for technical blogs such as this one, where the things I’m writing about can move on pretty quickly.  The way something was done a year ago isn’t necessarily the way I recommend doing it today.</p>
+<p>I have written a simple plugin to add a LiquidTag<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> to render a warning for all posts that reach a certain age.  This is particularly useful for technical blogs such as this one, where the things I’m writing about can move on pretty quickly.  The way something was done a year ago isn’t necessarily the way I recommend doing it today.</p>
 
 <h2 id="using-the-plugin">Using the Plugin</h2>
 
@@ -96,7 +96,7 @@
 # @link http://adamcod.es/2013/02/12/mark-old-posts-liquid-tag-jekyll.html
 #
 
-require 'chronic'
+require &#39;chronic&#39;
 
 module Jekyll
   class MarkOldPostTag &lt; Liquid::Tag
@@ -143,12 +143,12 @@ module Jekyll
   end
 end
 
-Liquid::Template.register_tag('mark_old_posts', Jekyll::MarkOldPostTag)
+Liquid::Template.register_tag(&#39;mark_old_posts&#39;, Jekyll::MarkOldPostTag)
 </code></pre></noscript></div>
 
 <p>It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the <code>html_output_for</code> method if you want to change anything.</p>
 
-<p>To render the warning message, add the tag: <code>{% mark_old_posts &lt;time ago in words|date &gt;%}</code> wherever you want the HTML to be output.  You can specify any sort of date string that <code>chronic</code> will understand here, such as <code>6 months ago</code>, <code>12 months ago</code>, or an actual date such as <code>01/01/2012</code>.  You can see the example for this site on github<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup></p>
+<p>To render the warning message, add the tag: <code>{% mark_old_posts &lt;time ago in words|date &gt;%}</code> wherever you want the HTML to be output.  You can specify any sort of date string that <code>chronic</code> will understand here, such as <code>6 months ago</code>, <code>12 months ago</code>, or an actual date such as <code>01/01/2012</code>.  You can see the example for this site on github<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup></p>
 
 <h2 id="excluding-postspages">Excluding Posts/Pages</h2>
 
@@ -157,16 +157,16 @@ Liquid::Template.register_tag('mark_old_posts', Jekyll::MarkOldPostTag)
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p>http://jekyllrb.com/<a href="#fnref:1" rel="reference">&#8617;</a></p>
+      <p>http://jekyllrb.com/<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:2">
-      <p>http://pages.github.com/<a href="#fnref:2" rel="reference">&#8617;</a></p>
+      <p>http://pages.github.com/<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:3">
-      <p>http://liquidmarkup.org/<a href="#fnref:3" rel="reference">&#8617;</a></p>
+      <p>http://liquidmarkup.org/<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:4">
-      <p>https://github.com/adambrett/adamcod.es/blob/57014bd1d57ce765ec6b674796abe9bfc8f93a44/_includes/article.html#L8<a href="#fnref:4" rel="reference">&#8617;</a></p>
+      <p>https://github.com/adambrett/adamcod.es/blob/57014bd1d57ce765ec6b674796abe9bfc8f93a44/_includes/article.html#L8<a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>

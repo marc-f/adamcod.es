@@ -57,7 +57,7 @@
     </div>
 
     <div class="entry-content">
-        <p>There was a proposal<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> for a new getter and setter syntax that would have enabled you to write code like this:</p>
+        <p>There was a proposal<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> for a new getter and setter syntax that would have enabled you to write code like this:</p>
 
 <div><script src="https://gist.github.com/4621373.js?file=rfc.php"></script>
 <noscript><pre><code>&lt;?php
@@ -86,7 +86,7 @@ class TimePeriod
 
 <p>Would result in the getters and setters being called transparently.  Neat!  There are plenty of use-cases for this, and it would drastically reduce the amount of code in a lot of libraries and frameworks that are simple getters and setters, but unfortunately a large enough minority of core-contributors disagreed, or weren’t happy with the syntax, or the implementation (or something), and the proposal failed to pass, so it won’t be making it into the language. Not so neat.</p>
 
-<p>Fortunately, there is a way to replicate this functionality (albeit with less syntactic sugar) using PHP’s existing Magic Methods, and when combined with PHP 5.4’s traits<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>, we get something pretty close.  Consider the following:</p>
+<p>Fortunately, there is a way to replicate this functionality (albeit with less syntactic sugar) using PHP’s existing Magic Methods, and when combined with PHP 5.4’s traits<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>, we get something pretty close.  Consider the following:</p>
 
 <div><script src="https://gist.github.com/4621373.js?file=trait1.php"></script>
 <noscript><pre><code>&lt;?php
@@ -184,10 +184,10 @@ class TimePeriod
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p>https://wiki.php.net/rfc/propertygetsetsyntax-v1.2<a href="#fnref:1" rel="reference">&#8617;</a></p>
+      <p>https://wiki.php.net/rfc/propertygetsetsyntax-v1.2<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:2">
-      <p>http://php.net/manual/en/language.oop5.traits.php<a href="#fnref:2" rel="reference">&#8617;</a></p>
+      <p>http://php.net/manual/en/language.oop5.traits.php<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>

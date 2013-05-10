@@ -82,10 +82,10 @@
 <noscript><pre><code>&lt;?php
 
 class MagicPublicProperty {
-    protected $_primaryKey = 'id';
+    protected $_primaryKey = &#39;id&#39;;
 
     public function __set($property, $value) {
-        if($property == 'primaryKey') {
+        if($property == &#39;primaryKey&#39;) {
             $name = get_class($this);
             throw new Exception(&quot;Unable to set property `{$property}` on&quot;
                 . &quot; objects of type `{$name}`&quot;);
@@ -93,13 +93,13 @@ class MagicPublicProperty {
     }
 
     public function __get($property) {
-        if($property == 'primaryKey' &amp;&amp; isset($this-&gt;_primaryKey)) {
+        if($property == &#39;primaryKey&#39; &amp;&amp; isset($this-&gt;_primaryKey)) {
             return $this-&gt;_primaryKey;
         }
     }
 
     public function __isset($property) {
-        if($property == 'primaryKey') {
+        if($property == &#39;primaryKey&#39;) {
             return isset($this-&gt;_primaryKey);
         }
     }
@@ -122,7 +122,7 @@ class MagicPublicProperty {
 <div><script src="https://gist.github.com/3104351.js?file=tests.php"></script>
 <noscript><pre><code>&lt;?php
 
-require_once __DIR__ . '/MagicPublicProperty.php';
+require_once __DIR__ . &#39;/MagicPublicProperty.php&#39;;
 
 $test = new MagicPublicProperty;
 
@@ -131,8 +131,8 @@ Added the following methods to MagicPublicProperty for the below tests:
 
     public function changePrimaryKey() {
         $this-&gt;_primaryKey = array(
-            'foreign_key_1',
-            'foreign_key_2'
+            &#39;foreign_key_1&#39;,
+            &#39;foreign_key_2&#39;
         );
     }
 
@@ -142,24 +142,24 @@ Added the following methods to MagicPublicProperty for the below tests:
 
 */
 
-test(isset($test-&gt;primaryKey), 'Is set');
+test(isset($test-&gt;primaryKey), &#39;Is set&#39;);
 
-test($test-&gt;primaryKey == 'id', 'Is accessible');
+test($test-&gt;primaryKey == &#39;id&#39;, &#39;Is accessible&#39;);
 
 test(function() use ($test) {
     $test-&gt;changePrimaryKey();
     return is_array($test-&gt;primaryKey);
-}, 'Is internally changeable');
+}, &#39;Is internally changeable&#39;);
 
 test(function() use ($test) {
     try {
-        $test-&gt;primaryKey = 'somethingelse';
+        $test-&gt;primaryKey = &#39;somethingelse&#39;;
     } catch (Exception $e) {
         return true;
     }
 
     return false;
-}, 'Exception if set');
+}, &#39;Exception if set&#39;);
 
 function test($c,$m) {
     $c = (is_callable($c)) ? $c() : $c;

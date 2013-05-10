@@ -57,11 +57,11 @@
     </div>
 
     <div class="entry-content">
-        <p>Unless you’ve been living under a rock, you know about composer<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> and packagist<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> for managing dependencies in PHP.  A few days ago, an issue<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> was closed and merged into master which changes the default behaviour of <code>composer update</code> to be functionally equivellent to <code>composer update --require-dev</code>.  This confused a few folks<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>, and here’s why:</p>
+        <p>Unless you’ve been living under a rock, you know about composer<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> and packagist<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> for managing dependencies in PHP.  A few days ago, an issue<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> was closed and merged into master which changes the default behaviour of <code>composer update</code> to be functionally equivellent to <code>composer update --require-dev</code>.  This confused a few folks<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>, and here’s why:</p>
 
 <p><em>You should only ever run <code>composer update</code> to get the newest versions of your dependencies, not to install them</em>.</p>
 
-<p>What’s not massively clear (or at least wasn’t early on) in the composer documentation<sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup> is the difference between <code>composer install</code> and <code>composer update</code> and the relevancy of <code>composer.lock</code>.  This is exasperated by composer displaying a warning when running <code>composer install</code> with a lockfile present and changes in <code>composer.json</code>:</p>
+<p>What’s not massively clear (or at least wasn’t early on) in the composer documentation<sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup> is the difference between <code>composer install</code> and <code>composer update</code> and the relevancy of <code>composer.lock</code>.  This is exasperated by composer displaying a warning when running <code>composer install</code> with a lockfile present and changes in <code>composer.json</code>:</p>
 
 <p><img src="/img/posts/composer-install-message.png" alt="composer install message" /></p>
 
@@ -105,19 +105,19 @@
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p>http://getcomposer.org<a href="#fnref:1" rel="reference">&#8617;</a></p>
+      <p>http://getcomposer.org<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:2">
-      <p>http://packagist.org<a href="#fnref:2" rel="reference">&#8617;</a></p>
+      <p>http://packagist.org<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:3">
-      <p>https://github.com/composer/composer/pull/1644<a href="#fnref:3" rel="reference">&#8617;</a></p>
+      <p>https://github.com/composer/composer/pull/1644<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:4">
-      <p>https://github.com/composer/composer/pull/1644#issuecomment-14347890<a href="#fnref:4" rel="reference">&#8617;</a></p>
+      <p>https://github.com/composer/composer/pull/1644#issuecomment-14347890<a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:5">
-      <p>http://getcomposer.org/doc/<a href="#fnref:5" rel="reference">&#8617;</a></p>
+      <p>http://getcomposer.org/doc/<a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>

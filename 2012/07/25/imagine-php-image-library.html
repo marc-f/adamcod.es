@@ -121,7 +121,7 @@ class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
 
         // create a new image to hold our mask
         // make the background white
-        $mask = $this-&gt;imagine-&gt;create($this-&gt;size, new Imagine\Image\Color('fff'));
+        $mask = $this-&gt;imagine-&gt;create($this-&gt;size, new Imagine\Image\Color(&#39;fff&#39;));
 
         // draw a black circle at the center of our new image
         // use $this-&gt;size to make it full width and height
@@ -129,7 +129,7 @@ class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
             -&gt;ellipse(
                 new Imagine\Image\Point\Center($this-&gt;size),
                 $this-&gt;size,
-                new Imagine\Image\Color('000', 0),
+                new Imagine\Image\Color(&#39;000&#39;, 0),
                 true
             );
 
@@ -168,8 +168,8 @@ class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
 $imagine = new Imagine\Gd\Imagine();
 $filter  = new CircleThumbnailFilter($imagine, new Imagine\Image\Box(100, 100));
 
-$filter-&gt;apply($imagine-&gt;open('/path/to/square/image.jpg'))
-    -&gt;save('/path/to/circle/image.png');</code></pre></noscript></div>
+$filter-&gt;apply($imagine-&gt;open(&#39;/path/to/square/image.jpg&#39;))
+    -&gt;save(&#39;/path/to/circle/image.png&#39;);</code></pre></noscript></div>
 
 <p>Make sure that no-matter what your input format (which isn’t really important, Imagine should know what to do with most valid image formats), make sure you output it as something with transparency (preferably png).  Don’t do what I did and spend 40 minutes wondering why the transparency mask wasn’t applying when you were outputting as a jpg.</p>
 

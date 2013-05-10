@@ -57,7 +57,7 @@
     </div>
 
     <div class="entry-content">
-        <p>PSR-3<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> doesn’t make sense because people aren’t writing the right kind of PHP yet.  By this I mean that people aren’t writing the kind of PHP that would benefit from having a standard logging interface across multiple frameworks and libraries.</p>
+        <p>PSR-3<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> doesn’t make sense because people aren’t writing the right kind of PHP yet.  By this I mean that people aren’t writing the kind of PHP that would benefit from having a standard logging interface across multiple frameworks and libraries.</p>
 
 <p>Most people are still writing Symfony PHP, or CakePHP, or CodeIgniter, or Zend or… you get the picture.  Why would it matter if they have a logger that they can use across all of the libraries and frameworks.  They only use the one.</p>
 
@@ -103,7 +103,7 @@
 
 <p>They both have very little controller logic.  A controller action would basically setup a <code>StorageAdapter</code> (imagine <code>CakeStorage</code> and <code>IdiormStorage</code> objects both implementing <code>StorageInterface</code>), and pass it along to the relevant use-case - potentially with any relevant entity object - to perform the action required.  No repetition of code, a highly testable modern application.</p>
 
-<p>Then you look at the logging situation.  Slim is logging to <code>./dist/rest/logs</code>, Cake is logging to <code>./dist/web/app/tmp/logs</code>, and your use-cases use monolog<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> to log to somewhere else.  Yuk.</p>
+<p>Then you look at the logging situation.  Slim is logging to <code>./dist/rest/logs</code>, Cake is logging to <code>./dist/web/app/tmp/logs</code>, and your use-cases use monolog<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> to log to somewhere else.  Yuk.</p>
 
 <p>The guys in camp 2, who kind of gets PSR-3, are now thinking: Wouldn’t it be great if we could just use monolog throughout to log to <code>./logs</code>?  That’s what PSR-3 is for.</p>
 
@@ -122,10 +122,10 @@
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p>https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md<a href="#fnref:1" rel="reference">&#8617;</a></p>
+      <p>https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:2">
-      <p>https://github.com/Seldaek/monolog<a href="#fnref:2" rel="reference">&#8617;</a></p>
+      <p>https://github.com/Seldaek/monolog<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>

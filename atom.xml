@@ -4,13 +4,148 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-04-22T12:37:43+01:00</updated>
+  <updated>2013-05-10T11:00:22+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/05/10/composer-and-zend-framework-1.x</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/05/10/composer-and-zend-framework-1.x.html"/>
+    <title>Zend Framework 1.x and Composer</title>
+    <published>2013-05-10T00:00:00+01:00</published>
+    <updated>2013-05-10T00:00:00+01:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    <content type="html">&lt;p&gt;Using Zend Framework 1.x with composer is fairly straight forward, even if not immediately obvious.  First, let’s create a new Zend Framework 1 project in the standard way, using the zf tool:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;zf create project zend-composer
+cd zend-composer/public
+php -S 127.0.0.1:8000
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now visit http://127.0.0.1:8000 in your browser and you should see the familiar “Welcome to the Zend Framework!” page.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/posts/welcome-to-zend-framework.png&quot; alt=&quot;Welcome to Zend Framework&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The default project is loading Zend Framework from your include path, so first off, let’s break that.  Edit &lt;code&gt;./public/index.php&lt;/code&gt; and comment out the &lt;code&gt;get_include_path()&lt;/code&gt; line, like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Ensure library/ is on include_path
+set_include_path(implode(PATH_SEPARATOR, array(
+    realpath(APPLICATION_PATH . &#39;/../library&#39;),
+    // get_include_path(),
+)));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Refresh your browser and you should now be getting an error similar to this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/posts/zend-include-path.png&quot; alt=&quot;Zend missing include path&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;That’s good, now we’re going to install Zend Framework via composer and add that to our include path.  Close the PHP server using &lt;code&gt;Ctrl+C&lt;/code&gt; and run the following&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd ..
+composer init
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Fill in the details for your project until you get to:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Would you like to define your dependencies (require) interactively [yes]?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Press &lt;code&gt;return&lt;/code&gt; for yes, then search for &lt;code&gt;zendframework1&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/posts/search-dependencies.png&quot; alt=&quot;Search for dependencies&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Enter the number for the line that matches &lt;code&gt;zendframework/zendframework1&lt;/code&gt; which for me is &lt;code&gt;0&lt;/code&gt;, and probably will be for you too.&lt;/p&gt;
+
+&lt;p&gt;Next, enter the version you require, use &lt;code&gt;1.*&lt;/code&gt; for the latest 1.x version&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;At the next &lt;code&gt;Search for a package []:&lt;/code&gt; prompt, press &lt;code&gt;return&lt;/code&gt;, we don’t want to define any dev dependencies yet, so type &lt;code&gt;no&lt;/code&gt; at the next prompt then &lt;code&gt;return&lt;/code&gt; to confirm generation.&lt;/p&gt;
+
+&lt;p&gt;You should end up with a file in your project root called &lt;code&gt;composer.json&lt;/code&gt; that looks similar to this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+    &quot;name&quot;: &quot;adam/zend-composer&quot;,
+    &quot;require&quot;: {
+        &quot;zendframework/zendframework1&quot;: &quot;1.*&quot;
+    },
+    &quot;authors&quot;: [
+        {
+            &quot;name&quot;: &quot;Adam Brett&quot;,
+            &quot;email&quot;: &quot;&quot;
+        }
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now type &lt;code&gt;composer install&lt;/code&gt; to get things started.  Composer will go away and download a fresh copy of the latest version of Zend Framework and place it in your projects &lt;code&gt;./vendor&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;p&gt;We can check like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ tree vendor -L 1
+vendor
+├── autoload.php
+├── composer
+└── zendframework
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Great.  We’re almost done.  Now remember that line we commented out?  We need to update that to point at our new Zend Framework download.  The actual library lives in &lt;code&gt;./vendor/zendframework/zendframework1/library&lt;/code&gt; so open up &lt;code&gt;./public/index.php&lt;/code&gt; and change the commented line to match:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// Ensure library/ is on include_path
+set_include_path(implode(PATH_SEPARATOR, array(
+    realpath(APPLICATION_PATH . &#39;/../library&#39;),
+    realpath(APPLICATION_PATH . &#39;/../vendor/zendframework/zendframework1/library&#39;)
+)));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now if we restart the PHP server using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd public
+php -S 127.0.0.1:8000
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And refresh the site in our browser, we should see the “Welcome to Zend Framework” page again.  Success!&lt;/p&gt;
+
+&lt;p&gt;There’s one last thing to do if you want to consume other composer packages in Zend Framework, and that’s to add composer’s autoloader.  Edit &lt;code&gt;./public/index.php&lt;/code&gt; again and add the autoloader around line 17, just above the &lt;code&gt;require_once&lt;/code&gt; for &lt;code&gt;Zend_Application&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;require_once realpath(APPLICATION_PATH . &#39;/../vendor/autoload.php&#39;);
+
+/** Zend_Application */
+require_once &#39;Zend/Application.php&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now repeat these steps in &lt;code&gt;./tests/bootstrap.php&lt;/code&gt; and we’re all done!&lt;/p&gt;
+
+&lt;h2 id=&quot;read-next&quot;&gt;Read Next&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2013/03/07/composer-install-vs-composer-update.html&quot;&gt;composer install vs composer update&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;further-reading&quot;&gt;Further Reading&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://getcomposer.org/doc/00-intro.md&quot;&gt;Getting start with composer&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://packagist.org/&quot;&gt;Packagist&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;I’m assuming you have composer &lt;a href=&quot;https://github.com/composer/composer#global-installation-of-composer-manual&quot;&gt;installed system wide&lt;/a&gt;&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;Zend Framework 2 is a &lt;a href=&quot;https://packagist.org/packages/zendframework/zendframework&quot;&gt;separate composer package&lt;/a&gt;, rather than a version 2.x, so it’s impossible to install ZF2 via the zendframework1 package.&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/04/09/deprecated-not-depreciated</id>
@@ -24,7 +159,7 @@
     </author>
     <content type="html">&lt;p&gt;Yesterday I had a full day of interviews and one of the candidates said something that bothered me:&lt;/p&gt;
 
-&lt;p&gt;In the context of a language feature that is to be removed in a future version, he said that the feature was &lt;em&gt;depreciated&lt;/em&gt;, when I’m pretty sure he meant &lt;em&gt;deprecated&lt;/em&gt;.  At the time I let it go, but it turns out, he is not alone in his confusion&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;In the context of a language feature that is to be removed in a future version, he said that the feature was &lt;em&gt;depreciated&lt;/em&gt;, when I’m pretty sure he meant &lt;em&gt;deprecated&lt;/em&gt;.  At the time I let it go, but it turns out, he is not alone in his confusion&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
 &lt;p&gt;The difference in spelling is subtle, and both words have the same latin root.  However, in terms of computer programming, features are &lt;em&gt;deprecated&lt;/em&gt;, which in this context is synonymous for &lt;em&gt;obsolete&lt;/em&gt; or &lt;em&gt;superseded&lt;/em&gt;.&lt;/p&gt;
 
@@ -44,7 +179,7 @@
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;http://stackoverflow.com/search?q=depreciated&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://stackoverflow.com/search?q=depreciated&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -61,11 +196,11 @@
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
-    <content type="html">&lt;p&gt;Unless you’ve been living under a rock, you know about composer&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and packagist&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; for managing dependencies in PHP.  A few days ago, an issue&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; was closed and merged into master which changes the default behaviour of &lt;code&gt;composer update&lt;/code&gt; to be functionally equivellent to &lt;code&gt;composer update --require-dev&lt;/code&gt;.  This confused a few folks&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;, and here’s why:&lt;/p&gt;
+    <content type="html">&lt;p&gt;Unless you’ve been living under a rock, you know about composer&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and packagist&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; for managing dependencies in PHP.  A few days ago, an issue&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; was closed and merged into master which changes the default behaviour of &lt;code&gt;composer update&lt;/code&gt; to be functionally equivellent to &lt;code&gt;composer update --require-dev&lt;/code&gt;.  This confused a few folks&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;, and here’s why:&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;You should only ever run &lt;code&gt;composer update&lt;/code&gt; to get the newest versions of your dependencies, not to install them&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;What’s not massively clear (or at least wasn’t early on) in the composer documentation&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; rel=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; is the difference between &lt;code&gt;composer install&lt;/code&gt; and &lt;code&gt;composer update&lt;/code&gt; and the relevancy of &lt;code&gt;composer.lock&lt;/code&gt;.  This is exasperated by composer displaying a warning when running &lt;code&gt;composer install&lt;/code&gt; with a lockfile present and changes in &lt;code&gt;composer.json&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;What’s not massively clear (or at least wasn’t early on) in the composer documentation&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; is the difference between &lt;code&gt;composer install&lt;/code&gt; and &lt;code&gt;composer update&lt;/code&gt; and the relevancy of &lt;code&gt;composer.lock&lt;/code&gt;.  This is exasperated by composer displaying a warning when running &lt;code&gt;composer install&lt;/code&gt; with a lockfile present and changes in &lt;code&gt;composer.json&lt;/code&gt;:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/posts/composer-install-message.png&quot; alt=&quot;composer install message&quot; /&gt;&lt;/p&gt;
 
@@ -109,19 +244,19 @@
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;http://getcomposer.org&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://getcomposer.org&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;http://packagist.org&lt;a href=&quot;#fnref:2&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://packagist.org&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;https://github.com/composer/composer/pull/1644&lt;a href=&quot;#fnref:3&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;https://github.com/composer/composer/pull/1644&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:4&quot;&gt;
-      &lt;p&gt;https://github.com/composer/composer/pull/1644#issuecomment-14347890&lt;a href=&quot;#fnref:4&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;https://github.com/composer/composer/pull/1644#issuecomment-14347890&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:5&quot;&gt;
-      &lt;p&gt;http://getcomposer.org/doc/&lt;a href=&quot;#fnref:5&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://getcomposer.org/doc/&lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -409,18 +544,18 @@
     &lt;p&gt;Write a PHP function to output a nested HTML list of fruits given the following array (3 marks):&lt;/p&gt;
 
     &lt;pre&gt;&lt;code&gt; array(
-     'apples' =&amp;gt; array(
-         'Granny Smith',
-         'Golden Delicious',
-         'Red Delicious'
+     &#39;apples&#39; =&amp;gt; array(
+         &#39;Granny Smith&#39;,
+         &#39;Golden Delicious&#39;,
+         &#39;Red Delicious&#39;
      ),
-     'bananas',
-     'grapes',
-     'oranges' =&amp;gt; array(
-         'Valencia'
+     &#39;bananas&#39;,
+     &#39;grapes&#39;,
+     &#39;oranges&#39; =&amp;gt; array(
+         &#39;Valencia&#39;
      ),
-     'pears' =&amp;gt; array(
-         'Conference'
+     &#39;pears&#39; =&amp;gt; array(
+         &#39;Conference&#39;
      )
  )
 &lt;/code&gt;&lt;/pre&gt;
@@ -436,9 +571,9 @@
     &lt;p&gt;Example:&lt;/p&gt;
 
     &lt;pre&gt;&lt;code&gt; function print_fruits($fruits) {
-     $output = '&amp;lt;ul&amp;gt;';
+     $output = &#39;&amp;lt;ul&amp;gt;&#39;;
      foreach ($fruits as $index =&amp;gt; $value) {
-         $output .= '&amp;lt;li&amp;gt;';
+         $output .= &#39;&amp;lt;li&amp;gt;&#39;;
 
          if (is_array($value)) {
              $output .= $index;
@@ -447,10 +582,10 @@
              $output .= $value;
          }
 
-         $output .= '&amp;lt;/li&amp;gt;';
+         $output .= &#39;&amp;lt;/li&amp;gt;&#39;;
      }
 
-     $output .= '&amp;lt;/ul&amp;gt;';
+     $output .= &#39;&amp;lt;/ul&amp;gt;&#39;;
 
      return $output;
  }
@@ -575,9 +710,9 @@
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
-    <content type="html">&lt;p&gt;This blog is built with jekyll&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, which is a static blogging platform from the guys at github, and is also the engine behind github pages&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, where this blog is hosted.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This blog is built with jekyll&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, which is a static blogging platform from the guys at github, and is also the engine behind github pages&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, where this blog is hosted.&lt;/p&gt;
 
-&lt;p&gt;I have written a simple plugin to add a LiquidTag&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; to render a warning for all posts that reach a certain age.  This is particularly useful for technical blogs such as this one, where the things I’m writing about can move on pretty quickly.  The way something was done a year ago isn’t necessarily the way I recommend doing it today.&lt;/p&gt;
+&lt;p&gt;I have written a simple plugin to add a LiquidTag&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; to render a warning for all posts that reach a certain age.  This is particularly useful for technical blogs such as this one, where the things I’m writing about can move on pretty quickly.  The way something was done a year ago isn’t necessarily the way I recommend doing it today.&lt;/p&gt;
 
 &lt;h2 id=&quot;using-the-plugin&quot;&gt;Using the Plugin&lt;/h2&gt;
 
@@ -614,7 +749,7 @@
 # @link http://adamcod.es/2013/02/12/mark-old-posts-liquid-tag-jekyll.html
 #
 
-require 'chronic'
+require &amp;#39;chronic&amp;#39;
 
 module Jekyll
   class MarkOldPostTag &amp;lt; Liquid::Tag
@@ -661,12 +796,12 @@ module Jekyll
   end
 end
 
-Liquid::Template.register_tag('mark_old_posts', Jekyll::MarkOldPostTag)
+Liquid::Template.register_tag(&amp;#39;mark_old_posts&amp;#39;, Jekyll::MarkOldPostTag)
 &lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;p&gt;It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the &lt;code&gt;html_output_for&lt;/code&gt; method if you want to change anything.&lt;/p&gt;
 
-&lt;p&gt;To render the warning message, add the tag: &lt;code&gt;{% mark_old_posts &amp;lt;time ago in words|date &amp;gt;%}&lt;/code&gt; wherever you want the HTML to be output.  You can specify any sort of date string that &lt;code&gt;chronic&lt;/code&gt; will understand here, such as &lt;code&gt;6 months ago&lt;/code&gt;, &lt;code&gt;12 months ago&lt;/code&gt;, or an actual date such as &lt;code&gt;01/01/2012&lt;/code&gt;.  You can see the example for this site on github&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;To render the warning message, add the tag: &lt;code&gt;{% mark_old_posts &amp;lt;time ago in words|date &amp;gt;%}&lt;/code&gt; wherever you want the HTML to be output.  You can specify any sort of date string that &lt;code&gt;chronic&lt;/code&gt; will understand here, such as &lt;code&gt;6 months ago&lt;/code&gt;, &lt;code&gt;12 months ago&lt;/code&gt;, or an actual date such as &lt;code&gt;01/01/2012&lt;/code&gt;.  You can see the example for this site on github&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;excluding-postspages&quot;&gt;Excluding Posts/Pages&lt;/h2&gt;
 
@@ -675,16 +810,16 @@ Liquid::Template.register_tag('mark_old_posts', Jekyll::MarkOldPostTag)
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;http://jekyllrb.com/&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://jekyllrb.com/&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;http://pages.github.com/&lt;a href=&quot;#fnref:2&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://pages.github.com/&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;http://liquidmarkup.org/&lt;a href=&quot;#fnref:3&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://liquidmarkup.org/&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:4&quot;&gt;
-      &lt;p&gt;https://github.com/adambrett/adamcod.es/blob/57014bd1d57ce765ec6b674796abe9bfc8f93a44/_includes/article.html#L8&lt;a href=&quot;#fnref:4&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;https://github.com/adambrett/adamcod.es/blob/57014bd1d57ce765ec6b674796abe9bfc8f93a44/_includes/article.html#L8&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -701,7 +836,7 @@ Liquid::Template.register_tag('mark_old_posts', Jekyll::MarkOldPostTag)
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
-    <content type="html">&lt;p&gt;There was a proposal&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; for a new getter and setter syntax that would have enabled you to write code like this:&lt;/p&gt;
+    <content type="html">&lt;p&gt;There was a proposal&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; for a new getter and setter syntax that would have enabled you to write code like this:&lt;/p&gt;
 
 &lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=rfc.php&quot;&gt;&lt;/script&gt;
 &lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
@@ -730,7 +865,7 @@ class TimePeriod
 
 &lt;p&gt;Would result in the getters and setters being called transparently.  Neat!  There are plenty of use-cases for this, and it would drastically reduce the amount of code in a lot of libraries and frameworks that are simple getters and setters, but unfortunately a large enough minority of core-contributors disagreed, or weren’t happy with the syntax, or the implementation (or something), and the proposal failed to pass, so it won’t be making it into the language. Not so neat.&lt;/p&gt;
 
-&lt;p&gt;Fortunately, there is a way to replicate this functionality (albeit with less syntactic sugar) using PHP’s existing Magic Methods, and when combined with PHP 5.4’s traits&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, we get something pretty close.  Consider the following:&lt;/p&gt;
+&lt;p&gt;Fortunately, there is a way to replicate this functionality (albeit with less syntactic sugar) using PHP’s existing Magic Methods, and when combined with PHP 5.4’s traits&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, we get something pretty close.  Consider the following:&lt;/p&gt;
 
 &lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=trait1.php&quot;&gt;&lt;/script&gt;
 &lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
@@ -828,10 +963,10 @@ class TimePeriod
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;https://wiki.php.net/rfc/propertygetsetsyntax-v1.2&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;https://wiki.php.net/rfc/propertygetsetsyntax-v1.2&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;http://php.net/manual/en/language.oop5.traits.php&lt;a href=&quot;#fnref:2&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://php.net/manual/en/language.oop5.traits.php&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -848,7 +983,7 @@ class TimePeriod
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
-    <content type="html">&lt;p&gt;This is part 2 of a 2 part quick-start to using Vagrant&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Chef&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to speed up and simplify your development environment.  If you haven’t read the first part, and aren’t already familiar with Vagrant go to &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;part 1 here&lt;/a&gt;.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This is part 2 of a 2 part quick-start to using Vagrant&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Chef&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to speed up and simplify your development environment.  If you haven’t read the first part, and aren’t already familiar with Vagrant go to &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;part 1 here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;In part 1 we covered the key commands and config settings you need to get vagrant up and running quickly with little-to-no fuss.  But that was the easy part.  Now comes the hard part.  Chef.&lt;/p&gt;
 
@@ -906,7 +1041,7 @@ cd chef
 git init .
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;That’s our basic directory structure.  Done.  Next we need to add some cookbooks.  Thankfully, there are a ton of them available on Github&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; that we can use.  We don’t need to write our own (most tutorials focus on writing your own… I don’t know why).&lt;/p&gt;
+&lt;p&gt;That’s our basic directory structure.  Done.  Next we need to add some cookbooks.  Thankfully, there are a ton of them available on Github&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; that we can use.  We don’t need to write our own (most tutorials focus on writing your own… I don’t know why).&lt;/p&gt;
 
 &lt;p&gt;Now think about what you would normally do when building a new ubuntu VM.  First, you sort out apt to make sure everything is up to date.  Cookbooks live in, unsurprisingly, the cookbooks directory, so lets add the apt cookbook to take care of apt for us:&lt;/p&gt;
 
@@ -966,7 +1101,7 @@ end
 
 &lt;p&gt;Uh oh.  Two problems.  First, we never set a password for the MySQL server, so we can’t login, second, if we run that command without a password, we get the error:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
+&lt;pre&gt;&lt;code&gt;ERROR 2002 (HY000): Can&#39;t connect to local MySQL server through socket &#39;/var/run/mysqld/mysqld.sock&#39; (2)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;MySQL Server isn’t installed?? Why??  Lets take a look at the cookbook.&lt;/p&gt;
@@ -1026,23 +1161,23 @@ git submodule add https://github.com/opscode-cookbooks/openssl.git cookbooks/ope
 
 &lt;p&gt;Oh no… another cryptic error.  The key line here is:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;FATAL: You must set node['mysql']['server_debian_password'], node['mysql']['server_root_password'], node['mysql']['server_repl_password'] in chef-solo mode. For more information, see https://github.com/opscode-cookbooks/mysql#chef-solo-note
+&lt;pre&gt;&lt;code&gt;FATAL: You must set node[&#39;mysql&#39;][&#39;server_debian_password&#39;], node[&#39;mysql&#39;][&#39;server_root_password&#39;], node[&#39;mysql&#39;][&#39;server_repl_password&#39;] in chef-solo mode. For more information, see https://github.com/opscode-cookbooks/mysql#chef-solo-note
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We forgot to set our root password so we can login to the server, and Chef knows it, so it won’t let us proceed without it.  Now we need to learn about &lt;code&gt;override_attributes&lt;/code&gt;.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;override_attributes(
     &quot;mysql&quot; =&amp;gt; {
-        &quot;server_root_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
-        &quot;server_repl_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
-        &quot;server_debian_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo'
+        &quot;server_root_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;,
+        &quot;server_repl_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;,
+        &quot;server_debian_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;
     }
 )
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Not massively scary.  Put this in your &lt;code&gt;vagrant-test-box.rb&lt;/code&gt; role before your run list.  This function allows you to override some defaults setup in the cookbooks on a per-role basis.  Nothing too difficult, it is again often documented in the cookbook’s README, or is fairly easy to find by searching the cookbooks’s templates or recipes for things like:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;node['apache']['log_dir']
+&lt;pre&gt;&lt;code&gt;node[&#39;apache&#39;][&#39;log_dir&#39;]
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;That’s a fairly good indication we can overwrite that attribute in our role by adding the key to our override attributes function call:&lt;/p&gt;
@@ -1052,9 +1187,9 @@ git submodule add https://github.com/opscode-cookbooks/openssl.git cookbooks/ope
         &quot;log_dir&quot; =&amp;gt; &quot;/srv/logs&quot; # new attribute overridden
     },
     &quot;mysql&quot; =&amp;gt; {
-        &quot;server_root_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
-        &quot;server_repl_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
-        &quot;server_debian_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo'
+        &quot;server_root_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;,
+        &quot;server_repl_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;,
+        &quot;server_debian_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;
     }
 )
 &lt;/code&gt;&lt;/pre&gt;
@@ -1068,9 +1203,9 @@ name &quot;vagrant-test-box&quot;
 
 override_attributes(
     &quot;mysql&quot; =&amp;gt; {
-        &quot;server_root_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
-        &quot;server_repl_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
-        &quot;server_debian_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo'
+        &quot;server_root_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;,
+        &quot;server_repl_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;,
+        &quot;server_debian_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;
     }
 )
 
@@ -1308,31 +1443,31 @@ run_list(
 #
 include_recipe &quot;database::mysql&quot;
 
-# Store this in a variable so we don't keep repeating it
+# Store this in a variable so we don&#39;t keep repeating it
 mysql_connection_info = {
     :host =&amp;gt; &quot;localhost&quot;,
-    :username =&amp;gt; 'root',
+    :username =&amp;gt; &#39;root&#39;,
     # automatically get this from the override_attributes call!
-    :password =&amp;gt; node['mysql']['server_root_password']
+    :password =&amp;gt; node[&#39;mysql&#39;][&#39;server_root_password&#39;]
 }
 
 # my_database = database name
-mysql_database 'my_database' do
+mysql_database &#39;my_database&#39; do
   connection mysql_connection_info
   action :create
 end
 
 # import an sql dump from your app_root/data/dump.sql to the my_database database
 execute &quot;import&quot; do
-  command &quot;mysql -u root -p\&quot;#{node['mysql']['server_root_password']}\&quot; my_database &amp;lt; /srv/site/data/dump.sql&quot;
+  command &quot;mysql -u root -p\&quot;#{node[&#39;mysql&#39;][&#39;server_root_password&#39;]}\&quot; my_database &amp;lt; /srv/site/data/dump.sql&quot;
   action :run
 end
 
-# this isn't really necessary, as we're using root and not creating a database
-# user, but I'm including it and commenting it out so you can see what it looks like
-# mysql_database_user 'my_user' do
+# this isn&#39;t really necessary, as we&#39;re using root and not creating a database
+# user, but I&#39;m including it and commenting it out so you can see what it looks like
+# mysql_database_user &#39;my_user&#39; do
 #  connection mysql_connection_info
-#  database_name 'my_database'
+#  database_name &#39;my_database&#39;
 #  action :grant
 # end
 &lt;/code&gt;&lt;/pre&gt;
@@ -1365,9 +1500,9 @@ default_attributes(
 
 override_attributes(
     &quot;mysql&quot; =&amp;gt; {
-        &quot;server_root_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
-        &quot;server_repl_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo',
-        &quot;server_debian_password&quot; =&amp;gt; 'iloverandompasswordsbutthiswilldo'
+        &quot;server_root_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;,
+        &quot;server_repl_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;,
+        &quot;server_debian_password&quot; =&amp;gt; &#39;iloverandompasswordsbutthiswilldo&#39;
     }
 )
 
@@ -1425,13 +1560,13 @@ mysql&amp;gt; show tables;
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;http://vagrantup.com&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://vagrantup.com&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;http://www.opscode.com/chef&lt;a href=&quot;#fnref:2&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://www.opscode.com/chef&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;https://github.com/opscode-cookbooks/&lt;a href=&quot;#fnref:3&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;https://github.com/opscode-cookbooks/&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -1450,7 +1585,7 @@ mysql&amp;gt; show tables;
     </author>
     <content type="html">&lt;p&gt;This is part 1 of a 2 part quickstart to using Vagrant and Chef to speed up and simplify your development environment.  If you’re already familiar with Vagrant and just want to find out about Chef, go to &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html&quot;&gt;part 2 here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;If you haven’t started using Chef&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Vagrant&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; yet, you should, it’s awesome and in a few short weeks has totally changed my development environment.&lt;/p&gt;
+&lt;p&gt;If you haven’t started using Chef&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Vagrant&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; yet, you should, it’s awesome and in a few short weeks has totally changed my development environment.&lt;/p&gt;
 
 &lt;p&gt;The only problem is that it’s not much use on its own, and getting started with Chef/Puppet is really really hard as there is no good documentation out there for it.  Not even the manual.  Today I’m going to change that.  If you’re a developer and just want to build a consistent and reliable test environment, as quickly and with as little hassle as possible pay close attention.&lt;/p&gt;
 
@@ -1460,7 +1595,7 @@ mysql&amp;gt; show tables;
 
 &lt;h2 id=&quot;vagrant&quot;&gt;Vagrant&lt;/h2&gt;
 
-&lt;p&gt;Think of vagrant as a command line script for VirtualBox&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.  I’m going to skip over how to install both, as it’s really easy just following the instructions on their websites.  You will need the latest VirtualBox and Vagrant installed for this to work though.&lt;/p&gt;
+&lt;p&gt;Think of vagrant as a command line script for VirtualBox&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;.  I’m going to skip over how to install both, as it’s really easy just following the instructions on their websites.  You will need the latest VirtualBox and Vagrant installed for this to work though.&lt;/p&gt;
 
 &lt;p&gt;There are a couple of important concepts in Vagrant&lt;/p&gt;
 
@@ -1470,7 +1605,7 @@ mysql&amp;gt; show tables;
 
     &lt;p&gt;Baseboxes are virtual machine images.  This is the default start state of your VM.  Think of setting up a new VM, then saving a snapshot so that you can restore to that point any time you want.  That’s like a basebox.  Except baseboxes are scripted, so they’re way cooler.&lt;/p&gt;
 
-    &lt;p&gt;Lots of people have created baseboxes for you already&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;, so you don’t need to create your own.  The default is &lt;code&gt;lucid32&lt;/code&gt;, an ubuntu basebox.  This will probably be fine unless you know why you need another one.&lt;/p&gt;
+    &lt;p&gt;Lots of people have created baseboxes for you already&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;, so you don’t need to create your own.  The default is &lt;code&gt;lucid32&lt;/code&gt;, an ubuntu basebox.  This will probably be fine unless you know why you need another one.&lt;/p&gt;
 
     &lt;p&gt;Key Command (to add a new box): &lt;code&gt;vagrant box add lucid32 http://files.vagrantup.com/lucid32.box&lt;/code&gt;&lt;/p&gt;
 
@@ -1564,16 +1699,16 @@ mysql&amp;gt; show tables;
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;http://www.opscode.com/chef&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://www.opscode.com/chef&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;http://vagrantup.com&lt;a href=&quot;#fnref:2&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://vagrantup.com&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;https://www.virtualbox.org&lt;a href=&quot;#fnref:3&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;https://www.virtualbox.org&lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:4&quot;&gt;
-      &lt;p&gt;http://vagrantbox.es&lt;a href=&quot;#fnref:4&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;http://vagrantbox.es&lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -1590,7 +1725,7 @@ mysql&amp;gt; show tables;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
-    <content type="html">&lt;p&gt;PSR-3&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; doesn’t make sense because people aren’t writing the right kind of PHP yet.  By this I mean that people aren’t writing the kind of PHP that would benefit from having a standard logging interface across multiple frameworks and libraries.&lt;/p&gt;
+    <content type="html">&lt;p&gt;PSR-3&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; doesn’t make sense because people aren’t writing the right kind of PHP yet.  By this I mean that people aren’t writing the kind of PHP that would benefit from having a standard logging interface across multiple frameworks and libraries.&lt;/p&gt;
 
 &lt;p&gt;Most people are still writing Symfony PHP, or CakePHP, or CodeIgniter, or Zend or… you get the picture.  Why would it matter if they have a logger that they can use across all of the libraries and frameworks.  They only use the one.&lt;/p&gt;
 
@@ -1636,7 +1771,7 @@ mysql&amp;gt; show tables;
 
 &lt;p&gt;They both have very little controller logic.  A controller action would basically setup a &lt;code&gt;StorageAdapter&lt;/code&gt; (imagine &lt;code&gt;CakeStorage&lt;/code&gt; and &lt;code&gt;IdiormStorage&lt;/code&gt; objects both implementing &lt;code&gt;StorageInterface&lt;/code&gt;), and pass it along to the relevant use-case - potentially with any relevant entity object - to perform the action required.  No repetition of code, a highly testable modern application.&lt;/p&gt;
 
-&lt;p&gt;Then you look at the logging situation.  Slim is logging to &lt;code&gt;./dist/rest/logs&lt;/code&gt;, Cake is logging to &lt;code&gt;./dist/web/app/tmp/logs&lt;/code&gt;, and your use-cases use monolog&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to log to somewhere else.  Yuk.&lt;/p&gt;
+&lt;p&gt;Then you look at the logging situation.  Slim is logging to &lt;code&gt;./dist/rest/logs&lt;/code&gt;, Cake is logging to &lt;code&gt;./dist/web/app/tmp/logs&lt;/code&gt;, and your use-cases use monolog&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to log to somewhere else.  Yuk.&lt;/p&gt;
 
 &lt;p&gt;The guys in camp 2, who kind of gets PSR-3, are now thinking: Wouldn’t it be great if we could just use monolog throughout to log to &lt;code&gt;./logs&lt;/code&gt;?  That’s what PSR-3 is for.&lt;/p&gt;
 
@@ -1655,10 +1790,10 @@ mysql&amp;gt; show tables;
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;https://github.com/Seldaek/monolog&lt;a href=&quot;#fnref:2&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;https://github.com/Seldaek/monolog&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -1716,7 +1851,7 @@ git stash pop&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;div&gt;&lt;script src=&quot;https://gist.github.com/3075876.js?file=wip.sh&quot;&gt;&lt;/script&gt;
 &lt;noscript&gt;&lt;pre&gt;&lt;code&gt;git add .
-git commit -a -m 'WIP'
+git commit -a -m &amp;#39;WIP&amp;#39;
 ...
 &amp;lt;codecodecode&amp;gt;
 ...
@@ -1800,7 +1935,7 @@ class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
 
         // create a new image to hold our mask
         // make the background white
-        $mask = $this-&amp;gt;imagine-&amp;gt;create($this-&amp;gt;size, new Imagine\Image\Color('fff'));
+        $mask = $this-&amp;gt;imagine-&amp;gt;create($this-&amp;gt;size, new Imagine\Image\Color(&amp;#39;fff&amp;#39;));
 
         // draw a black circle at the center of our new image
         // use $this-&amp;gt;size to make it full width and height
@@ -1808,7 +1943,7 @@ class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
             -&amp;gt;ellipse(
                 new Imagine\Image\Point\Center($this-&amp;gt;size),
                 $this-&amp;gt;size,
-                new Imagine\Image\Color('000', 0),
+                new Imagine\Image\Color(&amp;#39;000&amp;#39;, 0),
                 true
             );
 
@@ -1847,8 +1982,8 @@ class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
 $imagine = new Imagine\Gd\Imagine();
 $filter  = new CircleThumbnailFilter($imagine, new Imagine\Image\Box(100, 100));
 
-$filter-&amp;gt;apply($imagine-&amp;gt;open('/path/to/square/image.jpg'))
-    -&amp;gt;save('/path/to/circle/image.png');&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+$filter-&amp;gt;apply($imagine-&amp;gt;open(&amp;#39;/path/to/square/image.jpg&amp;#39;))
+    -&amp;gt;save(&amp;#39;/path/to/circle/image.png&amp;#39;);&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;p&gt;Make sure that no-matter what your input format (which isn’t really important, Imagine should know what to do with most valid image formats), make sure you output it as something with transparency (preferably png).  Don’t do what I did and spend 40 minutes wondering why the transparency mask wasn’t applying when you were outputting as a jpg.&lt;/p&gt;
 </content>
@@ -1902,10 +2037,10 @@ $filter-&amp;gt;apply($imagine-&amp;gt;open('/path/to/square/image.jpg'))
 &lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
 
 class MagicPublicProperty {
-    protected $_primaryKey = 'id';
+    protected $_primaryKey = &amp;#39;id&amp;#39;;
 
     public function __set($property, $value) {
-        if($property == 'primaryKey') {
+        if($property == &amp;#39;primaryKey&amp;#39;) {
             $name = get_class($this);
             throw new Exception(&amp;quot;Unable to set property `{$property}` on&amp;quot;
                 . &amp;quot; objects of type `{$name}`&amp;quot;);
@@ -1913,13 +2048,13 @@ class MagicPublicProperty {
     }
 
     public function __get($property) {
-        if($property == 'primaryKey' &amp;amp;&amp;amp; isset($this-&amp;gt;_primaryKey)) {
+        if($property == &amp;#39;primaryKey&amp;#39; &amp;amp;&amp;amp; isset($this-&amp;gt;_primaryKey)) {
             return $this-&amp;gt;_primaryKey;
         }
     }
 
     public function __isset($property) {
-        if($property == 'primaryKey') {
+        if($property == &amp;#39;primaryKey&amp;#39;) {
             return isset($this-&amp;gt;_primaryKey);
         }
     }
@@ -1942,7 +2077,7 @@ class MagicPublicProperty {
 &lt;div&gt;&lt;script src=&quot;https://gist.github.com/3104351.js?file=tests.php&quot;&gt;&lt;/script&gt;
 &lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
 
-require_once __DIR__ . '/MagicPublicProperty.php';
+require_once __DIR__ . &amp;#39;/MagicPublicProperty.php&amp;#39;;
 
 $test = new MagicPublicProperty;
 
@@ -1951,8 +2086,8 @@ Added the following methods to MagicPublicProperty for the below tests:
 
     public function changePrimaryKey() {
         $this-&amp;gt;_primaryKey = array(
-            'foreign_key_1',
-            'foreign_key_2'
+            &amp;#39;foreign_key_1&amp;#39;,
+            &amp;#39;foreign_key_2&amp;#39;
         );
     }
 
@@ -1962,24 +2097,24 @@ Added the following methods to MagicPublicProperty for the below tests:
 
 */
 
-test(isset($test-&amp;gt;primaryKey), 'Is set');
+test(isset($test-&amp;gt;primaryKey), &amp;#39;Is set&amp;#39;);
 
-test($test-&amp;gt;primaryKey == 'id', 'Is accessible');
+test($test-&amp;gt;primaryKey == &amp;#39;id&amp;#39;, &amp;#39;Is accessible&amp;#39;);
 
 test(function() use ($test) {
     $test-&amp;gt;changePrimaryKey();
     return is_array($test-&amp;gt;primaryKey);
-}, 'Is internally changeable');
+}, &amp;#39;Is internally changeable&amp;#39;);
 
 test(function() use ($test) {
     try {
-        $test-&amp;gt;primaryKey = 'somethingelse';
+        $test-&amp;gt;primaryKey = &amp;#39;somethingelse&amp;#39;;
     } catch (Exception $e) {
         return true;
     }
 
     return false;
-}, 'Exception if set');
+}, &amp;#39;Exception if set&amp;#39;);
 
 function test($c,$m) {
     $c = (is_callable($c)) ? $c() : $c;
@@ -2015,7 +2150,7 @@ Exception if set: Passed&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
     <content type="html">&lt;p&gt;If you get the following really annoying message while trying to install the andriod SDK on ubuntu:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;Stopping ADB server failed (code -1).
-Unable to run 'adb': Cannot run program &quot;/home/user/android-sdk-linux/platform-tools/adb&quot;: java.io.IOException: error=2, No such file or directory.
+Unable to run &#39;adb&#39;: Cannot run program &quot;/home/user/android-sdk-linux/platform-tools/adb&quot;: java.io.IOException: error=2, No such file or directory.
 Starting ADB server failed (code -1).
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -2041,7 +2176,7 @@ Starting ADB server failed (code -1).
 
 &lt;p&gt;You get an emergency email from your boss and have to immediately drop everything you’re doing to solve his problem.  You listen to what’s wrong and make all the necessary changes, test it, and then you’re ready to commit, only you’re on &lt;code&gt;feature/awesome-new-stuff&lt;/code&gt; and forgot to checkout &lt;code&gt;develop&lt;/code&gt; before you made your changes. ****.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;All is not lost&lt;/em&gt;&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;All is not lost&lt;/em&gt;&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 &lt;p&gt;Pre-git, I have no idea how I would have fixed this.  Separating your fixes with your feature changes would probably have been done by hand, and taken ages.&lt;/p&gt;
 
@@ -2087,7 +2222,7 @@ Starting ADB server failed (code -1).
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;Unless you’ve made changes in the same files as your fixes, you’ll have to find another way, sorry!&lt;a href=&quot;#fnref:1&quot; rel=&quot;reference&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;Unless you’ve made changes in the same files as your fixes, you’ll have to find another way, sorry!&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
