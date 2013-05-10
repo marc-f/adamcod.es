@@ -25,7 +25,7 @@ Refresh your browser and you should now be getting an error similar to this:
 
 ![Zend missing include path](/img/posts/zend-include-path.png)
 
-That's good, now we're going to install Zend Framework via composer and add that to our include path.  Close the PHP server using `Ctrl+C` and run the following:
+That's good, now we're going to install Zend Framework via composer and add that to our include path.  Close the PHP server using `Ctrl+C` and run the following[^1]:
 
     cd ..
     composer init
@@ -40,7 +40,7 @@ Press `return` for yes, then search for `zendframework1`:
 
 Enter the number for the line that matches `zendframework/zendframework1` which for me is `0`, and probably will be for you too.
 
-Next, enter the version you require, use `1.*` for the latest 1.x version.
+Next, enter the version you require, use `1.*` for the latest 1.x version[^2].
 
 At the next `Search for a package []:` prompt, press `return`, we don't want to define any dev dependencies yet, so type `no` at the next prompt then `return` to confirm generation.
 
@@ -95,11 +95,12 @@ Now repeat these steps in `./tests/bootstrap.php` and we're all done!
 
 ## Read Next
 
-* [Zend Framework 1.x, PHPUnit 3.4, PHPUnit 3.7, Side-By-Side, Composer Install](/2013/03/15/zend-1.x-phpunit-3.4-and-3.7-composer.html)
+* [composer install vs composer update](/2013/03/07/composer-install-vs-composer-update.html)
 
 ## Further Reading
 
-* [composer install vs composer update](/2013/03/07/composer-install-vs-composer-update.html)
-* [Zend Framework 1.x, PHPUnit 3.4, PHPUnit 3.7, Side-By-Side, Composer Install](/2013/03/15/zend-1.x-phpunit-3.4-and-3.7-composer.html)
 * [Getting start with composer](https://getcomposer.org/doc/00-intro.md)
 * [Packagist](https://packagist.org/)
+
+[^1]: [I'm assuming you have composer installed system wide](https://github.com/composer/composer#global-installation-of-composer-manual)
+[^2]: Zend Framework 2 is a separate composer package, rather than a version 2.x, so it's impossible to install ZF2 via the zendframework1 package.
