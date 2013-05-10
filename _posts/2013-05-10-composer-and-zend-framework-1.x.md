@@ -102,5 +102,5 @@ Now repeat these steps in `./tests/bootstrap.php` and we're all done!
 * [Getting start with composer](https://getcomposer.org/doc/00-intro.md)
 * [Packagist](https://packagist.org/)
 
-[^1]: [I'm assuming you have composer installed system wide](https://github.com/composer/composer#global-installation-of-composer-manual)
-[^2]: Zend Framework 2 is a separate composer package, rather than a version 2.x, so it's impossible to install ZF2 via the zendframework1 package.
+[^1]: I'm assuming you have composer [installed system wide](https://github.com/composer/composer#global-installation-of-composer-manual)
+[^2]: Zend Framework 2 is a [separate composer package](https://packagist.org/packages/zendframework/zendframework), rather than a version 2.x, so it's impossible to install ZF2 via the zendframework1 package.
