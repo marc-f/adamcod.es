@@ -4,13 +4,137 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-05-10T11:00:22+01:00</updated>
+  <updated>2013-05-31T15:42:03+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/05/30/zend-1.x-phpunit-3.4-and-3.7-composer</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/05/30/zend-1.x-phpunit-3.4-and-3.7-composer.html"/>
+    <title>Zend Framework 1.x, PHPUnit 3.4 and PHPUnit 3.7 side-by-side</title>
+    <published>2013-05-30T00:00:00+01:00</published>
+    <updated>2013-05-30T00:00:00+01:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    <content type="html">&lt;p&gt;Zend Framework 1.x will never support a version of PHPUnit greater than 3.4&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.  This means if you have a system-wide install of PHPUnit available (likely 3.7 at the time of writing) you will be unable to use the &lt;code&gt;phpunit&lt;/code&gt; command with your Zend Framework project without getting errors.&lt;/p&gt;
+
+&lt;p&gt;The solution to this is to do a local installation of PHPUnit 3.4 for each Zend Framework 1.x project you want to work on.  The only problem is, composer support wasn’t added until PHPUnit 3.7, so installing via composer is out and you have to use PEAR.&lt;/p&gt;
+
+&lt;h2 id=&quot;default-setup&quot;&gt;Default Setup&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;BUT WAIT!&lt;/em&gt;  I hear you cry.  &lt;em&gt;Doesn’t composer have the ability to install PEAR packages&lt;/em&gt;.  Yes, it does, so let’s give it a try.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5684774.js?file=composer-init.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;cd ~/Projects
+mkdir zf-phpunit
+cd zf-phpunit
+composer init&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Fill in the details until you get to the section that asks you to define your dependencies interactively, then add zendframework1, and continue:&lt;/p&gt;
+
+&lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/8900729560/&quot;&gt;&lt;img src=&quot;http://farm8.static.flickr.com/7438/8900729560_b875186edd.jpg&quot; title=&quot;zend-composer-install&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+
+&lt;p&gt;Now run &lt;code&gt;composer install&lt;/code&gt; and it should go off and grab a copy of zend framework 1 for you.  Once this is complete, create a new zend framework project:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5684774.js?file=zf-init.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;./vendor/zendframework/zendframework1/bin/zf.sh create project .
+Creating project at ~/Projects/zf-phpunit
+Note: This command created a web project, for more information setting up your VHOST, please see docs/README&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Add the composer autoloader to your &lt;code&gt;public/index.php&lt;/code&gt;  and &lt;code&gt;tests/bootstrap.php&lt;/code&gt; files&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; and you should have a fully functioning zend framework 1 project.&lt;/p&gt;
+
+&lt;h2 id=&quot;running-phpunit-37&quot;&gt;Running PHPUnit 3.7&lt;/h2&gt;
+
+&lt;p&gt;zf tool has created a default test for you automatically, so lets try and run it using our system install of phpunit:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5684774.js?file=3.7-test-run.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;cd tests
+phpunit --version
+# PHPUnit 3.7.21 by Sebastian Bergmann.&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Which should give you an error something like this:&lt;/p&gt;
+
+&lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/8900637907/&quot;&gt;&lt;img src=&quot;http://farm8.static.flickr.com/7349/8900637907_031eebe24c.jpg&quot; title=&quot;zend-phpunit-error&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+
+&lt;p&gt;This is what we were expecting, this error will never be fixed, which is why we need to use PHPUnit 3.4, so let’s go do that.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-solution&quot;&gt;The Solution&lt;/h2&gt;
+
+&lt;p&gt;Open &lt;code&gt;composer.json&lt;/code&gt; in your favourite text editor and add the following:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5684774.js?file=composer-additions.json&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;quot;repositories&amp;quot;: [
+  {
+    &amp;quot;type&amp;quot;: &amp;quot;pear&amp;quot;,
+    &amp;quot;url&amp;quot;: &amp;quot;http://pear.phpunit.de&amp;quot;
+  }
+],
+&amp;quot;require-dev&amp;quot;: {
+  &amp;quot;pear-pear.phpunit.de/PHPUnit&amp;quot;: &amp;quot;3.4.*&amp;quot;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Now run &lt;code&gt;composer update&lt;/code&gt; to grab our new dependencies.  Composer should do its thing and you’ll be left with PHPUnit and the latest ZendFramework 1 version in &lt;code&gt;./vendor&lt;/code&gt;, and a PHPUnit 3.4 executable in &lt;code&gt;./vendor/bin/phpunit&lt;/code&gt;.  So let’s try running that.&lt;/p&gt;
+
+&lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/8901787020/&quot;&gt;&lt;img src=&quot;http://farm8.static.flickr.com/7341/8901787020_94ee0fd258.jpg&quot; title=&quot;zend-phpunit-vendored&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+
+&lt;p&gt;Great! Right? Our tests ran perfectly.  Well yes, and &lt;em&gt;maybe&lt;/em&gt; no.&lt;/p&gt;
+
+&lt;h2 id=&quot;extra-credit&quot;&gt;Extra Credit&lt;/h2&gt;
+
+&lt;p&gt;This will get you through almost everything, but in our particular case, we had to install a few dependencies for PHPUnit that composer doesn’t seem to grab:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5684774.js?file=composer-extra.json&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;{
+  &amp;quot;repositories&amp;quot;: [
+    {
+      &amp;quot;type&amp;quot;: &amp;quot;pear&amp;quot;,
+      &amp;quot;url&amp;quot;: &amp;quot;http://pear.symfony-project.com&amp;quot;
+    },
+    {
+      &amp;quot;type&amp;quot;: &amp;quot;pear&amp;quot;,
+      &amp;quot;url&amp;quot;: &amp;quot;http://pear.phpunit.de&amp;quot;
+    }
+  ],
+  &amp;quot;require&amp;quot;: {
+    &amp;quot;zendframework/zendframework1&amp;quot;: &amp;quot;1.x&amp;quot;
+  },
+  &amp;quot;require-dev&amp;quot;: {
+    &amp;quot;pear-pear.phpunit.de/File_Iterator&amp;quot;: &amp;quot;1.3.2&amp;quot;,
+    &amp;quot;pear-pear.phpunit.de/Text_Template&amp;quot;: &amp;quot;1.1.2&amp;quot;,
+    &amp;quot;pear-pear.phpunit.de/PHP_CodeCoverage&amp;quot;: &amp;quot;1.1.*&amp;quot;,
+    &amp;quot;pear-pear.phpunit.de/PHP_Timer&amp;quot;: &amp;quot;1.0.3&amp;quot;,
+    &amp;quot;pear-pear.phpunit.de/PHPUnit_MockObject&amp;quot;: &amp;quot;1.1.*&amp;quot;,
+    &amp;quot;pear-pear.symfony-project.com/YAML&amp;quot;: &amp;quot;1.0.2&amp;quot;,
+    &amp;quot;pear-pear.phpunit.de/PHPUnit&amp;quot;: &amp;quot;3.4.*&amp;quot;
+  }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Run &lt;code&gt;composer update&lt;/code&gt; again and you should have everything installed that you need to use PHPUnit 3.4 for your project.&lt;/p&gt;
+
+&lt;h2 id=&quot;read-next&quot;&gt; Read Next&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2013/04/08/composer-and-zend-framework-1.x.md&quot;&gt;Composer &amp;amp; Zend Framework 1.x&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;http://framework.zend.com/issues/browse/ZF-11871&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;See: &lt;a href=&quot;/2013/04/08/composer-and-zend-framework-1.x.md&quot;&gt;Composer &amp;amp; Zend Framework 1.x&lt;/a&gt; to get Zend Framework working with Composer&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/05/10/composer-and-zend-framework-1.x</id>
@@ -124,7 +248,7 @@ require_once &#39;Zend/Application.php&#39;;
 &lt;h2 id=&quot;read-next&quot;&gt;Read Next&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2013/03/07/composer-install-vs-composer-update.html&quot;&gt;composer install vs composer update&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2013/05/30/zend-1.x-phpunit-3.4-and-3.7-composer.html&quot;&gt;Zend Framework 1.x, PHPUnit 3.4 and PHPUnit 3.7 side-by-side&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;further-reading&quot;&gt;Further Reading&lt;/h2&gt;
