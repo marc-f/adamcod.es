@@ -95,7 +95,7 @@ Now repeat these steps in `./tests/bootstrap.php` and we're all done!
 
 ## Read Next
 
-* [composer install vs composer update](/2013/03/07/composer-install-vs-composer-update.html)
+* [Zend Framework 1.x, PHPUnit 3.4 and PHPUnit 3.7 side-by-side](/2013/05/30/zend-1.x-phpunit-3.4-and-3.7-composer.html)
 
 ## Further Reading
 

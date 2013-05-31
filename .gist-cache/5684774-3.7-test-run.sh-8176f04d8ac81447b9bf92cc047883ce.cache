@@ -1,0 +1,3 @@
+cd tests
+phpunit --version
+# PHPUnit 3.7.21 by Sebastian Bergmann.

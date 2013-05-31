@@ -1,0 +1,3 @@
+./vendor/zendframework/zendframework1/bin/zf.sh create project .
+Creating project at ~/Projects/zf-phpunit
+Note: This command created a web project, for more information setting up your VHOST, please see docs/README

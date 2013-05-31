@@ -1,0 +1,9 @@
+"repositories": [
+  {
+    "type": "pear",
+    "url": "http://pear.phpunit.de"
+  }
+],
+"require-dev": {
+  "pear-pear.phpunit.de/PHPUnit": "3.4.*"
+}
