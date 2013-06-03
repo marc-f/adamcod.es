@@ -3,14 +3,24 @@
 {% if page.title %}
     <h1 class="entry-title"><a href="http://adamcod.es{{ page.url }}">{{ page.title }}</a></h1>
     <p class="meta"><time pubdate class="published" datetime="{{ page.date | date: "%Y-%m-%d" }}">{{ page.date | date: "%A, %B %d, %Y" }}</time></p>
-    <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es{{ page.url }}" data-text="{{ page.title | strip_html }} by @sixdaysad">Tweet</a></div>
+    <div class="twitter-button">
+        {% if page.tweet %}
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es{{ page.url }}" data-text="{{ page.tweet | strip_html }} by @sixdaysad">Tweet</a>
+        {% else %}
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es{{ page.url }}" data-text="{{ page.title | strip_html }} by @sixdaysad">Tweet</a>
+        {% endif %}
+    </div>
 
     {% mark_old_posts 6 months ago %}
 {% endif %}
 {% if post.title %}
     <h1 class="entry-title"><a href="http://adamcod.es{{ post.url }}">{{ post.title }}</a></h1>
     <p class="meta"><time pubdate class="published" datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%A, %B %d, %Y" }}</time></p>
-    <div class="twitter-button"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es{{ post.url }}" data-text="{{ post.title | strip_html }} by @sixdaysad">Tweet</a></div>
+    {% if post.tweet %}
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es{{ post.url }}" data-text="{{ post.tweet | strip_html }} by @sixdaysad">Tweet</a>
+    {% else %}
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es{{ post.url }}" data-text="{{ post.title | strip_html }} by @sixdaysad">Tweet</a>
+    {% endif %}
 {% endif %}
     </div>
 

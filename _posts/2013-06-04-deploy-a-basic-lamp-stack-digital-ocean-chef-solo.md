@@ -1,9 +1,10 @@
 ---
 layout: post
 title: Deploy a basic lamp stack to Digital Ocean with Chef Solo
+tweet: Deploy a basic lamp stack to @digitalocean with @opscode chef solo
 ---
 
-I wrote previously that chef is hard[^1].  That was not too long after I started using Vagrant and Chef on a regular basis.  I plan to write an update on that post in the future because I've learnt quite a bit about using Chef since then, and there have been a few significant updates to Vagrant too.
+I wrote previously that Chef is hard[^1].  That was not too long after I started using Vagrant and Chef on a regular basis.  I plan to write an update on that post in the future because I've learnt quite a bit about using Chef since then, and there have been a few significant updates to Vagrant too.
 
 In the meantime, this is a very quick start guide to deploying a LAMP stack to a VPS.  My provider of choice is [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9), but the same process should work for pretty much any VPS or physical server.
 
