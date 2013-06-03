@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-06-03T22:32:40+01:00</updated>
+  <updated>2013-06-03T22:37:10+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -38,7 +38,7 @@
 
 &lt;p&gt;Chef has the concept of &lt;em&gt;recipes&lt;/em&gt; and &lt;em&gt;cookbooks&lt;/em&gt;.  Think of a recipe as a single script which does something on your server.  A cookbook is a collection of recipes related to a particular topic, for example installing and configuring apache.  A cookbook is just a directory containing a bunch of folders and files, recipes live in a folder called “recipes” inside the cookbook.  Each recipe is saved as “recipe-name.rb” and is a simple Ruby script.&lt;/p&gt;
 
-&lt;p&gt;A cookbook can also have nodes, roles, and data-bags.  We’ll get onto all of that in another tutorial.&lt;/p&gt;
+&lt;p&gt;A cookbook can also have nodes, roles, and data-bags.  We’ll get onto all of that in another blog post.&lt;/p&gt;
 
 &lt;p&gt;Chef has a command-line tool called knife which helps manage your cookbooks and servers for you.  Out of the box, knife only works with Chef Server, but there is an add-on which allows it to work with Chef Solo.  That’s what we’re going to be using today.&lt;/p&gt;
 
@@ -74,7 +74,7 @@
 
 &lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/8935320904/&quot;&gt;&lt;img src=&quot;http://farm8.static.flickr.com/7407/8935320904_3ff7896014.jpg&quot; title=&quot;digitalocean-sshkey&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 
-&lt;p&gt;Now wait whilst &lt;a href=&quot;https://www.digitalocean.com/?refcode=dd312899e4e9&quot;&gt;Digital Ocean&lt;/a&gt; creates your new droplet, it should take under 55 seconds; seriously.  Whilst writing this tutorial it took around 20 seconds.  When it’s done it will drop you into the control panel for that Droplet, and will give you an IP Address at the top.  We need that IP Address, so save it somewhere.&lt;/p&gt;
+&lt;p&gt;Now wait whilst &lt;a href=&quot;https://www.digitalocean.com/?refcode=dd312899e4e9&quot;&gt;Digital Ocean&lt;/a&gt; creates your new droplet, it should take under 55 seconds; seriously.  Whilst writing this blog post it took around 20 seconds.  When it’s done it will drop you into the control panel for that Droplet, and will give you an IP Address at the top.  We need that IP Address, so save it somewhere.&lt;/p&gt;
 
 &lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/8935403056/&quot;&gt;&lt;img src=&quot;http://farm4.static.flickr.com/3753/8935403056_1aed779006.jpg&quot; title=&quot;digitalocean-droplet&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 
@@ -141,7 +141,7 @@ cookbook &#39;php&#39;
 
 &lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/8937074144/&quot;&gt;&lt;img src=&quot;http://farm8.static.flickr.com/7456/8937074144_d7955e9831.jpg&quot; title=&quot;digitalocean-librarian-chef-install&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 
-&lt;p&gt;Third party cookbooks should always live in &lt;code&gt;./cookbooks&lt;/code&gt;, so this is where librarian-chef has put them.  If you ever need to override something in a cookbook, never modify it, instead, put the corresponding changes in &lt;code&gt;./site-cookbooks&lt;/code&gt;.  Don’t worry about that for now though, we will cover that in another tutorial.&lt;/p&gt;
+&lt;p&gt;Third party cookbooks should always live in &lt;code&gt;./cookbooks&lt;/code&gt;, so this is where librarian-chef has put them.  If you ever need to override something in a cookbook, never modify it, instead, put the corresponding changes in &lt;code&gt;./site-cookbooks&lt;/code&gt;.  Don’t worry about that for now though, we will cover that in another blog post.&lt;/p&gt;
 
 &lt;h2 id=&quot;step-4---your-node&quot;&gt; Step 4 - Your Node&lt;/h2&gt;
 
@@ -200,7 +200,7 @@ knife solo bootstrap root@82.196.8.99
 
 &lt;p&gt;That’s great!  That means that Chef has worked.  Normally you would expect to see something like “It works!” here, but the apache2 Chef recipe doesn’t install the “Default Site” that apache normally comes with.&lt;/p&gt;
 
-&lt;p&gt;Now we can login to the server to do this, using &lt;code&gt;a2ensite default&lt;/code&gt;, or we can do it the Chef way.  We’re going to do it the Chef way, not just because this is a Chef tutorial, but also because any manual changes you make to the server will be overwritten every time you run Chef, so doing things via Chef is the recommended way.  Remember: We want to end up with a set of recipes we can run over and over again to get a server to the exact same specification each time, so anything we have to do manually should be seen as a bad.&lt;/p&gt;
+&lt;p&gt;Now we can login to the server to do this, using &lt;code&gt;a2ensite default&lt;/code&gt;, or we can do it the Chef way.  We’re going to do it the Chef way, not just because this is a Chef blog post, but also because any manual changes you make to the server will be overwritten every time you run Chef, so doing things via Chef is the recommended way.  Remember: We want to end up with a set of recipes we can run over and over again to get a server to the exact same specification each time, so anything we have to do manually should be seen as a bad.&lt;/p&gt;
 
 &lt;h2 id=&quot;step-5---final-tweaks&quot;&gt; Step 5 - Final Tweaks&lt;/h2&gt;
 
@@ -331,7 +331,7 @@ nano info.php
 
 &lt;p&gt;Hopefully you’ve gained enough knowledge to feel confident looking at and experimenting with the other cookbooks available on the opscode website and add them to your own cookbook as necessary to make your server secure, reliable and production ready.&lt;/p&gt;
 
-&lt;p&gt;I’m planning to release this tutorial as a screen-cast, as well as a more detailed tutorial to make a production ready LAMP stack using Chef and &lt;a href=&quot;https://www.digitalocean.com/?refcode=dd312899e4e9&quot;&gt;Digital Ocean&lt;/a&gt; (but should work with any other server or VPS you may want to use).&lt;/p&gt;
+&lt;p&gt;I’m planning to release this blog post as a screen-cast, as well as a more detailed blog post to make a production ready LAMP stack using Chef and &lt;a href=&quot;https://www.digitalocean.com/?refcode=dd312899e4e9&quot;&gt;Digital Ocean&lt;/a&gt; (but should work with any other server or VPS you may want to use).&lt;/p&gt;
 
 &lt;p&gt;To hear about that when it happens, as well as other exclusive content not available here, make sure you enter your email address in the subscribe box below, and let me know on &lt;a href=&quot;https://twitter.com/sixdaysad&quot;&gt;twitter&lt;/a&gt; or &lt;a href=&quot;https://alpha.app.net/adambrett&quot;&gt;ADN&lt;/a&gt; if you have any questions or comments.&lt;/p&gt;
 
