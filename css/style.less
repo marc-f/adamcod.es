@@ -35,7 +35,7 @@
 
 @baseFontSize:          17px;
 @baseFontFamily:        @serifFontFamily;
-@baseLineHeight:        1.6em;
+@baseLineHeight:        27px;
 @altFontFamily:         "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 @headingsFontFamily:    @altFontFamily; // empty to use BS default, @baseFontFamily
@@ -49,11 +49,14 @@
 
 // Base CSS
 @import "bootstrap/type.less";
+ul,
+ol,
 ul ul,
 ul ol,
 ol ol,
 ol ul {
-    margin-bottom: @baseLineHeight / 2;
+    margin-bottom: 13.5px;
+    margin-top: 13.5px;
 }
 
 @import "bootstrap/code.less";
@@ -72,7 +75,7 @@ code {
 .alert {
     font-family: @sansFontFamily;
     font-size: 14px;
-    line-height: 1.6em;
+    line-height: @baseLineHeight;
 
     h1, h2, h3, h4, h5, h6 {
         color: inherit;
@@ -90,6 +93,12 @@ code {
 
 // Utility classes
 @import "bootstrap/utilities.less"; // Has to be last to override when necessary
+
+// Button classes
+@import "bootstrap/buttons.less";
+
+// Form classes
+@import "bootstrap/forms.less";
 
 /* Import Font-Awesome
 -------------------------------------------------- */
@@ -130,6 +139,8 @@ body {
 
     margin: 0 auto;
     padding: 0 100px;
+
+    // background: url(../img/baseline.png) top left;
 }
 
 header {
@@ -178,6 +189,10 @@ nav {
         margin: -50% 0 0;
 
         list-style-type: none;
+
+        li {
+            line-height: 22px;
+        }
     }
 
     a {
@@ -210,14 +225,22 @@ article {
     position: relative;
     z-index: 20;
 
-    margin: 120px 0 0;
+    margin: 107px 0 0;
 
     div.embed {
-        margin-bottom: 0.8em;
+        margin-bottom: @baseLineHeight;
     }
 
     h1 {
-        line-height: 1.6em;
+        margin-bottom: @baseLineHeight;
+
+        line-height: @baseLineHeight;
+    }
+
+    h2 {
+        margin-bottom: @baseLineHeight;
+
+        line-height: @baseLineHeight;
     }
 
     h4 {
@@ -231,12 +254,16 @@ article {
         margin-right: auto;
     }
 
-    p.meta {
-        margin: -10px 0 10px;
+    p {
+        margin-bottom: @baseLineHeight;
 
-        font-family: @headingsFontFamily;
+        &.meta {
+            margin: 0;
 
-        color: @gray;
+            font-family: @headingsFontFamily;
+
+            color: @gray;
+        }
     }
 
     ol li li {
@@ -246,20 +273,36 @@ article {
             list-style-type: lower-roman;
         }
     }
+
+    ul, ol {
+        p {
+            margin-bottom: 0;
+        }
+    }
+
+    footer p {
+        margin: 0;
+    }
+
+    .entry-content {
+        margin-top: @baseLineHeight;
+    }
 }
 
 
 /* Layout
 -------------------------------------------------- */
 .layout-main {
-    margin-right: 200px;
+    margin: @baseLineHeight 200px 0 0;
 }
 
 /* Modules
 -------------------------------------------------- */
-.footnotes {
-    margin-top: 30px;
+.text-center {
+    text-align: center;
+}
 
+.footnotes {
     font-size: 0.8em;
 }
 
@@ -289,7 +332,8 @@ article {
 }
 
 .twitter-button {
-    margin: 14px 0;
+    height: 23px;
+    margin: 4px 0 0;
 }
 
 /* Responsive
