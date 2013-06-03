@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-06-03T22:37:10+01:00</updated>
+  <updated>2013-06-03T22:39:07+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -60,7 +60,7 @@
 
 &lt;p&gt;Next, click the big green ‘Create’ button to create a new ‘Droplet’ (the name &lt;a href=&quot;https://www.digitalocean.com/?refcode=dd312899e4e9&quot;&gt;Digital Ocean&lt;/a&gt; give to a VPS instance).&lt;/p&gt;
 
-&lt;p&gt;Enter a host name for your new Droplet at the top, and select a size the smallest will do for this demo, but feel free to select a larger one, &lt;a href=&quot;https://www.digitalocean.com/?refcode=dd312899e4e9&quot;&gt;Digital Ocean&lt;/a&gt; charge by the hour, not the month.&lt;/p&gt;
+&lt;p&gt;Enter a host name for your new Droplet at the top, and select a size.  The smallest will do for this demo, but feel free to select a larger one, &lt;a href=&quot;https://www.digitalocean.com/?refcode=dd312899e4e9&quot;&gt;Digital Ocean&lt;/a&gt; charge by the hour, not the month.&lt;/p&gt;
 
 &lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/8935205666/&quot;&gt;&lt;img src=&quot;http://farm8.static.flickr.com/7421/8935205666_07e12bc9b7.jpg&quot; title=&quot;digitalocean-new-droplet-1&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 
