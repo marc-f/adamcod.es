@@ -91,15 +91,15 @@
 
 <div class="embed Flickr"><a href="http://www.flickr.com/photos/adbrett/8935261856/"><img src="http://farm9.static.flickr.com/8256/8935261856_9d94a7b93f.jpg" title="new-ssh-key" /></a></div>
 
-<p>Now browse to <code>~/.ssh</code> and open <code>id_rsa.pub</code> in your favourite text editor.  Copy everything you see there to your clipboard, and paste it into the “Public SSH Key” field in the Digital Ocean control panel.</p>
+<p>Now browse to <code>~/.ssh</code> and open <code>id_rsa.pub</code> in your favourite text editor.  Copy everything you see there to your clipboard, and paste it into the “Public SSH Key” field in the <a href="https://www.digitalocean.com/?refcode=dd312899e4e9">Digital Ocean</a> control panel.</p>
 
 <p>Now give your key a name, it doesn’t matter what it is, it’s just for your reference in-case you have a few SSH Keys for different uses.  Click “Create SSH Key” and you’re all done.</p>
 
 <div class="embed Flickr"><a href="http://www.flickr.com/photos/adbrett/8935274328/"><img src="http://farm8.static.flickr.com/7330/8935274328_7a9500b65e.jpg" title="digitalocean-new-key" /></a></div>
 
-<p>Next, click the big green ‘Create’ button to create a new ‘Droplet’ (the name Digital Ocean give to a VPS instance).</p>
+<p>Next, click the big green ‘Create’ button to create a new ‘Droplet’ (the name <a href="https://www.digitalocean.com/?refcode=dd312899e4e9">Digital Ocean</a> give to a VPS instance).</p>
 
-<p>Enter a host name for your new Droplet at the top, select a size (the smallest will do for this demo)</p>
+<p>Enter a host name for your new Droplet at the top, and select a size the smallest will do for this demo, but feel free to select a larger one, <a href="https://www.digitalocean.com/?refcode=dd312899e4e9">Digital Ocean</a> charge by the hour, not the month.</p>
 
 <div class="embed Flickr"><a href="http://www.flickr.com/photos/adbrett/8935205666/"><img src="http://farm8.static.flickr.com/7421/8935205666_07e12bc9b7.jpg" title="digitalocean-new-droplet-1" /></a></div>
 
@@ -113,7 +113,7 @@
 
 <div class="embed Flickr"><a href="http://www.flickr.com/photos/adbrett/8935320904/"><img src="http://farm8.static.flickr.com/7407/8935320904_3ff7896014.jpg" title="digitalocean-sshkey" /></a></div>
 
-<p>Now wait whilst Digital Ocean creates your new droplet, it should take under 55 seconds, seriously.  Whilst writing this tutorial it took around 20 seconds.  When it’s done it will drop you into the control panel for that Droplet, and will give you an IP Address at the top.  We need that IP Address, so save it somewhere.</p>
+<p>Now wait whilst <a href="https://www.digitalocean.com/?refcode=dd312899e4e9">Digital Ocean</a> creates your new droplet, it should take under 55 seconds; seriously.  Whilst writing this tutorial it took around 20 seconds.  When it’s done it will drop you into the control panel for that Droplet, and will give you an IP Address at the top.  We need that IP Address, so save it somewhere.</p>
 
 <div class="embed Flickr"><a href="http://www.flickr.com/photos/adbrett/8935403056/"><img src="http://farm4.static.flickr.com/3753/8935403056_1aed779006.jpg" title="digitalocean-droplet" /></a></div>
 
@@ -121,20 +121,21 @@
 
 <p>To get Chef working properly on your local machine you need a few things:</p>
 
-<pre><code># Ruby
-# knife/knife-solo
-# librarian-chef
-</code></pre>
+<ol>
+  <li>Ruby</li>
+  <li>knife/knife-solo</li>
+  <li>librarian-chef</li>
+</ol>
 
-<p>You can install Ruby from the website<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>, or your package manager of choice.  <strong>Make sure you use Ruby 1.9.x and not Ruby 2.x as you will get errors with the json 1.6.1 Gem</strong>.  I use <code>rbenv</code> to help me keep several different Rubies on the one machine.  Once you have Ruby install the two required Gems:</p>
+<p>You can install Ruby from the website<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>, or your package manager of choice.  <strong>Make sure you use Ruby 1.9.x and not Ruby 2.x as you will get errors with the json 1.6.1 Gem on 2.x</strong>.  I use <code>rbenv</code> to help me keep several different Rubies on the one machine.  Once you have Ruby installed, install the two required Gems:</p>
 
 <pre><code>gem install knife-solo --no-ri --no-rdoc
 gem install librarian-chef --no-ri --no-rdoc
 </code></pre>
 
-<p>You will notice that even though Chef is just a Ruby Gem itself, we haven’t included in our dependencies, and that’s because Chef runs on our server, not on our local machine, so we don’t explicitly need it.</p>
+<p>You will notice that even though Chef is just a Ruby Gem itself, we haven’t included it in our dependencies, and that’s because Chef runs on our server, not on our local machine, so we don’t explicitly need it.</p>
 
-<p>Note: You won’t be able to use bundler to manage these dependencies as knife-solo and librarian-chef have a dependency conflict which cannot currently be resolved, but they will happily live side-by-side if installed manually.</p>
+<p><strong>Note:</strong> You won’t be able to use bundler to manage these dependencies as knife-solo and librarian-chef have a dependency conflict which cannot currently be resolved, but they will happily live side-by-side if installed manually.</p>
 
 <p>You’ll also notice that we have specified knife-solo, even though knife-solo requires knife (which incidentally comes with Chef).  This is because Ruby Gems will make sure all of the required Gems are installed on your system for you.  As you should see, there are quite a few dependencies, so this saves us a fair bit of time.</p>
 
@@ -162,29 +163,28 @@ knife solo init .
 
 <p>Now we have a basic Chef project it’s time to get some cookbooks to install some stuff on our server.  For our very basic setup we want 3 things:</p>
 
-<pre><code># Apache2
-# MySQL
-# PHP
-</code></pre>
+<p>1. Apache2
+2. MySQL
+3. PHP</p>
 
-<p>Run <code>librarian-chef init</code> in the root of your project to make the librarian-chef manage it.  You should now have a file in your project called <code>Cheffile</code>, open it in your favourite editor and add the following below the line <code>site 'http://community.opscode.com/api/v1'</code>:</p>
+<p>Run <code>librarian-chef init</code> in the root of your project to make librarian-chef manage it.  You should now have a file in the root of your project called <code>Cheffile</code>, open it in your favourite editor and add the following below the line <code>site 'http://community.opscode.com/api/v1'</code>:</p>
 
 <pre><code>cookbook 'apache2'
 cookbook 'mysql'
 cookbook 'php'
 </code></pre>
 
-<p>The syntax of this file is fairly straight forward, and there should be some commented out examples in your Cheffile for you to examine.  The cookbook name corresponds to the name of the cookbook on the opscode community website.</p>
+<p>The syntax of this file is fairly straight forward, and there should be some commented out examples in there for you to examine.  The cookbook name corresponds to the name of the cookbook on the opscode community website.</p>
 
 <p>Now run <code>librarian-chef install</code> and it should go off and grab your cookbooks and dependencies for you.</p>
 
 <div class="embed Flickr"><a href="http://www.flickr.com/photos/adbrett/8937074144/"><img src="http://farm8.static.flickr.com/7456/8937074144_d7955e9831.jpg" title="digitalocean-librarian-chef-install" /></a></div>
 
-<p>Third party cookbooks will always go in <code>./cookbooks</code>, so this is where librarian-chef has put them.  If you ever need to override something in a cookbook, never modify it, instead, put the corresponding changes in <code>./site-cookbooks</code>.  Don’t worry about that for now though, we will cover that in another tutorial.</p>
+<p>Third party cookbooks should always live in <code>./cookbooks</code>, so this is where librarian-chef has put them.  If you ever need to override something in a cookbook, never modify it, instead, put the corresponding changes in <code>./site-cookbooks</code>.  Don’t worry about that for now though, we will cover that in another tutorial.</p>
 
 <h2 id="step-4---your-node"> Step 4 - Your Node</h2>
 
-<p>In Digital Ocean, a VPS is a Droplet, in Chef, a VPS (or server) is called a node.  Not surprisingly, node configuration files live in <code>./nodes</code>.  They should be named in the format <code>{hostname|ip}.json</code>.  If you don’t know either yet, you can call it anything you want, but you will lose a little syntactic sugar on the command-line a little later on.</p>
+<p>In <a href="https://www.digitalocean.com/?refcode=dd312899e4e9">Digital Ocean</a>, a VPS is a Droplet, in Chef, a VPS (or server) is called a node.  Not surprisingly, node configuration files live in <code>./nodes</code>.  They should be named in the format <code>{hostname|ip}.json</code>.  If you don’t know either yet, you can call it anything you want, but you will lose a little syntactic sugar on the command-line a little later on.</p>
 
 <p>Change into your nodes directory and create a new node file.  For my purposes, that would be either <code>chef-demo.adamcod.es.json</code> or <code>82.196.8.99.json</code>.  Your hostname is probably better long term as your IP address can change, however as this is just a demo I’m not going to actually create the hostname, I’ll be using the IP Address.</p>
 
@@ -205,28 +205,33 @@ touch 82.196.8.99.json
 
 <p>Save the file, and go back to the terminal.  A run list is a list of cookbooks, and the recipes inside those cookbooks that we want to run on our server.  They’re specified in the format: <code>recipe[cookbook::recipe]</code>.  If you leave off the <code>::recipe</code> part Chef will assume a recipe named “default”.</p>
 
-<p>Now we’re reading to go, that’s all we need.  Let’s move back to the root of your project and try provisioning your server:</p>
+<p>Now we’re ready to go; that’s all we need to do.  Let’s move back to the root of your project and try provisioning your server:</p>
 
 <pre><code>cd ~/Projects/chef-demo
 knife solo bootstrap root@82.196.8.99
 </code></pre>
 
-<p>Substitute <code>82.196.8.99</code> with your IP or Hostname, and root with your user-account if you’re not using Digital Ocean.  You can add an optional 4th parameter here which is the path to your nodefile if you didn’t name it in the recommended format.</p>
+<p>Substitute <code>82.196.8.99</code> with your IP or Hostname, and root with your user-account if you’re not using <a href="https://www.digitalocean.com/?refcode=dd312899e4e9">Digital Ocean</a>.  You can add an optional 4th parameter here which is the path to your nodefile if you didn’t name it in the recommended format.</p>
 
 <p>You should soon see knife logging into the server, then downloading, installing, and running Chef.  Knife Solo has 3 main commands you should be familiar with:</p>
 
-<pre><code># knife solo bootstrap
+<ol>
+  <li>
+    <p>knife solo bootstrap</p>
 
-This will login to your server, download and install chef, copy across your cookbooks, and then run chef.  This is the composite of the two commands below.
+    <p>This will login to your server, download and install chef, copy across your cookbooks, and then run chef.  This is the composite of the two commands below.</p>
+  </li>
+  <li>
+    <p>knife solo cook</p>
 
-# knife solo cook
+    <p>This will login to your server, copy across your cookbooks, and then run chef</p>
+  </li>
+  <li>
+    <p>knife solo prepare</p>
 
-This will login to your server, copy across your cookbooks, and then run chef
-
-# knife solo prepare
-
-This will login to your server, then download and install chef.
-</code></pre>
+    <p>This will login to your server, then download and install chef.</p>
+  </li>
+</ol>
 
 <p>Once Chef has finished its run open up a browser and visit your IP Address or Hostname for this Droplet and you should see something like this:</p>
 
@@ -240,7 +245,7 @@ This will login to your server, then download and install chef.
 
 <p>We’re nearly there.  We have a working apache server, but we don’t have any sites loading.  First, we need to enable the default site in apache, and we do that by editing our “node attributes” for apache.</p>
 
-<p>If you open <code>cookbooks/apache2/attributes/default.rb</code> you will see a whole bunch of attributes for different platforms.  The one we’re interested in in <code>default_site_enabled</code> under ubuntu, which is currently set to <code>false</code>.</p>
+<p>If you open <code>cookbooks/apache2/attributes/default.rb</code> you will see a whole bunch of attributes for different platforms.  The one we’re interested in is <code>default_site_enabled</code> under ubuntu, which is currently set to <code>false</code>.</p>
 
 <p>Do not edit this here.  Node attributes can be over-ridden on a node-by-node basis in our node file.  Basically, any key in our node file’s json which is not <code>run_list</code> is a node attribute.  You can see in the attributes file for each recipe (which matches the recipe name but in the attributes directory in the cookbook) what attributes are available for us to over-ride.  We’re only interested in this one today, so update your node file like so:</p>
 
@@ -260,7 +265,7 @@ This will login to your server, then download and install chef.
 
 <p>Just a quick note: Chef is smart enough to know when it’s already been run, so it’s fairly safe to run it multiple times and it will only modify things that have changed in your local cookbooks.</p>
 
-<pre><code>`knife solo cook root@82.196.8.99`
+<pre><code>knife solo cook root@82.196.8.99
 </code></pre>
 
 <p>Now reload your browser and you should see the familiar “It works!” page:</p>
@@ -292,7 +297,7 @@ This will login to your server, then download and install chef.
 
 <p>Welcome to the hell that is Chef error messages.  By trying to be really helpful, they bombard you with far too much information, making it really difficult to decipher what’s actually gone wrong.</p>
 
-<p>The real problem here is something I thought it important to highlight.  In some recipes some node attributes are not optional, you have to set them for your node, and the MySQL cookbook’s <code>server</code> recipe is one such recipe.  We need to set a MySQL root password for this node!  Update your node file to look like the following.</p>
+<p>The real problem here is something I thought it important to highlight.  In some recipes some node attributes are not optional, you have to set them for your node, and the MySQL cookbook’s <code>server</code> recipe is one such recipe.  We need to set a MySQL root password for this node!  Fortunately this is usually quite well documented in the README for whatever cookbook you’re using.  Update your node file to look like the following.</p>
 
 <pre><code>{
   "apache": {
@@ -312,7 +317,7 @@ This will login to your server, then download and install chef.
 }
 </code></pre>
 
-<p>Now re-run your <code>knife cook</code> command and once it’s complete ssh back into your server.  Run <code>mysql -u root -pyoursecretsecurepassword</code> and you should be dropped into a nice <code>mysql&gt; </code> prompt, showing your MySQL Server is now installed and working!</p>
+<p>Now re-run your <code>knife cook</code> command and once it’s complete ssh back into your server.  Run <code>mysql -u root -pyoursecretsecurepassword</code> and you should be dropped into a nice <code>mysql&gt;</code> prompt, showing your MySQL Server is now installed and working!</p>
 
 <div class="embed Flickr"><a href="http://www.flickr.com/photos/adbrett/8937807398/"><img src="http://farm8.static.flickr.com/7316/8937807398_f75251f702.jpg" title="digitalocean-mysql-works" /></a></div>
 
@@ -332,7 +337,7 @@ nano info.php
 
 <p>and save and exit using <code>ctrl+x</code> and typing <code>y</code> at the prompt to save.  Now open up <code>http://yourserver/info.php</code> in your browser.</p>
 
-<p>If should ask you to download the file.  Classic symptom of PHP not being installed.  But we checked it on the command line! I hear you cry.  Yes, we did, but I hope by now you’re starting to spot a theme.  The default opscode community cookbooks tend to do the absolute minimum required, and you have to explicitly say if you want something to be installed.  Taking a look through the PHP cookbooks’ recipes there doesn’t seem to be anything relevant, but looking inside apache’s recipes you should notice a mod_php5 recipe.  That’s what we want, so let’s add that to our <code>run_list</code>.</p>
+<p>It should ask you to download the file.  This is a classic symptom of PHP not being installed.  But we checked it on the command line! I hear you cry.  Yes, we did, but I hope by now you’re starting to spot a theme.  The default opscode community cookbooks tend to do the absolute minimum required, and you have to explicitly say if you want something to be installed.  Taking a look through the PHP cookbook’s recipes there doesn’t seem to be anything relevant, but looking inside apache’s recipes you should notice a mod_php5 recipe.  That’s what we want, so let’s add that to our <code>run_list</code>.</p>
 
 <pre><code>{
   "apache": {
@@ -361,11 +366,13 @@ nano info.php
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>We now have a functional LAMP stack, it obviously requires quite a bit more work to become secure and reliable, but we have deployed it in an automated, reliable, and replicable way.  We’ve learnt how to manage attributes and settings for applications via their cookbooks, and how to combine and manage our cookbooks to build our own server, with different settings and applications for different servers.</p>
+<p>We now have a functional LAMP stack, it obviously requires quite a bit more work to become a secure and reliable server, but we have deployed it in an automated, reliable, and replicable way.  We’ve learnt how to manage attributes and settings for applications via their cookbooks, and how to combine and manage our cookbooks to build our own server, with different settings and applications for different servers.</p>
 
 <p>Hopefully you’ve gained enough knowledge to feel confident looking at and experimenting with the other cookbooks available on the opscode website and add them to your own cookbook as necessary to make your server secure, reliable and production ready.</p>
 
-<p>I’m planning to release this tutorial as a screen-cast.  To hear about that when it happens (as well as other exclusive content not available here), make sure you enter your email address in the subscribe box below.</p>
+<p>I’m planning to release this tutorial as a screen-cast, as well as a more detailed tutorial to make a production ready LAMP stack using Chef and <a href="https://www.digitalocean.com/?refcode=dd312899e4e9">Digital Ocean</a> (but should work with any other server or VPS you may want to use).</p>
+
+<p>To hear about that when it happens, as well as other exclusive content not available here, make sure you enter your email address in the subscribe box below, and let me know on <a href="https://twitter.com/sixdaysad">twitter</a> or <a href="https://alpha.app.net/adambrett">ADN</a> if you have any questions or comments.</p>
 
 <div class="footnotes">
   <ol>
