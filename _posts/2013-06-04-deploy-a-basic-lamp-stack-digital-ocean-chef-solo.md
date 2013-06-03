@@ -42,7 +42,7 @@ Now give your key a name, it doesn't matter what it is, it's just for your refer
 
 Next, click the big green 'Create' button to create a new 'Droplet' (the name [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9) give to a VPS instance).
 
-Enter a host name for your new Droplet at the top, and select a size the smallest will do for this demo, but feel free to select a larger one, [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9) charge by the hour, not the month.
+Enter a host name for your new Droplet at the top, and select a size.  The smallest will do for this demo, but feel free to select a larger one, [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9) charge by the hour, not the month.
 
 {% flickr 8935205666 %}
 
