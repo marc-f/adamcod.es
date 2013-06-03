@@ -20,7 +20,7 @@ Chef comes in two versions, Server and Solo.  Server requires a Chef Server whic
 
 Chef has the concept of _recipes_ and _cookbooks_.  Think of a recipe as a single script which does something on your server.  A cookbook is a collection of recipes related to a particular topic, for example installing and configuring apache.  A cookbook is just a directory containing a bunch of folders and files, recipes live in a folder called "recipes" inside the cookbook.  Each recipe is saved as "recipe-name.rb" and is a simple Ruby script.
 
-A cookbook can also have nodes, roles, and data-bags.  We'll get onto all of that in another tutorial.
+A cookbook can also have nodes, roles, and data-bags.  We'll get onto all of that in another blog post.
 
 Chef has a command-line tool called knife which helps manage your cookbooks and servers for you.  Out of the box, knife only works with Chef Server, but there is an add-on which allows it to work with Chef Solo.  That's what we're going to be using today.
 
@@ -56,7 +56,7 @@ Finally, select the SSH Key that you added earlier, leave VirtIO enabled and cli
 
 {% flickr 8935320904 %}
 
-Now wait whilst [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9) creates your new droplet, it should take under 55 seconds; seriously.  Whilst writing this tutorial it took around 20 seconds.  When it's done it will drop you into the control panel for that Droplet, and will give you an IP Address at the top.  We need that IP Address, so save it somewhere.
+Now wait whilst [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9) creates your new droplet, it should take under 55 seconds; seriously.  Whilst writing this blog post it took around 20 seconds.  When it's done it will drop you into the control panel for that Droplet, and will give you an IP Address at the top.  We need that IP Address, so save it somewhere.
 
 {% flickr 8935403056 %}
 
@@ -119,7 +119,7 @@ Now run `librarian-chef install` and it should go off and grab your cookbooks an
 {% flickr 8937074144 %}
 
 
-Third party cookbooks should always live in `./cookbooks`, so this is where librarian-chef has put them.  If you ever need to override something in a cookbook, never modify it, instead, put the corresponding changes in `./site-cookbooks`.  Don't worry about that for now though, we will cover that in another tutorial.
+Third party cookbooks should always live in `./cookbooks`, so this is where librarian-chef has put them.  If you ever need to override something in a cookbook, never modify it, instead, put the corresponding changes in `./site-cookbooks`.  Don't worry about that for now though, we will cover that in another blog post.
 
 ## Step 4 - Your Node ##
 
@@ -169,7 +169,7 @@ Once Chef has finished its run open up a browser and visit your IP Address or Ho
 
 That's great!  That means that Chef has worked.  Normally you would expect to see something like "It works!" here, but the apache2 Chef recipe doesn't install the "Default Site" that apache normally comes with.
 
-Now we can login to the server to do this, using `a2ensite default`, or we can do it the Chef way.  We're going to do it the Chef way, not just because this is a Chef tutorial, but also because any manual changes you make to the server will be overwritten every time you run Chef, so doing things via Chef is the recommended way.  Remember: We want to end up with a set of recipes we can run over and over again to get a server to the exact same specification each time, so anything we have to do manually should be seen as a bad.
+Now we can login to the server to do this, using `a2ensite default`, or we can do it the Chef way.  We're going to do it the Chef way, not just because this is a Chef blog post, but also because any manual changes you make to the server will be overwritten every time you run Chef, so doing things via Chef is the recommended way.  Remember: We want to end up with a set of recipes we can run over and over again to get a server to the exact same specification each time, so anything we have to do manually should be seen as a bad.
 
 ## Step 5 - Final Tweaks ##
 
@@ -293,7 +293,7 @@ We now have a functional LAMP stack, it obviously requires quite a bit more work
 
 Hopefully you've gained enough knowledge to feel confident looking at and experimenting with the other cookbooks available on the opscode website and add them to your own cookbook as necessary to make your server secure, reliable and production ready.
 
-I'm planning to release this tutorial as a screen-cast, as well as a more detailed tutorial to make a production ready LAMP stack using Chef and [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9) (but should work with any other server or VPS you may want to use).
+I'm planning to release this blog post as a screen-cast, as well as a more detailed blog post to make a production ready LAMP stack using Chef and [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9) (but should work with any other server or VPS you may want to use).
 
 To hear about that when it happens, as well as other exclusive content not available here, make sure you enter your email address in the subscribe box below, and let me know on [twitter](https://twitter.com/sixdaysad) or [ADN](https://alpha.app.net/adambrett) if you have any questions or comments.
 
