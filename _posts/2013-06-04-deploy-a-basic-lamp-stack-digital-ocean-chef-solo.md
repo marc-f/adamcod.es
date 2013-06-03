@@ -102,10 +102,8 @@ The last `.` is important.  It tells knife-solo that we want to create the proje
 
 Now we have a basic Chef project it's time to get some cookbooks to install some stuff on our server.  For our very basic setup we want 3 things:
 
-1. Apache2
-
+1. Apache
 2. MySQL
-
 3. PHP
 
 Run `librarian-chef init` in the root of your project to make librarian-chef manage it.  You should now have a file in the root of your project called `Cheffile`, open it in your favourite editor and add the following below the line `site 'http://community.opscode.com/api/v1'`:
