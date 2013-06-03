@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-06-03T22:39:07+01:00</updated>
+  <updated>2013-06-03T22:40:13+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -124,9 +124,16 @@ knife solo init .
 
 &lt;p&gt;Now we have a basic Chef project it’s time to get some cookbooks to install some stuff on our server.  For our very basic setup we want 3 things:&lt;/p&gt;
 
-&lt;p&gt;1. Apache2
-2. MySQL
-3. PHP&lt;/p&gt;
+&lt;p&gt;1. Apache2&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;MySQL&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;PHP&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;p&gt;Run &lt;code&gt;librarian-chef init&lt;/code&gt; in the root of your project to make librarian-chef manage it.  You should now have a file in the root of your project called &lt;code&gt;Cheffile&lt;/code&gt;, open it in your favourite editor and add the following below the line &lt;code&gt;site &#39;http://community.opscode.com/api/v1&#39;&lt;/code&gt;:&lt;/p&gt;
 
