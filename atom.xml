@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-06-04T10:13:01+01:00</updated>
+  <updated>2013-06-04T10:16:29+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -149,7 +149,7 @@ cookbook &#39;php&#39;
 
 &lt;p&gt;In &lt;a href=&quot;https://www.digitalocean.com/?refcode=dd312899e4e9&quot;&gt;Digital Ocean&lt;/a&gt;, a VPS is a Droplet, in Chef, a VPS (or server) is called a node.  Not surprisingly, node configuration files live in &lt;code&gt;./nodes&lt;/code&gt;.  They should be named in the format &lt;code&gt;{hostname|ip}.json&lt;/code&gt;.  If you don’t know either yet, you can call it anything you want, but you will lose a little syntactic sugar on the command-line a little later on.&lt;/p&gt;
 
-&lt;p&gt;Change into your nodes directory and create a new node file.  For my purposes, that would be either &lt;code&gt;chef-demo.adamcod.es.json&lt;/code&gt; or &lt;code&gt;82.196.8.99.json&lt;/code&gt;.  Your hostname is probably better long term as your IP address can change, however as this is just a demo I’m not going to actually create the hostname, I’ll be using the IP Address.&lt;/p&gt;
+&lt;p&gt;Change into your &lt;code&gt;nodes&lt;/code&gt; directory and create a new node file.  For my purposes, that would be either &lt;code&gt;chef-demo.adamcod.es.json&lt;/code&gt; or &lt;code&gt;82.196.8.99.json&lt;/code&gt;.  Your hostname is probably better long term as your IP address can change, however as this is just a demo I’m not going to actually create the hostname, I’ll be using the IP Address.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;cd nodes
 touch 82.196.8.99.json
