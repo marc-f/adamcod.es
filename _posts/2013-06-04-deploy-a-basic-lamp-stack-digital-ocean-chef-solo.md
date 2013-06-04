@@ -263,7 +263,7 @@ Now enter:
 
 and save and exit using `ctrl+x` and typing `y` at the prompt to save.  Now open up `http://yourserver/info.php` in your browser.
 
-It should ask you to download the file.  This is a classic symptom of PHP not being installed.  But we checked it on the command line! I hear you cry.  Yes, we did, but I hope by now you're starting to spot a theme.  The default opscode community cookbooks tend to do the absolute minimum required, and you have to explicitly say if you want something to be installed.  Taking a look through the PHP cookbook's recipes there doesn't seem to be anything relevant, but looking inside apache's recipes you should notice a mod_php5 recipe.  That's what we want, so let's add that to our `run_list`.
+It should ask you to download the file.  This is a classic symptom of PHP not being installed.  _But we checked it on the command line!_ I hear you cry.  Yes, we did, but I hope by now you're starting to spot a theme.  The default opscode community cookbooks tend to do the absolute minimum required, and you have to explicitly say if you want something to be installed.  Taking a look through the PHP cookbook's recipes there doesn't seem to be anything relevant, but looking inside apache's recipes you should notice a mod_php5 recipe.  That's what we want, so let's add that to our `run_list`.
 
     {
       "apache": {
