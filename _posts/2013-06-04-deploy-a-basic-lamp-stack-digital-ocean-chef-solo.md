@@ -299,6 +299,10 @@ I'm planning to release this blog post as a screen-cast, as well as a more detai
 
 To hear about that when it happens, as well as other exclusive content not available here, make sure you enter your email address in the subscribe box below, and let me know on [twitter](https://twitter.com/sixdaysad) or [ADN](https://alpha.app.net/adambrett) if you have any questions or comments.
 
+## Read Next
+
+* [Vagrant is easy Chef is hard](/2013/01/15/vagrant-is-easy-chef-is-hard.html)
+
 [^1]: http://adamcod.es/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html
 [^2]: http://martinfowler.com/bliki/SnowflakeServer.html
 [^3]: http://www.ruby-lang.org/en/downloads/
