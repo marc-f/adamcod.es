@@ -8,13 +8,13 @@ I wrote previously that Chef is hard[^1].  That was not too long after I started
 
 In the meantime, this is a very quick start guide to deploying a LAMP stack to a VPS.  My provider of choice is [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9), but the same process should work for pretty much any VPS or physical server.
 
-## What is Chef ##
+##What is Chef
 
 Chef is a provisioning tool.  A provisioning tool is something which can script the deployment or set-up of a server, attempting to solve the snowflake[^2] issue by providing a consistent and reliable process that can be automated and therefore replicated many times.
 
 There are many different provisioning tools out there, the most popular of which are Chef and Puppet.  Chef uses Ruby, Puppet uses a DSL (Domain Specific Language), there are others that use simple bash too, but today we're going to focus on Chef.
 
-## Quick Chef Primer ##
+##Quick Chef Primer
 
 Chef comes in two versions, Server and Solo.  Server requires a Chef Server which will manage your other multiple servers for you.  Chef Solo does not require another server, but has the drawback that it can only manage servers manually or one-at a time.
 
@@ -24,7 +24,7 @@ A cookbook can also have nodes, roles, and data-bags.  We'll get onto all of tha
 
 Chef has a command-line tool called knife which helps manage your cookbooks and servers for you.  Out of the box, knife only works with Chef Server, but there is an add-on which allows it to work with Chef Solo.  That's what we're going to be using today.
 
-## Step 1 - A New VPS ##
+##Step 1 - A New VPS
 
 The first thing we need to do is create a new VPS instance.  If you don't already have one, sign up for an account on [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9).  They'll have you up and running in 55 seconds.  No joke.
 
@@ -60,7 +60,7 @@ Now wait whilst [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4
 
 {% flickr 8935403056 %}
 
-## Step 2 - Dependencies ##
+##Step 2 - Dependencies
 
 To get Chef working properly on your local machine you need a few things:
 
@@ -87,7 +87,7 @@ And running `librarian-chef` which should produce output like:
 
 {% flickr 8936219737 %}
 
-## Step 3 - Opscode Cookbooks ##
+##Step 3 - Opscode Cookbooks
 
 Much like Ruby Gems and Bundler, or Packagist and Composer for PHP, Opscode (the people behind Chef) maintain a list of pre-built cookbooks that they or the community have created[^4].  Librarian-chef that we installed in the previous section can be used to download and install these cookbooks and their dependencies for us automatically.  This is by far the easiest way to maintain your cookbooks.
 
@@ -121,7 +121,7 @@ Now run `librarian-chef install` and it should go off and grab your cookbooks an
 
 Third party cookbooks should always live in `./cookbooks`, so this is where librarian-chef has put them.  If you ever need to override something in a cookbook, never modify it, instead, put the corresponding changes in `./site-cookbooks`.  Don't worry about that for now though, we will cover that in another blog post.
 
-## Step 4 - Your Node ##
+## Step 4 - Your Node
 
 In [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9), a VPS is a Droplet, in Chef, a VPS (or server) is called a node.  Not surprisingly, node configuration files live in `./nodes`.  They should be named in the format `{hostname|ip}.json`.  If you don't know either yet, you can call it anything you want, but you will lose a little syntactic sugar on the command-line a little later on.
 
@@ -171,7 +171,7 @@ That's great!  That means that Chef has worked.  Normally you would expect to se
 
 Now we can login to the server to do this, using `a2ensite default`, or we can do it the Chef way.  We're going to do it the Chef way, not just because this is a Chef blog post, but also because any manual changes you make to the server will be overwritten every time you run Chef, so doing things via Chef is the recommended way.  Remember: We want to end up with a set of recipes we can run over and over again to get a server to the exact same specification each time, so anything we have to do manually should be seen as a bad.
 
-## Step 5 - Final Tweaks ##
+##Step 5 - Final Tweaks
 
 We're nearly there.  We have a working apache server, but we don't have any sites loading.  First, we need to enable the default site in apache, and we do that by editing our "node attributes" for apache.
 
@@ -287,7 +287,7 @@ Now we can exit our SSH session and re-run `knife cook` and refresh our `info.ph
 
 {% flickr 8937944348 %}
 
-## Conclusion ##
+##Conclusion
 
 We now have a functional LAMP stack, it obviously requires quite a bit more work to become a secure and reliable server, but we have deployed it in an automated, reliable, and replicable way.  We've learnt how to manage attributes and settings for applications via their cookbooks, and how to combine and manage our cookbooks to build our own server, with different settings and applications for different servers.
 
