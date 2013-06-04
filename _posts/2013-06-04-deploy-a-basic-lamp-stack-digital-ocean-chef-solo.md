@@ -204,7 +204,9 @@ Progress!  Now let's test PHP And MySQL.  Login to your server using SSH and run
 
 {% flickr 8937594046 %}
 
-Success!  Now you're probably thinking you'd like to test MySQL.  But there's a problem.  If you run `mysql` without any parameters on your new server you'll find it can't connect.  That's because the `default` recipe for the `mysql` cookbook only installs the MySQL client, not the MySQL server.  If you take a look in `./cookbooks/mysql/recipes` you should see a recipe called `server.rb`.  It's a good bet that that's what installs MySQL Server, so let's add that to our `run_list` after `recipe[mysql]`.  We'll leave the default MySQL recipe there as we are going to need the client too.  Our node file should now look like this:
+Success!  Now you're probably thinking you'd like to test MySQL.  But there's a problem.  If you run `mysql` without any parameters on your new server you'll find it can't connect.  That's because the `default` recipe for the `mysql` cookbook only installs the MySQL client, not the MySQL server.
+
+If you take a look in `./cookbooks/mysql/recipes` you should see a recipe called `server.rb`.  It's a good bet that that's what installs MySQL Server, so let's add that to our `run_list` after `recipe[mysql]`.  We'll leave the default MySQL recipe there as we are going to need the client too.  Our node file should now look like this:
 
     {
       "apache": {
