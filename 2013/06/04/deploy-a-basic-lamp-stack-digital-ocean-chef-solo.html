@@ -278,7 +278,9 @@ knife solo bootstrap root@82.196.8.99
 
 <div class="embed Flickr"><a href="http://www.flickr.com/photos/adbrett/8937594046/"><img src="http://farm6.static.flickr.com/5324/8937594046_4f90aea576.jpg" title="digitalocean-php-v" /></a></div>
 
-<p>Success!  Now you’re probably thinking you’d like to test MySQL.  But there’s a problem.  If you run <code>mysql</code> without any parameters on your new server you’ll find it can’t connect.  That’s because the <code>default</code> recipe for the <code>mysql</code> cookbook only installs the MySQL client, not the MySQL server.  If you take a look in <code>./cookbooks/mysql/recipes</code> you should see a recipe called <code>server.rb</code>.  It’s a good bet that that’s what installs MySQL Server, so let’s add that to our <code>run_list</code> after <code>recipe[mysql]</code>.  We’ll leave the default MySQL recipe there as we are going to need the client too.  Our node file should now look like this:</p>
+<p>Success!  Now you’re probably thinking you’d like to test MySQL.  But there’s a problem.  If you run <code>mysql</code> without any parameters on your new server you’ll find it can’t connect.  That’s because the <code>default</code> recipe for the <code>mysql</code> cookbook only installs the MySQL client, not the MySQL server.</p>
+
+<p>If you take a look in <code>./cookbooks/mysql/recipes</code> you should see a recipe called <code>server.rb</code>.  It’s a good bet that that’s what installs MySQL Server, so let’s add that to our <code>run_list</code> after <code>recipe[mysql]</code>.  We’ll leave the default MySQL recipe there as we are going to need the client too.  Our node file should now look like this:</p>
 
 <pre><code>{
   "apache": {

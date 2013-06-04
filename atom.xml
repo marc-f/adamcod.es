@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-06-04T10:27:21+01:00</updated>
+  <updated>2013-06-04T10:29:57+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -239,7 +239,9 @@ knife solo bootstrap root@82.196.8.99
 
 &lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/8937594046/&quot;&gt;&lt;img src=&quot;http://farm6.static.flickr.com/5324/8937594046_4f90aea576.jpg&quot; title=&quot;digitalocean-php-v&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 
-&lt;p&gt;Success!  Now you’re probably thinking you’d like to test MySQL.  But there’s a problem.  If you run &lt;code&gt;mysql&lt;/code&gt; without any parameters on your new server you’ll find it can’t connect.  That’s because the &lt;code&gt;default&lt;/code&gt; recipe for the &lt;code&gt;mysql&lt;/code&gt; cookbook only installs the MySQL client, not the MySQL server.  If you take a look in &lt;code&gt;./cookbooks/mysql/recipes&lt;/code&gt; you should see a recipe called &lt;code&gt;server.rb&lt;/code&gt;.  It’s a good bet that that’s what installs MySQL Server, so let’s add that to our &lt;code&gt;run_list&lt;/code&gt; after &lt;code&gt;recipe[mysql]&lt;/code&gt;.  We’ll leave the default MySQL recipe there as we are going to need the client too.  Our node file should now look like this:&lt;/p&gt;
+&lt;p&gt;Success!  Now you’re probably thinking you’d like to test MySQL.  But there’s a problem.  If you run &lt;code&gt;mysql&lt;/code&gt; without any parameters on your new server you’ll find it can’t connect.  That’s because the &lt;code&gt;default&lt;/code&gt; recipe for the &lt;code&gt;mysql&lt;/code&gt; cookbook only installs the MySQL client, not the MySQL server.&lt;/p&gt;
+
+&lt;p&gt;If you take a look in &lt;code&gt;./cookbooks/mysql/recipes&lt;/code&gt; you should see a recipe called &lt;code&gt;server.rb&lt;/code&gt;.  It’s a good bet that that’s what installs MySQL Server, so let’s add that to our &lt;code&gt;run_list&lt;/code&gt; after &lt;code&gt;recipe[mysql]&lt;/code&gt;.  We’ll leave the default MySQL recipe there as we are going to need the client too.  Our node file should now look like this:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;{
   &quot;apache&quot;: {
