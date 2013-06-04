@@ -339,7 +339,7 @@ nano info.php
 
 <p>and save and exit using <code>ctrl+x</code> and typing <code>y</code> at the prompt to save.  Now open up <code>http://yourserver/info.php</code> in your browser.</p>
 
-<p>It should ask you to download the file.  This is a classic symptom of PHP not being installed.  But we checked it on the command line! I hear you cry.  Yes, we did, but I hope by now you’re starting to spot a theme.  The default opscode community cookbooks tend to do the absolute minimum required, and you have to explicitly say if you want something to be installed.  Taking a look through the PHP cookbook’s recipes there doesn’t seem to be anything relevant, but looking inside apache’s recipes you should notice a mod_php5 recipe.  That’s what we want, so let’s add that to our <code>run_list</code>.</p>
+<p>It should ask you to download the file.  This is a classic symptom of PHP not being installed.  <em>But we checked it on the command line!</em> I hear you cry.  Yes, we did, but I hope by now you’re starting to spot a theme.  The default opscode community cookbooks tend to do the absolute minimum required, and you have to explicitly say if you want something to be installed.  Taking a look through the PHP cookbook’s recipes there doesn’t seem to be anything relevant, but looking inside apache’s recipes you should notice a mod_php5 recipe.  That’s what we want, so let’s add that to our <code>run_list</code>.</p>
 
 <pre><code>{
   "apache": {

@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-06-04T10:29:57+01:00</updated>
+  <updated>2013-06-04T10:32:23+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -302,7 +302,7 @@ nano info.php
 
 &lt;p&gt;and save and exit using &lt;code&gt;ctrl+x&lt;/code&gt; and typing &lt;code&gt;y&lt;/code&gt; at the prompt to save.  Now open up &lt;code&gt;http://yourserver/info.php&lt;/code&gt; in your browser.&lt;/p&gt;
 
-&lt;p&gt;It should ask you to download the file.  This is a classic symptom of PHP not being installed.  But we checked it on the command line! I hear you cry.  Yes, we did, but I hope by now you’re starting to spot a theme.  The default opscode community cookbooks tend to do the absolute minimum required, and you have to explicitly say if you want something to be installed.  Taking a look through the PHP cookbook’s recipes there doesn’t seem to be anything relevant, but looking inside apache’s recipes you should notice a mod_php5 recipe.  That’s what we want, so let’s add that to our &lt;code&gt;run_list&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;It should ask you to download the file.  This is a classic symptom of PHP not being installed.  &lt;em&gt;But we checked it on the command line!&lt;/em&gt; I hear you cry.  Yes, we did, but I hope by now you’re starting to spot a theme.  The default opscode community cookbooks tend to do the absolute minimum required, and you have to explicitly say if you want something to be installed.  Taking a look through the PHP cookbook’s recipes there doesn’t seem to be anything relevant, but looking inside apache’s recipes you should notice a mod_php5 recipe.  That’s what we want, so let’s add that to our &lt;code&gt;run_list&lt;/code&gt;.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;{
   &quot;apache&quot;: {
