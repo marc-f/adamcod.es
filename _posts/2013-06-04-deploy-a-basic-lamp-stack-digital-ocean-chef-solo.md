@@ -125,7 +125,7 @@ Third party cookbooks should always live in `./cookbooks`, so this is where libr
 
 In [Digital Ocean](https://www.digitalocean.com/?refcode=dd312899e4e9), a VPS is a Droplet, in Chef, a VPS (or server) is called a node.  Not surprisingly, node configuration files live in `./nodes`.  They should be named in the format `{hostname|ip}.json`.  If you don't know either yet, you can call it anything you want, but you will lose a little syntactic sugar on the command-line a little later on.
 
-Change into your nodes directory and create a new node file.  For my purposes, that would be either `chef-demo.adamcod.es.json` or `82.196.8.99.json`.  Your hostname is probably better long term as your IP address can change, however as this is just a demo I'm not going to actually create the hostname, I'll be using the IP Address.
+Change into your `nodes` directory and create a new node file.  For my purposes, that would be either `chef-demo.adamcod.es.json` or `82.196.8.99.json`.  Your hostname is probably better long term as your IP address can change, however as this is just a demo I'm not going to actually create the hostname, I'll be using the IP Address.
 
     cd nodes
     touch 82.196.8.99.json
