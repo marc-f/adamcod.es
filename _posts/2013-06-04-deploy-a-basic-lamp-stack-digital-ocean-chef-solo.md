@@ -171,7 +171,7 @@ That's great!  That means that Chef has worked.  Normally you would expect to se
 
 Now we can login to the server to do this, using `a2ensite default`, or we can do it the Chef way.  We're going to do it the Chef way, not just because this is a Chef blog post, but also because any manual changes you make to the server will be overwritten every time you run Chef, so doing things via Chef is the recommended way.  Remember: We want to end up with a set of recipes we can run over and over again to get a server to the exact same specification each time, so anything we have to do manually should be seen as a bad.
 
-## Step 5 - Final Tweaks ##
+## Step 5 - Final Tweaks ##
 
 We're nearly there.  We have a working apache server, but we don't have any sites loading.  First, we need to enable the default site in apache, and we do that by editing our "node attributes" for apache.
 
