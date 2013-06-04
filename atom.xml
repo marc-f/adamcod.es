@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-06-04T10:37:51+01:00</updated>
+  <updated>2013-06-04T10:39:57+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -338,6 +338,12 @@ nano info.php
 &lt;p&gt;I’m planning to release this blog post as a screen-cast, as well as a more detailed blog post to make a production ready LAMP stack using Chef and &lt;a href=&quot;https://www.digitalocean.com/?refcode=dd312899e4e9&quot;&gt;Digital Ocean&lt;/a&gt; (but should work with any other server or VPS you may want to use).&lt;/p&gt;
 
 &lt;p&gt;To hear about that when it happens, as well as other exclusive content not available here, make sure you enter your email address in the subscribe box below, and let me know on &lt;a href=&quot;https://twitter.com/sixdaysad&quot;&gt;twitter&lt;/a&gt; or &lt;a href=&quot;https://alpha.app.net/adambrett&quot;&gt;ADN&lt;/a&gt; if you have any questions or comments.&lt;/p&gt;
+
+&lt;h2 id=&quot;read-next&quot;&gt; Read Next&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;Vagrant is easy Chef is hard&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
