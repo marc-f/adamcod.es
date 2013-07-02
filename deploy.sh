@@ -6,7 +6,7 @@ git="git"
 # site generation executable
 generate="jekyll"
 # options for the generator
-opts=(--no-safe --no-server --no-auto --kramdown)
+opts=(generate)
 
 # branch from which to generate site
 origbranch="master"
