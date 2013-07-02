@@ -1,6 +1,7 @@
 ---
 layout: post
 title: You Can't Trust "The Cloud"
+tweet: You Can't Trust The Cloud
 ---
 
 Yesterday marked the final day of Google Reader[^1].  I was an avid Google Reader user for many, many years (too many to remember), but I was unaffected by the recent shutdown, because I stopped using it about 6 months ago, about 3 months before Google announced they were shutting it down.
