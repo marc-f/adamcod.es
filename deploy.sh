@@ -6,7 +6,7 @@ git="git"
 # site generation executable
 generate="jekyll"
 # options for the generator
-opts=(generate)
+opts=(build)
 
 # branch from which to generate site
 origbranch="master"
@@ -25,7 +25,7 @@ if [[ $currbranch == $origbranch ]]; then # we should generate the site
     cd "$("$git" rev-parse --show-toplevel)"
 
     # generate the site
-    "$generate" ${opts[@]} . "$site"
+    "$generate" ${opts[@]} . "-d $site"
 
     # add any new files
     "$git" add .
