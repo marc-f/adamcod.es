@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    
+        <title>"composer update" vs "composer install" - adamcod.es</title>
+    
+
+    
+
+    <meta name="author" content="Adam Brett">
+
+    <!-- style -->
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
+
+    <!-- fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <section class="layout-meta">
+        <header>
+            <p class="author vcard">
+                <strong><a href="http://adamcod.es" rel="author">adamcod.es</a></strong><br />
+                by <a href="http://adambrett.co.uk">Adam Brett</a>
+            </p>
+        </header>
+
+        <nav>
+            <ul>
+                <!--li><a href="http://adambrett.co.uk/about">About</a></li-->
+                <li><a href="/archive.html"><i class="icon-book"></i> Archive</a></li>
+                <li><a href="http://feeds.feedburner.com/adamcodes/"><i class="icon-rss"></i> Subscribe</a></li>
+                <li><a href="http://twitter.com/sixdaysad/"><i class="icon-twitter"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </section>
+
+    <section class="layout-main">
+        <article>
+    <div class="instapaper_ignore entry-unrelated">
+
+    <h1 class="entry-title"><a href="http://adamcod.es/2013/03/07/composer-install-vs-composer-update.html">"composer update" vs "composer install"</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="2013-03-07">Thursday, March 07, 2013</time></p>
+    <div class="twitter-button">
+        
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2013/03/07/composer-install-vs-composer-update.html" data-text=""composer update" vs "composer install" by @sixdaysad">Tweet</a>
+        
+    </div>
+
+    
+
+
+    </div>
+
+    <div class="entry-content">
+        <p>Unless you’ve been living under a rock, you know about composer<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> and packagist<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> for managing dependencies in PHP.  A few days ago, an issue<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> was closed and merged into master which changes the default behaviour of <code>composer update</code> to be functionally equivellent to <code>composer update --require-dev</code>.  This confused a few folks<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>, and here’s why:</p>
+
+<p><em>You should only ever run <code>composer update</code> to get the newest versions of your dependencies, not to install them</em>.</p>
+
+<p>What’s not massively clear (or at least wasn’t early on) in the composer documentation<sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup> is the difference between <code>composer install</code> and <code>composer update</code> and the relevancy of <code>composer.lock</code>.  This is exasperated by composer displaying a warning when running <code>composer install</code> with a lockfile present and changes in <code>composer.json</code>:</p>
+
+<p><img src="/img/posts/composer-install-message.png" alt="composer install message" /></p>
+
+<p>Not very clear.</p>
+
+<p>Here’s a fairly standard composer work-flow:</p>
+
+<ol>
+  <li>Add <code>composer.json</code> with some dependencies</li>
+  <li>Run <code>composer install</code></li>
+  <li>Add some more dependencies</li>
+  <li>Run <code>composer update</code> as you’ve updated your dependencies</li>
+</ol>
+
+<p>This is the <em>right</em> way to use composer.  If you are using composer to deploy your dependencies into a production environment (which many people are), based on this work-flow you may incorrectly assume that you deploy your updated <code>composer.json</code> to production and run <code>composer update</code> again.  This is the <em>wrong</em> way to use composer.</p>
+
+<p>What’s really happening when you run <code>composer update</code> is that it’s fetching the newest version of your dependencies as specified by <code>composer.json</code>.</p>
+
+<p>If you’ve been testing your code with monolog 1.2, and monolog 1.3 gets released, unless you’re very explicit in your <code>composer.json</code> composer will fetch monolog 1.3.  Now imagine that a backward incompatible change or bug is introduced with monolog 1.3.  Suddenly your dependencies have broken your production environment. Not good.</p>
+
+<p>What you really need to do is deploy your updated <code>composer.lock</code>, and then re-run <code>composer install</code>.  You should never run <code>composer update</code> in production.  If however you deploy a new <code>composer.lock</code> with new dependencies and/or versions (after having run <code>composer update</code> in dev) and <em>then</em> run <code>composer install</code> composer will update and install new your new dependencies.</p>
+
+<p><img src="/img/posts/composer-install-update.png" alt="composer install update lockfile" /></p>
+
+<p>Whenever composer generates a new <code>composer.lock</code> it <em>locks</em> you to a specific set of dependencies and the latest versions of those dependencies it can resolve.</p>
+
+<p>This means if your <code>composer.json</code> specifies <code>monolog/monolog: 1.*</code>, and it installs monolog 1.2, monolog 1.2 will be included in your lockfile.  From then on when you run <code>composer install</code> you will only ever get monolog 1.2, even after monolog 1.3 has been released.</p>
+
+<p>Here’s the basic workflow:</p>
+
+<p><img src="/img/posts/composer-install-flow.png" alt="composer install update flow" /></p>
+
+<p>Not too complicated.</p>
+
+<p>Now we can come a full circle back to the issue that prompted this post.  As we never run <code>composer update</code> in production, it follows that whenever we run it we will be in our dev environment, and the automatic inclusion of the <code>--require-dev</code> flag on <code>composer update</code> now makes sense.</p>
+
+<p>If you’re still not happy, you can ignore all of this and add the <code>--no-dev</code> flag to reverse the behaviour.</p>
+
+<p>Questions? Comments? Head over to <a href="http://twitter.com/sixdaysad">twitter</a> to let me know what you think.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>http://getcomposer.org<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>http://packagist.org<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>https://github.com/composer/composer/pull/1644<a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>https://github.com/composer/composer/pull/1644#issuecomment-14347890<a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p>http://getcomposer.org/doc/<a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+
+    <section>
+        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+    <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
+    <p class="text-center">
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    </p>
+
+    <input type="hidden" value="1" name="embed"/>
+</form>
+
+    </section>
+
+    <hr>
+
+    <footer>
+        <p><small>I love discussion, but not blog comments.  If you want to comment on what's written above, head over to <a href="https://twitter.com/sixdaysad">twitter</a> or <a href="https://alpha.app.net/adambrett">ADN</a>.</small></p>
+    </footer>
+</article>
+
+
+<hr>
+
+<ul class="pager" />
+    
+    <li class="previous">
+        <a href="/2013/02/28/how-to-hire-a-developer.html">&larr; Previous</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/2013/04/09/deprecated-not-depreciated.html">Next &rarr;</a>
+    </li>
+    
+</ul>
+
+
+        <footer>
+            <p>Copyright &copy; 2012 <a href="http://adambrett.co.uk">Adam Brett</a>.  All rights reserved.</p>
+        </footer>
+    </section>
+
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-10572636-6']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

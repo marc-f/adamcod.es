@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    
+        <title>Mimicking the recently not approved Property Get/Set Syntax - adamcod.es</title>
+    
+
+    
+
+    <meta name="author" content="Adam Brett">
+
+    <!-- style -->
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
+
+    <!-- fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <section class="layout-meta">
+        <header>
+            <p class="author vcard">
+                <strong><a href="http://adamcod.es" rel="author">adamcod.es</a></strong><br />
+                by <a href="http://adambrett.co.uk">Adam Brett</a>
+            </p>
+        </header>
+
+        <nav>
+            <ul>
+                <!--li><a href="http://adambrett.co.uk/about">About</a></li-->
+                <li><a href="/archive.html"><i class="icon-book"></i> Archive</a></li>
+                <li><a href="http://feeds.feedburner.com/adamcodes/"><i class="icon-rss"></i> Subscribe</a></li>
+                <li><a href="http://twitter.com/sixdaysad/"><i class="icon-twitter"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </section>
+
+    <section class="layout-main">
+        <article>
+    <div class="instapaper_ignore entry-unrelated">
+
+    <h1 class="entry-title"><a href="http://adamcod.es/2013/01/24/mimicking-the-recently-not-approved-property-get-set-syntax.html">Mimicking the recently not approved Property Get/Set Syntax</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="2013-01-24">Thursday, January 24, 2013</time></p>
+    <div class="twitter-button">
+        
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2013/01/24/mimicking-the-recently-not-approved-property-get-set-syntax.html" data-text="Mimicking the recently not approved Property Get/Set Syntax by @sixdaysad">Tweet</a>
+        
+    </div>
+
+    
+
+
+    </div>
+
+    <div class="entry-content">
+        <p>There was a proposal<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> for a new getter and setter syntax that would have enabled you to write code like this:</p>
+
+<div><script src="https://gist.github.com/4621373.js?file=rfc.php"></script>
+<noscript><pre><code>&lt;?php
+
+// Code sample indicating the terminology
+class TimePeriod
+{
+    private $Seconds; // &lt;-- Traditional Property
+
+    public $Hours { // &lt;-- Guarded Property
+        get() { return $this-&gt;Seconds / 3600; }   // &lt;-- Accessor, more specifically a getter
+        set($x) { $this-&gt;Seconds = $x* 3600; }    // &lt;-- Accessor, more specifically a setter
+        isset() { return isset($this-&gt;Seconds); } // &lt;-- Accessor, more specifically an issetter
+        unset() { unset($this-&gt;Seconds); }        // &lt;-- Accessor, more specifically an unsetter
+    }
+}</code></pre></noscript></div>
+
+<p>The benefit here, is that accessing the properties directly on an instantiated object like this:</p>
+
+<div><script src="https://gist.github.com/4621373.js?file=rfc-test.php"></script>
+<noscript><pre><code> &lt;?php
+ // Accessing the property is the same as accessing a class member
+ $time = new TimePeriod();
+ $time-&gt;Hours = 12; // Stored as 43200
+ echo $time-&gt;Hours; // Outputs 12</code></pre></noscript></div>
+
+<p>Would result in the getters and setters being called transparently.  Neat!  There are plenty of use-cases for this, and it would drastically reduce the amount of code in a lot of libraries and frameworks that are simple getters and setters, but unfortunately a large enough minority of core-contributors disagreed, or weren’t happy with the syntax, or the implementation (or something), and the proposal failed to pass, so it won’t be making it into the language. Not so neat.</p>
+
+<p>Fortunately, there is a way to replicate this functionality (albeit with less syntactic sugar) using PHP’s existing Magic Methods, and when combined with PHP 5.4’s traits<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>, we get something pretty close.  Consider the following:</p>
+
+<div><script src="https://gist.github.com/4621373.js?file=trait1.php"></script>
+<noscript><pre><code>&lt;?php
+trait Accessors
+{
+    public function __get($name)
+    {
+        $getter = &quot;get{$name}&quot;;
+        if (method_exists($this, $getter)) {
+            return $this-&gt;$getter();
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        $setter = &quot;set{$name}&quot;;
+        if (method_exists($this, $setter)) {
+            return $this-&gt;$setter($value);
+        }
+    }
+}
+
+// Code sample indicating the terminology
+class TimePeriod
+{
+    use Accessors;
+
+    private $Seconds;  // &lt;-- Traditional Property
+
+    protected function getHours()
+    {
+        return $this-&gt;Seconds / 3600;
+    }
+
+    protected function setHours($value)
+    {
+        return $this-&gt;Seconds = $value * 3600;
+    }
+}</code></pre></noscript></div>
+
+<p>Now if we run our test code again:</p>
+
+<div><script src="https://gist.github.com/4621373.js?file=rfc-test.php"></script>
+<noscript><pre><code> &lt;?php
+ // Accessing the property is the same as accessing a class member
+ $time = new TimePeriod();
+ $time-&gt;Hours = 12; // Stored as 43200
+ echo $time-&gt;Hours; // Outputs 12</code></pre></noscript></div>
+
+<p>We get the correct output!  For PHP 5.3 we could add the magic methods directly into the class that wants to use them, or create a base class and extend everything we want to have access to the magic getter/setters from that, but that feels messy, traits seem like the cleanest way to do this.</p>
+
+<p>If we add <code>__isset</code> and <code>__unset</code> to the <code>Accessor</code> trait, we can replicate that functionality too:</p>
+
+<div><script src="https://gist.github.com/4621373.js?file=trait2.php"></script>
+<noscript><pre><code>&lt;?php
+trait Accessors
+{
+    public function __isset($name)
+    {
+        $issetter = &quot;isset{$name}&quot;;
+        if (method_exists($this, $issetter)) {
+            return $this-&gt;$issetter();
+        }
+    }
+
+    public function __unset($name)
+    {
+        $unsetter = &quot;set{$name}&quot;;
+        if (method_exists($this, $unsetter)) {
+            return $this-&gt;$unsetter();
+        }
+    }
+}
+
+// Code sample indicating the terminology
+class TimePeriod
+{
+    use Accessors;
+
+    private $Seconds;  // &lt;-- Traditional Property
+
+    protected function issetHours()
+    {
+        return isset($this-&gt;Seconds);
+    }
+
+    protected function unsetHours($value)
+    {
+        return unset($this-&gt;Seconds);
+    }
+}</code></pre></noscript></div>
+
+<p>Obviously this is a lot more verbose than the original RFC, but it does provide a way to mimic some of its functionality.  If you want to use it, you can see the full trait in <a href="https://gist.github.com/4621373#file-trait-full-php">this gist</a>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>https://wiki.php.net/rfc/propertygetsetsyntax-v1.2<a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>http://php.net/manual/en/language.oop5.traits.php<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+
+    <section>
+        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+    <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
+    <p class="text-center">
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    </p>
+
+    <input type="hidden" value="1" name="embed"/>
+</form>
+
+    </section>
+
+    <hr>
+
+    <footer>
+        <p><small>I love discussion, but not blog comments.  If you want to comment on what's written above, head over to <a href="https://twitter.com/sixdaysad">twitter</a> or <a href="https://alpha.app.net/adambrett">ADN</a>.</small></p>
+    </footer>
+</article>
+
+
+<hr>
+
+<ul class="pager" />
+    
+    <li class="previous">
+        <a href="/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html">&larr; Previous</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/2013/02/12/mark-old-posts-liquid-tag-jekyll.html">Next &rarr;</a>
+    </li>
+    
+</ul>
+
+
+        <footer>
+            <p>Copyright &copy; 2012 <a href="http://adambrett.co.uk">Adam Brett</a>.  All rights reserved.</p>
+        </footer>
+    </section>
+
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-10572636-6']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

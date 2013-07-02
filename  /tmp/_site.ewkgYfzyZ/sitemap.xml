@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    
+    <url>
+        <loc>http://adamcod.es/archive.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/atom.xml</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/sitemap.xml</loc>
+    </url>
+    
+    
+    <url>
+        <loc>http://adamcod.es/2013/07/02/you-cant-trust-the-cloud.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/06/04/deploy-a-basic-lamp-stack-digital-ocean-chef-solo.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/05/30/zend-1.x-phpunit-3.4-and-3.7-composer.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/05/10/composer-and-zend-framework-1.x.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/04/09/deprecated-not-depreciated.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/03/07/composer-install-vs-composer-update.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/02/28/how-to-hire-a-developer.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/02/12/mark-old-posts-liquid-tag-jekyll.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/01/24/mimicking-the-recently-not-approved-property-get-set-syntax.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/01/15/vagrant-is-easy-chef-is-hard.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2013/01/08/why-psr3-doesnt-make-sense.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2012/08/10/introducing-tweetest-php-test-framework.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2012/08/03/git-cleanly-move-between-branches.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2012/07/25/imagine-php-image-library.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2012/07/17/cakephp-class-string-not-found.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2012/07/13/unchangable-public-variables-in-php.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2012/07/10/unable-to-run-adb-andriod-ubuntu-eclipse.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2012/07/04/git-changes-wrong-branch.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2012/07/03/anatomy-of-a-good-commit-message.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/2012/06/29/welcome-to-the-first-post.html</loc>
+    </url>
+    
+</urlset>

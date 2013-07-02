@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    
+        <title>Git - A clean branch switching strategy - adamcod.es</title>
+    
+
+    
+
+    <meta name="author" content="Adam Brett">
+
+    <!-- style -->
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
+
+    <!-- fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <section class="layout-meta">
+        <header>
+            <p class="author vcard">
+                <strong><a href="http://adamcod.es" rel="author">adamcod.es</a></strong><br />
+                by <a href="http://adambrett.co.uk">Adam Brett</a>
+            </p>
+        </header>
+
+        <nav>
+            <ul>
+                <!--li><a href="http://adambrett.co.uk/about">About</a></li-->
+                <li><a href="/archive.html"><i class="icon-book"></i> Archive</a></li>
+                <li><a href="http://feeds.feedburner.com/adamcodes/"><i class="icon-rss"></i> Subscribe</a></li>
+                <li><a href="http://twitter.com/sixdaysad/"><i class="icon-twitter"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </section>
+
+    <section class="layout-main">
+        <article>
+    <div class="instapaper_ignore entry-unrelated">
+
+    <h1 class="entry-title"><a href="http://adamcod.es/2012/08/03/git-cleanly-move-between-branches.html">Git - A clean branch switching strategy</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="2012-08-03">Friday, August 03, 2012</time></p>
+    <div class="twitter-button">
+        
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2012/08/03/git-cleanly-move-between-branches.html" data-text="Git - A clean branch switching strategy by @sixdaysad">Tweet</a>
+        
+    </div>
+
+    <div class="alert alert-warning">
+  <h4>Out Of Date Warning</h4>
+
+  <p>
+    This article was published on <strong>Friday, August 03, 2012</strong> which was
+    <strong>more than 6 months ago </strong>, this means the content may be
+    out of date or no longer relevant.  You should <strong>verify that the
+    technical information in this article is still current</strong> before
+    relying upon it for your own purposes.
+  </p>
+</div>
+
+
+
+    </div>
+
+    <div class="entry-content">
+        <h2 id="background">Background</h2>
+
+<p>You’re working on <code>feature/awesome-new-stuff</code> and have a whole bunch of changes that you don’t want to commit yet, and you get a call about a bug that needs to be fixed asap.  You checkout develop, create a hotfix branch and make your changes.  Then you do <code>git status</code> and see all of your experimental changes from <code>feature/awesome-new-stuff</code> have come with you, making it harder to spot the changes relating only to the hotfix.</p>
+
+<h2 id="the-quick-and-dirty">The Quick and Dirty</h2>
+
+<p>The simplest way to avoid this is to stash any changes before you move to another branch, this looks something like this:</p>
+
+<div><script src="https://gist.github.com/3075876.js?file=quick-and-dirty.sh"></script>
+<noscript><pre><code>git stash
+git checkout develop
+git flow hotfix start &lt;release&gt;
+...
+&lt;codecodecode&gt;
+...
+git flow hotfix finish &lt;release&gt;
+git checkout feature/awesome-new-stuff
+git stash pop</code></pre></noscript></div>
+
+<p>However, if you find yourself doing this a lot, for a lot of different features and branches, this can get messy pretty quickly.  Instead, why not leverage the flexibility of git and just commit early and often, and simply amend as you go:</p>
+
+<div><script src="https://gist.github.com/3075876.js?file=wip.sh"></script>
+<noscript><pre><code>git add .
+git commit -a -m &#39;WIP&#39;
+...
+&lt;codecodecode&gt;
+...
+git add .
+git commit --amend</code></pre></noscript></div>
+
+<p>Because you are working locally in git commits can be undone and re-done at will, it’s only when you push the commit to a central repository that you need to pay serious attention.</p>
+
+<p>So create a work in progress commit, and then use <code>git commit --amend</code> to add to it often.  Then when you go to switch branches to work on another feature you don’t have to worry about stashing and popping or bringing changes with you.</p>
+
+<p>When you’re ready for the real commit on a branch you can run:</p>
+
+<div><script src="https://gist.github.com/3075876.js?file=finish.sh"></script>
+<noscript><pre><code>git reset --soft HEAD~
+git reset</code></pre></noscript></div>
+
+<p>The first reset will undo your last commit (the WIP commit), with the second reset un-staging the files.  You can now re-commit all of your changes paying more serious attention to your commit message.</p>
+
+    </div>
+
+    <section>
+        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+    <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
+    <p class="text-center">
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    </p>
+
+    <input type="hidden" value="1" name="embed"/>
+</form>
+
+    </section>
+
+    <hr>
+
+    <footer>
+        <p><small>I love discussion, but not blog comments.  If you want to comment on what's written above, head over to <a href="https://twitter.com/sixdaysad">twitter</a> or <a href="https://alpha.app.net/adambrett">ADN</a>.</small></p>
+    </footer>
+</article>
+
+
+<hr>
+
+<ul class="pager" />
+    
+    <li class="previous">
+        <a href="/2012/07/25/imagine-php-image-library.html">&larr; Previous</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/2012/08/10/introducing-tweetest-php-test-framework.html">Next &rarr;</a>
+    </li>
+    
+</ul>
+
+
+        <footer>
+            <p>Copyright &copy; 2012 <a href="http://adambrett.co.uk">Adam Brett</a>.  All rights reserved.</p>
+        </footer>
+    </section>
+
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-10572636-6']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

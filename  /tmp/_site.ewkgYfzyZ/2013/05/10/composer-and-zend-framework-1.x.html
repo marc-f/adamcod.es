@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    
+        <title>Zend Framework 1.x and Composer - adamcod.es</title>
+    
+
+    
+
+    <meta name="author" content="Adam Brett">
+
+    <!-- style -->
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
+
+    <!-- fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <section class="layout-meta">
+        <header>
+            <p class="author vcard">
+                <strong><a href="http://adamcod.es" rel="author">adamcod.es</a></strong><br />
+                by <a href="http://adambrett.co.uk">Adam Brett</a>
+            </p>
+        </header>
+
+        <nav>
+            <ul>
+                <!--li><a href="http://adambrett.co.uk/about">About</a></li-->
+                <li><a href="/archive.html"><i class="icon-book"></i> Archive</a></li>
+                <li><a href="http://feeds.feedburner.com/adamcodes/"><i class="icon-rss"></i> Subscribe</a></li>
+                <li><a href="http://twitter.com/sixdaysad/"><i class="icon-twitter"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </section>
+
+    <section class="layout-main">
+        <article>
+    <div class="instapaper_ignore entry-unrelated">
+
+    <h1 class="entry-title"><a href="http://adamcod.es/2013/05/10/composer-and-zend-framework-1.x.html">Zend Framework 1.x and Composer</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="2013-05-10">Friday, May 10, 2013</time></p>
+    <div class="twitter-button">
+        
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2013/05/10/composer-and-zend-framework-1.x.html" data-text="Zend Framework 1.x and Composer by @sixdaysad">Tweet</a>
+        
+    </div>
+
+    
+
+
+    </div>
+
+    <div class="entry-content">
+        <p>Using Zend Framework 1.x with composer is fairly straight forward, even if not immediately obvious.  First, let’s create a new Zend Framework 1 project in the standard way, using the zf tool:</p>
+
+<pre><code>zf create project zend-composer
+cd zend-composer/public
+php -S 127.0.0.1:8000
+</code></pre>
+
+<p>Now visit http://127.0.0.1:8000 in your browser and you should see the familiar “Welcome to the Zend Framework!” page.</p>
+
+<p><img src="/img/posts/welcome-to-zend-framework.png" alt="Welcome to Zend Framework" /></p>
+
+<p>The default project is loading Zend Framework from your include path, so first off, let’s break that.  Edit <code>./public/index.php</code> and comment out the <code>get_include_path()</code> line, like so:</p>
+
+<pre><code>// Ensure library/ is on include_path
+set_include_path(implode(PATH_SEPARATOR, array(
+    realpath(APPLICATION_PATH . '/../library'),
+    // get_include_path(),
+)));
+</code></pre>
+
+<p>Refresh your browser and you should now be getting an error similar to this:</p>
+
+<p><img src="/img/posts/zend-include-path.png" alt="Zend missing include path" /></p>
+
+<p>That’s good, now we’re going to install Zend Framework via composer and add that to our include path.  Close the PHP server using <code>Ctrl+C</code> and run the following<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>:</p>
+
+<pre><code>cd ..
+composer init
+</code></pre>
+
+<p>Fill in the details for your project until you get to:</p>
+
+<pre><code>Would you like to define your dependencies (require) interactively [yes]?
+</code></pre>
+
+<p>Press <code>return</code> for yes, then search for <code>zendframework1</code>:</p>
+
+<p><img src="/img/posts/search-dependencies.png" alt="Search for dependencies" /></p>
+
+<p>Enter the number for the line that matches <code>zendframework/zendframework1</code> which for me is <code>0</code>, and probably will be for you too.</p>
+
+<p>Next, enter the version you require, use <code>1.*</code> for the latest 1.x version<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>.</p>
+
+<p>At the next <code>Search for a package []:</code> prompt, press <code>return</code>, we don’t want to define any dev dependencies yet, so type <code>no</code> at the next prompt then <code>return</code> to confirm generation.</p>
+
+<p>You should end up with a file in your project root called <code>composer.json</code> that looks similar to this:</p>
+
+<pre><code>{
+    "name": "adam/zend-composer",
+    "require": {
+        "zendframework/zendframework1": "1.*"
+    },
+    "authors": [
+        {
+            "name": "Adam Brett",
+            "email": ""
+        }
+    ]
+}
+</code></pre>
+
+<p>Now type <code>composer install</code> to get things started.  Composer will go away and download a fresh copy of the latest version of Zend Framework and place it in your projects <code>./vendor</code> directory.</p>
+
+<p>We can check like so:</p>
+
+<pre><code>$ tree vendor -L 1
+vendor
+├── autoload.php
+├── composer
+└── zendframework
+</code></pre>
+
+<p>Great.  We’re almost done.  Now remember that line we commented out?  We need to update that to point at our new Zend Framework download.  The actual library lives in <code>./vendor/zendframework/zendframework1/library</code> so open up <code>./public/index.php</code> and change the commented line to match:</p>
+
+<pre><code>// Ensure library/ is on include_path
+set_include_path(implode(PATH_SEPARATOR, array(
+    realpath(APPLICATION_PATH . '/../library'),
+    realpath(APPLICATION_PATH . '/../vendor/zendframework/zendframework1/library')
+)));
+</code></pre>
+
+<p>Now if we restart the PHP server using:</p>
+
+<pre><code>cd public
+php -S 127.0.0.1:8000
+</code></pre>
+
+<p>And refresh the site in our browser, we should see the “Welcome to Zend Framework” page again.  Success!</p>
+
+<p>There’s one last thing to do if you want to consume other composer packages in Zend Framework, and that’s to add composer’s autoloader.  Edit <code>./public/index.php</code> again and add the autoloader around line 17, just above the <code>require_once</code> for <code>Zend_Application</code>:</p>
+
+<pre><code>require_once realpath(APPLICATION_PATH . '/../vendor/autoload.php');
+
+/** Zend_Application */
+require_once 'Zend/Application.php';
+</code></pre>
+
+<p>Now repeat these steps in <code>./tests/bootstrap.php</code> and we’re all done!</p>
+
+<h2 id="read-next">Read Next</h2>
+
+<ul>
+  <li><a href="/2013/05/30/zend-1.x-phpunit-3.4-and-3.7-composer.html">Zend Framework 1.x, PHPUnit 3.4 and PHPUnit 3.7 side-by-side</a></li>
+</ul>
+
+<h2 id="further-reading">Further Reading</h2>
+
+<ul>
+  <li><a href="https://getcomposer.org/doc/00-intro.md">Getting start with composer</a></li>
+  <li><a href="https://packagist.org/">Packagist</a></li>
+</ul>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>I’m assuming you have composer <a href="https://github.com/composer/composer#global-installation-of-composer-manual">installed system wide</a><a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Zend Framework 2 is a <a href="https://packagist.org/packages/zendframework/zendframework">separate composer package</a>, rather than a version 2.x, so it’s impossible to install ZF2 via the zendframework1 package.<a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+
+    <section>
+        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+    <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
+    <p class="text-center">
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    </p>
+
+    <input type="hidden" value="1" name="embed"/>
+</form>
+
+    </section>
+
+    <hr>
+
+    <footer>
+        <p><small>I love discussion, but not blog comments.  If you want to comment on what's written above, head over to <a href="https://twitter.com/sixdaysad">twitter</a> or <a href="https://alpha.app.net/adambrett">ADN</a>.</small></p>
+    </footer>
+</article>
+
+
+<hr>
+
+<ul class="pager" />
+    
+    <li class="previous">
+        <a href="/2013/04/09/deprecated-not-depreciated.html">&larr; Previous</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/2013/05/30/zend-1.x-phpunit-3.4-and-3.7-composer.html">Next &rarr;</a>
+    </li>
+    
+</ul>
+
+
+        <footer>
+            <p>Copyright &copy; 2012 <a href="http://adambrett.co.uk">Adam Brett</a>.  All rights reserved.</p>
+        </footer>
+    </section>
+
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-10572636-6']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

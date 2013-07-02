@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    
+        <title>Unable to run 'adb', Andriod SDK, Ubuntu, Eclipse - adamcod.es</title>
+    
+
+    
+
+    <meta name="author" content="Adam Brett">
+
+    <!-- style -->
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
+
+    <!-- fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <section class="layout-meta">
+        <header>
+            <p class="author vcard">
+                <strong><a href="http://adamcod.es" rel="author">adamcod.es</a></strong><br />
+                by <a href="http://adambrett.co.uk">Adam Brett</a>
+            </p>
+        </header>
+
+        <nav>
+            <ul>
+                <!--li><a href="http://adambrett.co.uk/about">About</a></li-->
+                <li><a href="/archive.html"><i class="icon-book"></i> Archive</a></li>
+                <li><a href="http://feeds.feedburner.com/adamcodes/"><i class="icon-rss"></i> Subscribe</a></li>
+                <li><a href="http://twitter.com/sixdaysad/"><i class="icon-twitter"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </section>
+
+    <section class="layout-main">
+        <article>
+    <div class="instapaper_ignore entry-unrelated">
+
+    <h1 class="entry-title"><a href="http://adamcod.es/2012/07/10/unable-to-run-adb-andriod-ubuntu-eclipse.html">Unable to run 'adb', Andriod SDK, Ubuntu, Eclipse</a></h1>
+    <p class="meta"><time pubdate class="published" datetime="2012-07-10">Tuesday, July 10, 2012</time></p>
+    <div class="twitter-button">
+        
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://adamcod.es/2012/07/10/unable-to-run-adb-andriod-ubuntu-eclipse.html" data-text="Unable to run 'adb', Andriod SDK, Ubuntu, Eclipse by @sixdaysad">Tweet</a>
+        
+    </div>
+
+    <div class="alert alert-warning">
+  <h4>Out Of Date Warning</h4>
+
+  <p>
+    This article was published on <strong>Tuesday, July 10, 2012</strong> which was
+    <strong>more than 6 months ago </strong>, this means the content may be
+    out of date or no longer relevant.  You should <strong>verify that the
+    technical information in this article is still current</strong> before
+    relying upon it for your own purposes.
+  </p>
+</div>
+
+
+
+    </div>
+
+    <div class="entry-content">
+        <p>If you get the following really annoying message while trying to install the andriod SDK on ubuntu:</p>
+
+<pre><code>Stopping ADB server failed (code -1).
+Unable to run 'adb': Cannot run program "/home/user/android-sdk-linux/platform-tools/adb": java.io.IOException: error=2, No such file or directory.
+Starting ADB server failed (code -1).
+</code></pre>
+
+<p>It’s because you’re running 64bit ubuntu, and phones (and therefore the SDK) are only 32bit, if you run:</p>
+
+<pre><code>apt-get install ia32-libs</code></pre>
+
+<p>It will solve all of your problems and the SDK will install correctly.</p>
+
+    </div>
+
+    <section>
+        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+    <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
+    <p class="text-center">
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    </p>
+
+    <input type="hidden" value="1" name="embed"/>
+</form>
+
+    </section>
+
+    <hr>
+
+    <footer>
+        <p><small>I love discussion, but not blog comments.  If you want to comment on what's written above, head over to <a href="https://twitter.com/sixdaysad">twitter</a> or <a href="https://alpha.app.net/adambrett">ADN</a>.</small></p>
+    </footer>
+</article>
+
+
+<hr>
+
+<ul class="pager" />
+    
+    <li class="previous">
+        <a href="/2012/07/04/git-changes-wrong-branch.html">&larr; Previous</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/2012/07/13/unchangable-public-variables-in-php.html">Next &rarr;</a>
+    </li>
+    
+</ul>
+
+
+        <footer>
+            <p>Copyright &copy; 2012 <a href="http://adambrett.co.uk">Adam Brett</a>.  All rights reserved.</p>
+        </footer>
+    </section>
+
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-10572636-6']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

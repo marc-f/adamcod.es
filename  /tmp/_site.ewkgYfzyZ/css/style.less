@@ -1,0 +1,418 @@
+/*
+  ADAMCOD.ES STYLESHEET
+  --------------------------------------
+  Copyright : All Rights Reserved.
+  Author    : Adam Brett
+  Revision  : 2
+  Date      : 28 Jun 2012
+  Date      : 28 Jan 2013
+
+/* Import Bootstrap
+-------------------------------------------------- */
+
+// CSS Reset
+@import "bootstrap/reset.less";
+
+// Core variables and mixins
+@import "bootstrap/variables.less"; // Modify this for custom colors, font-sizes, etc
+
+// Overwrite some variables
+
+// Colours
+// -------------------------
+@baseColor:              @blue;
+
+// Links
+// -------------------------
+@linkColor:             @baseColor;
+@linkColorHover:        darken(@linkColor, 15%);
+
+// Typography
+// -------------------------
+@sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
+@serifFontFamily:       "Cardo", Georgia, "Times New Roman", Times, serif;
+@monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace;
+
+@baseFontSize:          17px;
+@baseFontFamily:        @serifFontFamily;
+@baseLineHeight:        27px;
+@altFontFamily:         "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+@headingsFontFamily:    @altFontFamily; // empty to use BS default, @baseFontFamily
+@headingsFontWeight:    300;            // instead of browser default, bold
+@headingsColor:         @baseColor;     // empty to use BS default, @textColor
+
+@import "bootstrap/mixins.less";
+
+// Grid system and page structure
+@import "bootstrap/scaffolding.less";
+
+// Base CSS
+@import "bootstrap/type.less";
+ul, ol {
+    margin-bottom: @baseLineHeight;
+}
+
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+    margin-bottom: 13.5px;
+    margin-top: 13.5px;
+}
+
+@import "bootstrap/code.less";
+pre,
+code {
+    font-size: 13px;
+}
+pre {
+    margin-bottom: @baseLineHeight;
+}
+
+@import "bootstrap/tables.less";
+
+// Components: common
+@import "bootstrap/wells.less";
+
+// Components: Buttons & Alerts
+@import "bootstrap/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
+.alert {
+    font-family: @sansFontFamily;
+    font-size: 14px;
+    line-height: @baseLineHeight;
+
+    h1, h2, h3, h4, h5, h6 {
+        color: inherit;
+        font-family: @sansFontFamily;
+        font-size: 16px;
+        font-weight: bold;
+    }
+}
+
+// Components: Nav
+@import "bootstrap/pager.less";
+.pager a {
+    .border-radius(1.6em);
+}
+
+// Utility classes
+@import "bootstrap/utilities.less"; // Has to be last to override when necessary
+
+// Button classes
+@import "bootstrap/buttons.less";
+
+// Form classes
+@import "bootstrap/forms.less";
+
+/* Import Font-Awesome
+-------------------------------------------------- */
+@import "font-awesome/less/font-awesome.less";
+
+/*
+    position
+    display and box model
+    font, leading, color, text
+    background and border
+    CSS3 properties like border-radius and box-shadow
+    and a handful of other purely visual properties
+*/
+
+/* Basic
+-------------------------------------------------- */
+body:before {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 50;
+
+    display: block;
+
+    height: 5px;
+    width: 100%;
+
+    background: @baseColor;
+
+    content: "";
+}
+
+
+body {
+    width: 760px;
+
+    position: relative;
+
+    margin: 0 auto;
+    padding: 0 100px;
+
+    // background: url(../img/baseline.png) top left;
+}
+
+header {
+    position: fixed;
+    top: 50%;
+
+    z-index: 10;
+
+    padding-left: 610px;
+    padding-top: 50px;
+
+    p {
+        margin-top: 1.7em;
+
+        text-align: left;
+
+        strong {
+            a {
+                font-family: @headingsFontFamily;
+                font-size: 36px;
+
+                color: @headingsColor;
+
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+nav {
+    width: 140px;
+
+    position: fixed;
+    top: 50%;
+
+    z-index: 10;
+
+    padding-left: 610px;
+
+    font-family: @headingsFontFamily;
+    font-size: 14px;
+    font-weight: bold;
+
+
+    ul {
+        margin: -50% 0 0;
+
+        list-style-type: none;
+
+        li {
+            line-height: 22px;
+        }
+    }
+
+    a {
+        display: inline-block;
+
+        margin: 5px 0;
+        padding: 5px 14px;
+
+        text-decoration: none;
+
+        color: @gray;
+
+        background-color: #fff;
+        border: 1px solid #ddd;
+
+        .border-radius(1.6em);
+
+        &:hover {
+            text-decoration: none;
+
+            background-color: #f5f5f5;
+        }
+    }
+}
+
+article {
+    min-width: 500px;
+
+    overflow: auto;
+    position: relative;
+    z-index: 20;
+
+    margin: 107px 0 0;
+
+    div.embed {
+        margin-bottom: @baseLineHeight;
+    }
+
+    h1 {
+        margin-bottom: @baseLineHeight;
+
+        line-height: @baseLineHeight;
+    }
+
+    h2 {
+        margin-bottom: @baseLineHeight;
+
+        line-height: @baseLineHeight;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    img {
+        display: block;
+
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    p {
+        margin-bottom: @baseLineHeight;
+
+        &.meta {
+            margin: 0;
+
+            font-family: @headingsFontFamily;
+
+            color: @gray;
+        }
+    }
+
+    ol li li {
+        list-style-type: lower-latin;
+
+        li {
+            list-style-type: lower-roman;
+        }
+    }
+
+    footer p {
+        margin: 0;
+    }
+
+    .entry-content {
+        margin-top: @baseLineHeight;
+    }
+}
+
+
+/* Layout
+-------------------------------------------------- */
+.layout-main {
+    margin: @baseLineHeight 200px 0 0;
+}
+
+/* Modules
+-------------------------------------------------- */
+.text-center {
+    text-align: center;
+}
+
+.footnotes {
+    font-size: 0.8em;
+
+    ul, ol {
+        p {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.gist {
+    font-size: 13px;
+    line-height: 1.6em;
+
+    pre {
+        white-space: pre;
+    }
+}
+
+.gist-meta {
+    padding: 0 .5em !important;
+
+    font-size: 10px !important;
+    line-height: 2em !important;
+}
+
+#disqus_thread {
+    width: 400px;
+
+    position: relative;
+    z-index: 1;
+
+    margin: 120px 200px 60px 0;
+}
+
+.twitter-button {
+    height: 23px;
+    margin: 4px 0 0;
+}
+
+.pager {
+    position: relative;
+    z-index: 11;
+}
+
+/* Responsive
+-------------------------------------------------- */
+@media (max-width: 980px) {
+    body {
+        padding-left: 20px;
+        padding-right: 20px;
+
+        width: auto;
+    }
+
+    article {
+        width: auto;
+
+        margin: 0;
+    }
+
+    header, nav {
+        position: static;
+
+        padding: 0;
+    }
+
+        header p {
+            text-align: center;
+        }
+
+    nav {
+        text-align: center;
+        width: auto;
+
+        ul {
+            display: inline-block;
+
+            li {
+                display: inline-block;
+
+                margin: 0 10px;
+
+                line-height: 1.6em;
+            }
+        }
+    }
+
+    .layout-main {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+    }
+
+    body, p, li {
+        font-size: 14px;
+    }
+
+    pre,
+    code {
+        font-size: 10px;
+    }
+
+    h1, header p strong a {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+}
+
