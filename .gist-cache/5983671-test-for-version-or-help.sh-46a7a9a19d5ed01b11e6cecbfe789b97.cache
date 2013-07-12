@@ -1,0 +1,8 @@
+case $subcommand in
+    "-h"|"--help")
+        usage; exit 0
+        ;;
+    "-v"|"--version")
+        version; exit 0
+        ;;
+esac

@@ -1,0 +1,3 @@
+if [ ! -e "$WORKINGDIR/git-adamcodes-$subcommand" ]; then
+    usage; exit 1
+fi

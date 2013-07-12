@@ -1,0 +1,4 @@
+version() {
+    echo "adamcodes git plugin v0.1.0"
+    echo
+}
