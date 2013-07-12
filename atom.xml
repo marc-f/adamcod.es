@@ -4,13 +4,311 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-07-02T15:58:58+01:00</updated>
+  <updated>2013-07-12T13:31:15+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/07/12/how-to-create-git-plugin</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/07/12/how-to-create-git-plugin.html"/>
+    <title>How to Create a Git Plugin</title>
+    <published>2013-07-12T00:00:00+01:00</published>
+    <updated>2013-07-12T00:00:00+01:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    <content type="html">&lt;p&gt;I think most Git users know by now how to create an alias in Git to make a function or command more accessible.  What I think fewer people know, or at least don’t take advantage of, is that you can actually create extensions or plugins to Git to make it do basically anything you want.&lt;/p&gt;
+
+&lt;p&gt;What I think even fewer people realise is actually how amazingly easy it is to create one of these extensions.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-you-need-to-know-the-essentials&quot;&gt;What You Need to Know (The Essentials)&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Create a shell or bash script that does what you want to do&lt;/li&gt;
+  &lt;li&gt;Name your shell script git-&lt;em&gt;name&lt;/em&gt; where &lt;em&gt;name&lt;/em&gt; is the command you want to run after typing &lt;code&gt;git&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Put your script in &lt;code&gt;/usr/local/bin&lt;/code&gt; or somewhere similar in your &lt;code&gt;$PATH&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Run your script using &lt;code&gt;git name&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Using this method you can make Git do anything you want.  However, what you might want to consider is grouping a bunch of similar scripts together into a module of sorts, much like the Git flow plugin&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.  This would allow you to run your command namespaced, so you could have (for example): &lt;code&gt;git yourname subcommand&lt;/code&gt; or &lt;code&gt;git mycompany deploy&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;more-advanced-usage&quot;&gt;More Advanced Usage&lt;/h2&gt;
+
+&lt;p&gt;Here’s the basic concept:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Create a “wrapper” or access point for your plugin&lt;/li&gt;
+  &lt;li&gt;Create a file/script for each sub-command you want to run&lt;/li&gt;
+  &lt;li&gt;Use your wrapper to load and run your sub-command scripts&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;defining-some-requirements&quot;&gt;Defining Some Requirements&lt;/h3&gt;
+
+&lt;p&gt;For the sake of simplicity, I’m going to call our namespace “adamcodes” and our plugin is going to do three things:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Report its version with the &lt;code&gt;-v&lt;/code&gt; or &lt;code&gt;--version&lt;/code&gt; flags&lt;/li&gt;
+  &lt;li&gt;Display usage information if the subcommand is missing, or the &lt;code&gt;-h&lt;/code&gt; or &lt;code&gt;--help&lt;/code&gt; flags are used&lt;/li&gt;
+  &lt;li&gt;Print &lt;code&gt;Hello {name}|World&lt;/code&gt; when we use the &lt;code&gt;hello&lt;/code&gt; subcommand, printing out &lt;code&gt;Hello {name}&lt;/code&gt; if any further options are passed, or &lt;code&gt;Hello World&lt;/code&gt; if not.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h3&gt;
+
+&lt;p&gt;First, let’s create a directory to work in: &lt;code&gt;mkdir -p ~/src/adamcodes-git-plugin &amp;amp;&amp;amp; cd ~/src/adamcodes-git-plugin&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now we need to create our wrapper file.  This is the file that will run all of our commands, it will actually be the only executable file in our plugin.&lt;/p&gt;
+
+&lt;p&gt;This file needs to be named in the following format, this is essential or Git won’t be able to find it.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;touch git-adamcodes&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;That’s it.  It has to start with &lt;code&gt;git-&lt;/code&gt; and then the bit that follows is the command you’ll use to run it.&lt;/p&gt;
+
+&lt;p&gt;Now let’s edit that file and add some stuff.  The first line of every executable script is the hashbang or shebang.  This is so the operating system knows what to use to run your script.&lt;/p&gt;
+
+&lt;p&gt;You could use PHP, Ruby, Python or whatever here and Git should just run it as normal.  I haven’t tested that though, so I’m going to stick to using bash.&lt;/p&gt;
+
+&lt;h3 id=&quot;main-script-wrapperrunner&quot;&gt;Main Script (Wrapper/Runner)&lt;/h3&gt;
+
+&lt;p&gt;A hashbang looks like this:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=hashbang.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;#!/bin/sh&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Now most people will have a compatible shell available in that location, but we can make it a bit more portable by checking the users’ ENV for the location of their shell, just in-case:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=hashbang-env.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;#!/usr/bin/env sh&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, we need a couple of help functions.  These should be fairly self explanatory, they just print words to the screen.  The first is going to print out our version number:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=version.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;version() {
+    echo &amp;quot;adamcodes git plugin v0.1.0&amp;quot;
+    echo
+}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;And the next is going to print our usage information:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=usage.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;usage() {
+    echo &amp;quot;usage: git adamcodes &amp;lt;subcommand&amp;gt;&amp;quot;
+    echo
+    echo &amp;quot;Available subcommands are:&amp;quot;
+    echo &amp;quot;hello &amp;lt;name&amp;gt;  Print out Hello World or Hello &amp;lt;name&amp;gt; (if provided)&amp;quot;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, we get into the main part.  Tradition dictates that the main execution of a bash script takes place in the &lt;code&gt;main&lt;/code&gt; function, so that’s what we’ll call ours, too:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=main.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;main() {
+    if [ &amp;quot;$#&amp;quot; -lt 1 ]; then
+        usage; exit 1
+    fi
+
+    local subcommand=&amp;quot;$1&amp;quot;; shift
+
+    case $subcommand in
+        &amp;quot;-h&amp;quot;|&amp;quot;--help&amp;quot;)
+            usage; exit 0
+            ;;
+        &amp;quot;-v&amp;quot;|&amp;quot;--version&amp;quot;)
+            version; exit 0
+            ;;
+    esac
+
+    export WORKINGDIR=$(dirname &amp;quot;$(echo &amp;quot;$0&amp;quot; | sed -e &amp;#39;s,\\,/,g&amp;#39;)&amp;quot;)
+    if [ ! -e &amp;quot;$WORKINGDIR/git-adamcodes-$subcommand&amp;quot; ]; then
+        usage; exit 1
+    fi
+
+    source &amp;quot;$WORKINGDIR/git-adamcodes-$subcommand&amp;quot;
+
+    if [ ! type &amp;quot;cmd_$subcommand&amp;quot; ]; then
+        usage; exit 1
+    fi
+
+    cmd_$subcommand &amp;quot;$@&amp;quot;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Okay, if you’re not used to shell scripting this will probably look a bit scary.  Let’s break it down piece-by-piece.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=param-count.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;if [ &amp;quot;$#&amp;quot; -lt 1 ]; then
+    usage; exit 1
+fi&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;This first line is fairly simple.  When you pass an argument to a shell script it gets passed in in numbered variables $0 to $N.  Each space is treated as a new variable, with $0 containing the name of the script you ran.  &lt;code&gt;if [ &quot;$#&quot; -lt 1 ]&lt;/code&gt; is basically saying “if the number of options is less than one”.&lt;/p&gt;
+
+&lt;p&gt;As we’re always expecting a subcommand, we can assume if the number of options is less than 1 we have an error, and should display our usage information.  That’s what the next line does &lt;code&gt;usage&lt;/code&gt; simply runs the &lt;code&gt;usage&lt;/code&gt; function we defined above.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;exit 1&lt;/code&gt; is all about reporting back to Git (and the shell) whether a command ran successfully or not.  &lt;code&gt;exit&lt;/code&gt; will kill the execution of a script, just like in PHP, and a successful exit means exiting with &lt;code&gt;0&lt;/code&gt;.  An exit in the range &lt;code&gt;1-255&lt;/code&gt; is considered an error and can be used to map to error messages if you have a manual or whatever.  We don’t, so we’ll just exit with 1 to let the shell know it didn’t run successfully, as we expected more parameters.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=get-subcommand.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;local subcommand=&amp;quot;$1&amp;quot;; shift&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;The next line does two things again.  You can do more than one thing per line in bash by separating with a semi-colon.  If you put them one per line you don’t need the semi-colon.  First, we define a local variable called &lt;code&gt;subcommand&lt;/code&gt;, hence, the &lt;code&gt;local&lt;/code&gt;, and then we’re assigning the first parameter passed to our script into that variable.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;shift&lt;/code&gt; function moves the numbers for passed variables along the number of spaces passed to it.  That is to say, if we called our script like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./script.sh hello world this is a test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We would end up with the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$0: ./script.sh
+$1: hello
+$2: world
+$3: this
+$4: is
+$5: a
+$6: test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If we called &lt;code&gt;shift&lt;/code&gt; without any number afterwards, it will just move things along one space, so in our example this would leave us with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$0: ./script.sh
+$1: world
+$2: this
+$3: is
+$4: a
+$5: test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If we then called &lt;code&gt;shift&lt;/code&gt; but this time passed in the number 2, like so: &lt;code&gt;shift 2&lt;/code&gt; we should end up with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$0: ./script.sh
+$1: this
+$2: is
+$3: a
+$4: test
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You’ll notice the script name always remains in &lt;code&gt;$0&lt;/code&gt;, this is important for later.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=test-for-version-or-help.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;case $subcommand in
+    &amp;quot;-h&amp;quot;|&amp;quot;--help&amp;quot;)
+        usage; exit 0
+        ;;
+    &amp;quot;-v&amp;quot;|&amp;quot;--version&amp;quot;)
+        version; exit 0
+        ;;
+esac&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Next we use a standard case statement to check whether the subcommand we just set is equal to &lt;code&gt;-h&lt;/code&gt;, &lt;code&gt;--help&lt;/code&gt;, &lt;code&gt;-v&lt;/code&gt; or &lt;code&gt;--version&lt;/code&gt;.  As per our spec above, each of these should run a specific function.  If we find a match we simply run the correct function and exit with 0, which means that we ran successfully.  the &lt;code&gt;;;&lt;/code&gt; below each set of commands is the equivalent of &lt;code&gt;break&lt;/code&gt; in PHP and tells the shell to not continue checking the rest of the case statement.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=get-working-dir.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;local workingdir=$(dirname &amp;quot;$(echo &amp;quot;$0&amp;quot; | sed -e &amp;#39;s,\\,/,g&amp;#39;)&amp;quot;)&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;This next snippet gets our working directory.  We need this so we know where to look for our sub-command files, as they should be in the same directory as the script we’re running.&lt;/p&gt;
+
+&lt;p&gt;To do this, we use a couple of bash tricks.  First, we create a local variable as we did before.  We then use &lt;code&gt;$(...)&lt;/code&gt;, which allows you to execute a command and capture the result into the variable.&lt;/p&gt;
+
+&lt;p&gt;The bash function we’re calling is dirname, which like the PHP equivalent takes the name of a file and provides you with the directory name.&lt;/p&gt;
+
+&lt;p&gt;As we mentioned earlier, when you run a bash script the script name gets passed into the script in the variable &lt;code&gt;$0&lt;/code&gt;, so running &lt;code&gt;$(dirname $0)&lt;/code&gt; should give us what we’re after, however, that’s not so great for our windows users (e.g. cygwin), as the path separator will be the wrong way around.  Therefore, we nest another &lt;code&gt;$(...)&lt;/code&gt; call where we echo out the value of &lt;code&gt;$0&lt;/code&gt;, pipe the output into the &lt;code&gt;sed&lt;/code&gt; command, and replace all backslashes with forward slashes.  We then take the output of that (captured by the nested &lt;code&gt;$(...)&lt;/code&gt;) and pass it back into dirname, and then assign the captured output of that to the &lt;code&gt;workingdir&lt;/code&gt; variable.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=check-file-exists.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;if [ ! -e &amp;quot;$WORKINGDIR/git-adamcodes-$subcommand&amp;quot; ]; then
+    usage; exit 1
+fi&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, we’re simply checking to see if the file for the subcommand exists.  We’re expecting the files to be in the same directory as our current file, and to be named in the format &lt;code&gt;git-namespace-subcommand&lt;/code&gt;.  If we don’t find it, we need to print out our usage info and exit with an error status.  If we do, we can simply carry on.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=load-file.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;source &amp;quot;$WORKINGDIR/git-adamcodes-$subcommand&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;source&lt;/code&gt; is a built-in command that will run a file inside the current shell.  That means it will load all functions and variables from that file and they will be available throughout the shell.  Anything that this script executes will also execute, it’s exactly the same as running the file yourself.&lt;/p&gt;
+
+&lt;p&gt;This means we can put our sub-commands in their own files, with their own variables, but not run them, just make them accessible when we need them.  Think of this like a PHP &lt;code&gt;include&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=make-sure-file-includes-subcommand.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;if [ ! type &amp;quot;cmd_$subcommand&amp;quot; ]; then
+    usage; exit 1
+fi&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we’ve loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn’t there’s obviously something wrong, so do our standard “print usage information and error exit status” step.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=run-command.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;cmd_$subcommand &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally we get down to it.  This step runs our sub-command and passes in our &lt;code&gt;$0...$n&lt;/code&gt; variables as function parameters.  We expect our sub-command’s main function to be called &lt;code&gt;cmd_subcommand&lt;/code&gt; where &lt;em&gt;subcommand&lt;/em&gt; is the name of the sub-command you want to type to run it.  If we also called them &lt;code&gt;main&lt;/code&gt; we’d end up with a conflict with our existing main function.&lt;/p&gt;
+
+&lt;p&gt;The reason we used &lt;code&gt;shift&lt;/code&gt; earlier is so that we can write our sub-commands without any knowledge of this wrapper, as far as they’re concerned the variables that get passed in are the same as if they were called directly (without the sub-command name in &lt;code&gt;$1&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;Now we’ve built up our &lt;code&gt;main&lt;/code&gt; function it won’t run on its own, we need to actually call it and pass in our &lt;code&gt;$0...$n&lt;/code&gt; variables.  To do that, we just do the same as above, but call main instead:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=runit.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;main &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;pulling-it-all-together&quot;&gt;Pulling it all Together&lt;/h4&gt;
+
+&lt;p&gt;Finally, bringing it all together our plugin’s main file should look like this:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=git-adamcodes.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;#!/usr/bin/env sh
+
+usage() {
+    echo &amp;quot;usage: git adamcodes &amp;lt;subcommand&amp;gt;&amp;quot;
+    echo
+    echo &amp;quot;Available subcommands are:&amp;quot;
+    echo &amp;quot;hello &amp;lt;name&amp;gt;  Print out Hello World or Hello &amp;lt;name&amp;gt; (if provided)&amp;quot;
+}
+
+version() {
+    echo &amp;quot;adamcodes git plugin v0.1.0&amp;quot;
+    echo
+}
+
+main() {
+    if [ &amp;quot;$#&amp;quot; -lt 1 ]; then
+        usage; exit 1
+    fi
+
+    local subcommand=&amp;quot;$1&amp;quot;; shift
+
+    case $subcommand in
+        &amp;quot;-h&amp;quot;|&amp;quot;--help&amp;quot;)
+            usage; exit 0
+            ;;
+        &amp;quot;-v&amp;quot;|&amp;quot;--version&amp;quot;)
+            version; exit 0
+            ;;
+    esac
+
+    local workingdir=$(dirname &amp;quot;$(echo &amp;quot;$0&amp;quot; | sed -e &amp;#39;s,\\,/,g&amp;#39;)&amp;quot;)
+    if [ ! -e &amp;quot;$workingdir/git-adamcodes-$subcommand&amp;quot; ]; then
+        usage; exit 1
+    fi
+
+    source &amp;quot;$workingdir/git-adamcodes-$subcommand&amp;quot;
+
+    if [ ! type &amp;quot;cmd_$subcommand&amp;quot; ]; then
+        usage; exit 1
+    fi
+
+    cmd_$subcommand &amp;quot;$@&amp;quot;
+}
+
+main &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;In part 2 (early next week) I’ll go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don’t miss it!&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;https://github.com/nvie/gitflow&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/07/02/you-cant-trust-the-cloud</id>
