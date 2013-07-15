@@ -91,6 +91,21 @@ There's one last thing to do if you want to consume other composer packages in Z
     /** Zend_Application */
     require_once 'Zend/Application.php';
 
+<div class="alert alert-info">
+    <p>
+        <strong>Update:</strong>
+        If you've followed this guide along step-by-step, the placement of your <code>require_once</code> for the composer autoloader is really important, because we totally overwrite the <code>include_path</code> in a previous step.
+    </p>
+
+    <p>
+        If you include the composer autoloader before that step you will overwrite any <code>include_path</code> that composer sets, and will run into a similar issue to the one found <a href="https://github.com/Emagister/zend-form-decorators-bootstrap/issues/102#issuecomment-20968479">here</a>.
+    </p>
+
+    <p>
+        To avoid that problem simply make sure you include the composer autoloader <em>after</em> (un)setting the include path!
+    </p>
+</div>
+
 Now repeat these steps in `./tests/bootstrap.php` and we're all done!
 
 ## Read Next
