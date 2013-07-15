@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-07-15T17:52:12+01:00</updated>
+  <updated>2013-07-15T17:54:57+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -951,8 +951,8 @@ require_once &#39;Zend/Application.php&#39;;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
+    &lt;h4 id=&quot;update&quot;&gt;Update:&lt;/h4&gt;
     &lt;p&gt;
-        &lt;strong&gt;Update:&lt;/strong&gt;
         If you&#39;ve followed this guide along step-by-step, the placement of your &lt;code&gt;require_once&lt;/code&gt; for the composer autoloader is really important, because we totally overwrite the &lt;code&gt;include_path&lt;/code&gt; in a previous step.
     &lt;/p&gt;
 
