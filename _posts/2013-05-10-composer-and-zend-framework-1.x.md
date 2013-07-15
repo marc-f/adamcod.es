@@ -92,8 +92,8 @@ There's one last thing to do if you want to consume other composer packages in Z
     require_once 'Zend/Application.php';
 
 <div class="alert alert-info">
+    <h4 id="update">Update:</h4>
     <p>
-        <strong>Update:</strong>
         If you've followed this guide along step-by-step, the placement of your <code>require_once</code> for the composer autoloader is really important, because we totally overwrite the <code>include_path</code> in a previous step.
     </p>
 
