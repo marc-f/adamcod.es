@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-07-12T13:31:15+01:00</updated>
+  <updated>2013-07-15T17:52:12+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -949,6 +949,21 @@ php -S 127.0.0.1:8000
 /** Zend_Application */
 require_once &#39;Zend/Application.php&#39;;
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&quot;alert alert-info&quot;&gt;
+    &lt;p&gt;
+        &lt;strong&gt;Update:&lt;/strong&gt;
+        If you&#39;ve followed this guide along step-by-step, the placement of your &lt;code&gt;require_once&lt;/code&gt; for the composer autoloader is really important, because we totally overwrite the &lt;code&gt;include_path&lt;/code&gt; in a previous step.
+    &lt;/p&gt;
+
+    &lt;p&gt;
+        If you include the composer autoloader before that step you will overwrite any &lt;code&gt;include_path&lt;/code&gt; that composer sets, and will run into a similar issue to the one found &lt;a href=&quot;https://github.com/Emagister/zend-form-decorators-bootstrap/issues/102#issuecomment-20968479&quot;&gt;here&lt;/a&gt;.
+    &lt;/p&gt;
+
+    &lt;p&gt;
+        To avoid that problem simply make sure you include the composer autoloader &lt;em&gt;after&lt;/em&gt; (un)setting the include path!
+    &lt;/p&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Now repeat these steps in &lt;code&gt;./tests/bootstrap.php&lt;/code&gt; and we’re all done!&lt;/p&gt;
 

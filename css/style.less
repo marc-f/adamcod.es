@@ -11,10 +11,10 @@
 -------------------------------------------------- */
 
 // CSS Reset
-@import "bootstrap/reset.less";
+@import "../components/bootstrap/less/reset.less";
 
 // Core variables and mixins
-@import "bootstrap/variables.less"; // Modify this for custom colors, font-sizes, etc
+@import "../components/bootstrap/less/variables.less"; // Modify this for custom colors, font-sizes, etc
 
 // Overwrite some variables
 
@@ -42,13 +42,63 @@
 @headingsFontWeight:    300;            // instead of browser default, bold
 @headingsColor:         @baseColor;     // empty to use BS default, @textColor
 
-@import "bootstrap/mixins.less";
+@import "../components/bootstrap/less/mixins.less";
 
 // Grid system and page structure
-@import "bootstrap/scaffolding.less";
+@import "../components/bootstrap/less/scaffolding.less";
 
 // Base CSS
-@import "bootstrap/type.less";
+@import "../components/bootstrap/less/type.less";
+h1 {
+    font-size:30px;
+    line-height:54px;
+}
+
+h1 small {
+    font-size:18px;
+}
+
+h2 {
+    font-size:24px;
+    line-height:54px;
+}
+
+h2 small {
+    font-size:18px;
+}
+
+h3 {
+    font-size:18px;
+    line-height:40.5px;
+}
+
+h3 small {
+    font-size:14px;
+}
+
+h4 h5,h6
+{
+    line-height:27px;
+}
+
+h4 {
+    font-size:14px;
+}
+
+h4 small {
+    font-size:12px;
+}
+
+h5 {
+    font-size:12px;
+}
+
+h6 {
+    font-size:11px;
+    color:#999;
+    text-transform:uppercase;
+}
+
 ul, ol {
     margin-bottom: @baseLineHeight;
 }
@@ -61,7 +111,7 @@ ol ul {
     margin-top: 13.5px;
 }
 
-@import "bootstrap/code.less";
+@import "../components/bootstrap/less/code.less";
 pre,
 code {
     font-size: 13px;
@@ -70,14 +120,17 @@ pre {
     margin-bottom: @baseLineHeight;
 }
 
-@import "bootstrap/tables.less";
+@import "../components/bootstrap/less/tables.less";
 
 // Components: common
-@import "bootstrap/wells.less";
+@import "../components/bootstrap/less/wells.less";
 
 // Components: Buttons & Alerts
-@import "bootstrap/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
+@import "../components/bootstrap/less/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
 .alert {
+    padding-right: 14px;
+    margin-top: 27px;
+
     font-family: @sansFontFamily;
     font-size: 14px;
     line-height: @baseLineHeight;
@@ -88,22 +141,38 @@ pre {
         font-size: 16px;
         font-weight: bold;
     }
+
+    code {
+        padding: 0;
+
+        background: 0;
+
+        border: 0;
+    }
+
+    & > p {
+        margin-bottom: 13.5px;
+    }
+
+    & > *:last-child {
+        margin-bottom: 0;
+    }
 }
 
 // Components: Nav
-@import "bootstrap/pager.less";
+@import "../components/bootstrap/less/pager.less";
 .pager a {
     .border-radius(1.6em);
 }
 
 // Utility classes
-@import "bootstrap/utilities.less"; // Has to be last to override when necessary
+@import "../components/bootstrap/less/utilities.less"; // Has to be last to override when necessary
 
 // Button classes
-@import "bootstrap/buttons.less";
+@import "../components/bootstrap/less/buttons.less";
 
 // Form classes
-@import "bootstrap/forms.less";
+@import "../components/bootstrap/less/forms.less";
 
 /* Import Font-Awesome
 -------------------------------------------------- */
