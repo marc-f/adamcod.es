@@ -4,13 +4,185 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-07-15T17:54:57+01:00</updated>
+  <updated>2013-07-19T17:29:15+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/07/19/how-to-create-git-plugin-part2</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/07/19/how-to-create-git-plugin-part2.html"/>
+    <title>How to Create a Git Plugin (Part 2)</title>
+    <published>2013-07-19T00:00:00+01:00</published>
+    <updated>2013-07-19T00:00:00+01:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    
+    <content type="html">&lt;p&gt;This is part 2 of a 2 part series (&lt;a href=&quot;/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1 here&lt;/a&gt;) on creating git plugins.&lt;/p&gt;
+
+&lt;p&gt;In the first part I explained how to create a basic plugin, and how to create a plugin runner that will allow you to group a bunch of commands together.&lt;/p&gt;
+
+&lt;p&gt;We added two basic commands to that runner, in the same file.  In this part I’m going to show you how to create an external command that gets loaded on-the-fly, and then show you how to install and uninstall your plugin easily using gnumake&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;some-requirements&quot;&gt;Some Requirements&lt;/h2&gt;
+
+&lt;p&gt;In &lt;a href=&quot;/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1&lt;/a&gt; we decided that our hello sub-command should print &lt;code&gt;Hello World&lt;/code&gt; when we use the command with no options, and print out &lt;code&gt;Hello {name}&lt;/code&gt; if any further options are passed.&lt;/p&gt;
+
+&lt;p&gt;Today I’m going to expand that a little and add a help subcommand to our subcommand that simply prints out our usage information for the subcommand, rather than the usage information for the whole plugin as we did in &lt;a href=&quot;/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h2&gt;
+
+&lt;p&gt;During part 1, we created our runner to work using convention over configuration&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, that is, it will automatically look for all subcommands in a file named &lt;code&gt;git-adamcodes-subcommand&lt;/code&gt; where &lt;code&gt;subcommand&lt;/code&gt; is the name of the command we’re running, and inside that file it expects a function named &lt;code&gt;cmd_subcommand&lt;/code&gt;, again where &lt;code&gt;subcommand&lt;/code&gt; is the name of the command we’re running.  We could of course hard code our subcommands to file and function names, but it’s far easier not to.&lt;/p&gt;
+
+&lt;p&gt;Now to begin writing our subcommand, create a file at the same level as your &lt;code&gt;git-adamcodes&lt;/code&gt; file and name it &lt;code&gt;git-adamcodes-hello&lt;/code&gt;.  In that file, you’ll need the following:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=git-adamcodes-hello.sh&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;#!/usr/bin/env sh
+
+usage() {
+    echo &amp;quot;usage: git adamcodes hello [name]&amp;quot;
+    echo
+}
+
+cmd_hello() {
+    if [ &amp;quot;$#&amp;quot; -lt 1 ]; then
+        say_hello World; exit 0
+    elif [ &amp;quot;$#&amp;quot; -eq 1 ]; then
+        if [ $1 == &amp;quot;help&amp;quot; ]; then
+            usage; exit 0
+        fi
+
+        say_hello $1; exit 0
+    fi
+
+    usage; exit 1
+}
+
+say_hello() {
+    echo &amp;quot;Hello ${1}&amp;quot;
+    echo
+}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;I’ll go over this quickly, as it’s fairly basic and it should be obvious what it does.  Line 1 is our hashbang, and lines 3-6 define our usage function, which is just echoing out some strings.  The empty echo is an easy way to create a newline.&lt;/p&gt;
+
+&lt;p&gt;Line 8 is the function definition for our subcommand.  As we mentioned earlier, it’s in the format &lt;code&gt;cmd_subcommand&lt;/code&gt;, where in this instance, the subcommand is &lt;code&gt;hello&lt;/code&gt;.  This is the function that our runner from &lt;a href=&quot;/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1&lt;/a&gt; is going to call, and pass in our command line arguments to.&lt;/p&gt;
+
+&lt;p&gt;The first line of our command, line 9, checks the number of arguments passed to the function, if it’s less than (&lt;code&gt;-lt&lt;/code&gt;) 1, we just want to say “Hello World”, and exit with a success status.&lt;/p&gt;
+
+&lt;p&gt;On line 11, we have an else if, which in sh/bash is &lt;code&gt;elif&lt;/code&gt;, and that checks to see if the number of arguments is equal to 1.  If it is, we have a correct usage of our subcommand.&lt;/p&gt;
+
+&lt;p&gt;At this point, we have to check to see if the first parameter of our subcommand was “help”, because this means someone wanted the usage information, and I’m pretty sure they didn’t mean to say “Hello help”, which is just silly.&lt;/p&gt;
+
+&lt;p&gt;If the first parameter was “help”, we print our usage information and exit with a success status again.  If it wasn’t help, that means that the user wanted us to say hello to them, so we call our &lt;code&gt;say_hello&lt;/code&gt; function again, and pass in the first parameter.  Again, we end a successful execution with &lt;code&gt;exit 0&lt;/code&gt; to indicate to git and/or the shell that this action was successful.&lt;/p&gt;
+
+&lt;p&gt;Finally, in all other instances (i.e. greater than 1 parameter), we want to print the usage information, as it looks like the user was using our subcommand incorrectly.&lt;/p&gt;
+
+&lt;p&gt;The last part of our subcommand (lines 22-25) is a helper function.  This is unique to our subcommand, and won’t be shared by our other subcommands.  All this function does is take the first argument passed to it and echo it out after the word hello.  This is convenient for us as we can call &lt;code&gt;say_hello World&lt;/code&gt; and &lt;code&gt;say_hello $1&lt;/code&gt; on lines 10 and 16 respectively.  Code re-use is good, and all that stuff.&lt;/p&gt;
+
+&lt;h2 id=&quot;pulling-it-together&quot;&gt;Pulling it Together&lt;/h2&gt;
+
+&lt;p&gt;Now our plugin is complete, we need to put both files in &lt;code&gt;/usr/bin&lt;/code&gt; or somewhere similar on your path.  Then you need to make the wrapper/runner file executable; the subcommands don’t need to be executable.&lt;/p&gt;
+
+&lt;p&gt;After you’ve copied the files, run &lt;code&gt;sudo chmod +x /usr/bin/git-adamcodes&lt;/code&gt; to make the runner executable.&lt;/p&gt;
+
+&lt;p&gt;You should then be able to drop in to a shell anywhere you have git available, and give it a try:&lt;/p&gt;
+
+&lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/9319659531/&quot;&gt;&lt;img src=&quot;http://farm6.static.flickr.com/5520/9319659531_4a8f189098.jpg&quot; title=&quot;Screen Shot 2013-07-19 at 16.28.05&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;easy-install--uninstall-with-make&quot;&gt;Easy Install + Uninstall With Make&lt;/h2&gt;
+
+&lt;p&gt;Make is basically a build system like Phing or ApacheAnt, but it works with bash/shell, so it’s great for simply installing and uninstalling scripts, or in our case, git plugins.&lt;/p&gt;
+
+&lt;p&gt;Make starts with a bunch of build-targets (or functions) that are defined like so:&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=make-targets&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;all:
+  dothis
+  thenthis
+
+install:
+  dothis
+  andthenthis
+
+uninstall:
+  ...&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Each target is on it’s own line, and it’s the target named follow by a colon.  &lt;code&gt;all:&lt;/code&gt; is a the target that is run when you don’t specify another target, so it’s a good place to either build your whole app, or in our case, show a help message.&lt;/p&gt;
+
+&lt;p&gt;Each line below the target is a command to run.  Whitespace is important here, each line indented by a tab character tells make that’s a shell command it should run.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=make-variables&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;DIRECTORY = /usr/local/bin&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Make also has the concept of variables, but unlike shell or bash, whitespace is not important here, you can have as many spaces you like either side of the equals sign.&lt;/p&gt;
+
+&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=Makefile&quot;&gt;&lt;/script&gt;
+&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;BIN_DIR   = /usr/local/bin
+LOADER    = git-adamcodes
+COMMANDS  = git-adamcodes-hello
+COMMNADS += git-adamcodes-anothercommand
+
+all:
+	@echo &amp;quot;usage: make [install|uninstall]&amp;quot;
+
+install:
+	install -d -m 0755 $(BIN_DIR)
+	install -m 0755 $(LOADER) $(BIN_DIR)
+	install -m 0644 $(COMMANDS) $(BIN_DIR)
+
+uninstall:
+	test -d $(BIN_DIR) &amp;amp;&amp;amp; \
+	cd $(BIN_DIR) &amp;amp;&amp;amp; \
+	rm -f $(LOADER) $(COMMANDS)
+&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, this is our complete makefile for our plugin.  It should live in the same directory as our plugin files, and it should be named &lt;code&gt;Makefile&lt;/code&gt; (capitalisation is important).&lt;/p&gt;
+
+&lt;p&gt;Our first 3 lines define some variables for us to use in the makefile.  Specifically, the directory to install the files, the loader we want to make executable, and the script files we just want to copy.&lt;/p&gt;
+
+&lt;p&gt;Line 4 is a bit different, it just adds to the &lt;code&gt;COMMANDS&lt;/code&gt; variable, like the &lt;code&gt;.=&lt;/code&gt; operator in PHP.&lt;/p&gt;
+
+&lt;p&gt;Finally, we get on to our build targets.  As mentioned above, our default build target, &lt;code&gt;all:&lt;/code&gt; just prints out some usage information.&lt;/p&gt;
+
+&lt;p&gt;Our &lt;code&gt;install:&lt;/code&gt; target runs a few bash commands.  It uses the &lt;code&gt;install&lt;/code&gt; command to first ensure our install directory is created and has the correct permissions (&lt;code&gt;-d&lt;/code&gt; and &lt;code&gt;-m&lt;/code&gt; flags respectively), and then uses the install command to copy our loader to our install directory with executable permissions (755), and our subcommand files with just regular permissions.&lt;/p&gt;
+
+&lt;p&gt;Our &lt;code&gt;uninstall:&lt;/code&gt; command does something similar in that it just runs a bunch of shell commands again.  It first tests to make sure our install directory exists, it then changes into that directory and uses &lt;code&gt;rm&lt;/code&gt; to remove the files.  Fairly simple.&lt;/p&gt;
+
+&lt;p&gt;We use the backslash operator to tell uninstall this is a single command run over several lines, so that they are executed together rather than one at a time (and will exit without running the rest if any of them fail).&lt;/p&gt;
+
+&lt;p&gt;Once this file is in place you can simply run &lt;code&gt;make install&lt;/code&gt; and &lt;code&gt;make uninstall&lt;/code&gt; from the same directory as your makefile to copy or delete the plugin to the right place with the right permissions.  This is super useful if you intend to distribute your plugin!&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;In these two posts we’ve learnt that creating a git plugin is as simple as writing an executable script and naming it in the format &lt;code&gt;git-pluginname&lt;/code&gt;, and then putting it somewhere accessible.&lt;/p&gt;
+
+&lt;p&gt;We’ve also looked at some more advanced techniques to get you building more complex plugins with multiple subcommands and arguments, and finally how to use gnumake to make installing and uninstalling your plugin really easy for anyone you care to distribute it to.&lt;/p&gt;
+
+&lt;p&gt;If you want more content like this, and access to a couple of my own git-plugins I’m going to be open sourcing soon, subscribe to my feed on the right or the mailing list below!&lt;/p&gt;
+
+&lt;h2 id=&quot;read-next&quot;&gt; Read Next&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2012/08/03/git-cleanly-move-between-branches.html&quot;&gt;Git - A clean branch switching strategy&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;http://www.gnu.org/software/make/&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;http://en.wikipedia.org/wiki/Convention_over_configuration&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/07/12/how-to-create-git-plugin</id>
@@ -22,9 +194,21 @@
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
+      <summary type="html">
+        &lt;p&gt;I think most Git users know by now how to create an alias in Git to make a function or command more accessible.  What I think fewer people know, or at least don’t take advantage of, is that you can actually create extensions or plugins to Git to make it do basically anything you want.&lt;/p&gt;
+
+&lt;p&gt;What I think even fewer people realise is actually how amazingly easy it is to create one of these extensions.&lt;/p&gt;
+
+
+        &lt;p&gt;&lt;a href=&quot;http://adamcod.es/2013/07/12/how-to-create-git-plugin.html&quot;&gt;Continue Reading...&lt;/a&gt;&lt;/p&gt;
+      </summary>
+    
     <content type="html">&lt;p&gt;I think most Git users know by now how to create an alias in Git to make a function or command more accessible.  What I think fewer people know, or at least don’t take advantage of, is that you can actually create extensions or plugins to Git to make it do basically anything you want.&lt;/p&gt;
 
 &lt;p&gt;What I think even fewer people realise is actually how amazingly easy it is to create one of these extensions.&lt;/p&gt;
+
+&lt;!-- more --&gt;
 
 &lt;h2 id=&quot;what-you-need-to-know-the-essentials&quot;&gt;What You Need to Know (The Essentials)&lt;/h2&gt;
 
@@ -233,7 +417,7 @@ fi&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
     usage; exit 1
 fi&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
-&lt;p&gt;Now we’ve loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn’t there’s obviously something wrong, so do our standard “print usage information and error exit status” step.&lt;/p&gt;
+&lt;p&gt;Now we’ve loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn’t there’s obviously something wrong, so do our standard “print usage information and error exit status” step.  This actually produces some output we have to do something about, so we do some bash trickery and redirect it into &lt;code&gt;/dev/null&lt;/code&gt;, which is basically a black hole for anything you don’t want.&lt;/p&gt;
 
 &lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=run-command.sh&quot;&gt;&lt;/script&gt;
 &lt;noscript&gt;&lt;pre&gt;&lt;code&gt;cmd_$subcommand &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
@@ -298,7 +482,13 @@ main() {
 
 main &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
-&lt;p&gt;In part 2 (early next week) I’ll go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don’t miss it!&lt;/p&gt;
+&lt;p&gt;In &lt;a href=&quot;/2013/07/19/how-to-create-git-plugin-part2.html&quot;&gt;part 2&lt;/a&gt; I go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don’t miss it!&lt;/p&gt;
+
+&lt;h2 id=&quot;read-next&quot;&gt; Read Next&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2013/07/19/how-to-create-git-plugin-part2.html&quot;&gt;How to Create a Git Plugin (Part 2)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
@@ -320,6 +510,7 @@ main &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;Yesterday marked the final day of Google Reader&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.  I was an avid Google Reader user for many, many years (too many to remember), but I was unaffected by the recent shutdown, because I stopped using it about 6 months ago, about 3 months before Google announced they were shutting it down.&lt;/p&gt;
 
 &lt;p&gt;At the start of last month, The Guardian broke the news that the NSA and GCHQ had been spying on us all&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, but I was unaffected because I stopped using Facebook, Gmail, and a host of other services years ago.&lt;/p&gt;
@@ -377,6 +568,7 @@ main &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;I wrote previously that Chef is hard&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.  That was not too long after I started using Vagrant and Chef on a regular basis.  I plan to write an update on that post in the future because I’ve learnt quite a bit about using Chef since then, and there have been a few significant updates to Vagrant too.&lt;/p&gt;
 
 &lt;p&gt;In the meantime, this is a very quick start guide to deploying a LAMP stack to a VPS.  My provider of choice is &lt;a href=&quot;https://www.digitalocean.com/?refcode=dd312899e4e9&quot;&gt;Digital Ocean&lt;/a&gt;, but the same process should work for pretty much any VPS or physical server.&lt;/p&gt;
@@ -729,6 +921,7 @@ nano info.php
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;Zend Framework 1.x will never support a version of PHPUnit greater than 3.4&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.  This means if you have a system-wide install of PHPUnit available (likely 3.7 at the time of writing) you will be unable to use the &lt;code&gt;phpunit&lt;/code&gt; command with your Zend Framework project without getting errors.&lt;/p&gt;
 
 &lt;p&gt;The solution to this is to do a local installation of PHPUnit 3.4 for each Zend Framework 1.x project you want to work on.  The only problem is, composer support wasn’t added until PHPUnit 3.7, so installing via composer is out and you have to use PEAR.&lt;/p&gt;
@@ -827,7 +1020,7 @@ phpunit --version
 &lt;h2 id=&quot;read-next&quot;&gt; Read Next&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2013/04/08/composer-and-zend-framework-1.x.md&quot;&gt;Composer &amp;amp; Zend Framework 1.x&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2013/04/08/composer-and-zend-framework-1.x.html&quot;&gt;Composer &amp;amp; Zend Framework 1.x&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
@@ -853,6 +1046,7 @@ phpunit --version
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;Using Zend Framework 1.x with composer is fairly straight forward, even if not immediately obvious.  First, let’s create a new Zend Framework 1 project in the standard way, using the zf tool:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;zf create project zend-composer
@@ -1003,6 +1197,7 @@ require_once &#39;Zend/Application.php&#39;;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;Yesterday I had a full day of interviews and one of the candidates said something that bothered me:&lt;/p&gt;
 
 &lt;p&gt;In the context of a language feature that is to be removed in a future version, he said that the feature was &lt;em&gt;depreciated&lt;/em&gt;, when I’m pretty sure he meant &lt;em&gt;deprecated&lt;/em&gt;.  At the time I let it go, but it turns out, he is not alone in his confusion&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
@@ -1042,6 +1237,7 @@ require_once &#39;Zend/Application.php&#39;;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;Unless you’ve been living under a rock, you know about composer&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and packagist&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; for managing dependencies in PHP.  A few days ago, an issue&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; was closed and merged into master which changes the default behaviour of &lt;code&gt;composer update&lt;/code&gt; to be functionally equivellent to &lt;code&gt;composer update --require-dev&lt;/code&gt;.  This confused a few folks&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;, and here’s why:&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;You should only ever run &lt;code&gt;composer update&lt;/code&gt; to get the newest versions of your dependencies, not to install them&lt;/em&gt;.&lt;/p&gt;
@@ -1119,6 +1315,7 @@ require_once &#39;Zend/Application.php&#39;;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;If you’ve ever been for a job interview, you know how hard it is to first get your CV noticed, and how daunting it can be to turn up to an interview or take a technical test, even if you would normally know your stuff inside out nerves can get to the best of us.&lt;/p&gt;
 
 &lt;p&gt;If you’ve never hired a developer before, you might not realise it can be just as difficult on the other side of the table.  How do you make sure you don’t overlook an awesome CV just because it doesn’t stand out?  How do you make sure you don’t come across as a complete tool in the interview and put off an amazing candidate?&lt;/p&gt;
@@ -1556,6 +1753,7 @@ require_once &#39;Zend/Application.php&#39;;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;This blog is built with jekyll&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, which is a static blogging platform from the guys at github, and is also the engine behind github pages&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, where this blog is hosted.&lt;/p&gt;
 
 &lt;p&gt;I have written a simple plugin to add a LiquidTag&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; to render a warning for all posts that reach a certain age.  This is particularly useful for technical blogs such as this one, where the things I’m writing about can move on pretty quickly.  The way something was done a year ago isn’t necessarily the way I recommend doing it today.&lt;/p&gt;
@@ -1682,6 +1880,7 @@ Liquid::Template.register_tag(&amp;#39;mark_old_posts&amp;#39;, Jekyll::MarkOldP
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;There was a proposal&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; for a new getter and setter syntax that would have enabled you to write code like this:&lt;/p&gt;
 
 &lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=rfc.php&quot;&gt;&lt;/script&gt;
@@ -1829,6 +2028,7 @@ class TimePeriod
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;This is part 2 of a 2 part quick-start to using Vagrant&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Chef&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to speed up and simplify your development environment.  If you haven’t read the first part, and aren’t already familiar with Vagrant go to &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;part 1 here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;In part 1 we covered the key commands and config settings you need to get vagrant up and running quickly with little-to-no fuss.  But that was the easy part.  Now comes the hard part.  Chef.&lt;/p&gt;
@@ -2429,6 +2629,7 @@ mysql&amp;gt; show tables;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;This is part 1 of a 2 part quickstart to using Vagrant and Chef to speed up and simplify your development environment.  If you’re already familiar with Vagrant and just want to find out about Chef, go to &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html&quot;&gt;part 2 here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;If you haven’t started using Chef&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Vagrant&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; yet, you should, it’s awesome and in a few short weeks has totally changed my development environment.&lt;/p&gt;
@@ -2571,6 +2772,7 @@ mysql&amp;gt; show tables;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;PSR-3&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; doesn’t make sense because people aren’t writing the right kind of PHP yet.  By this I mean that people aren’t writing the kind of PHP that would benefit from having a standard logging interface across multiple frameworks and libraries.&lt;/p&gt;
 
 &lt;p&gt;Most people are still writing Symfony PHP, or CakePHP, or CodeIgniter, or Zend or… you get the picture.  Why would it matter if they have a logger that they can use across all of the libraries and frameworks.  They only use the one.&lt;/p&gt;
@@ -2656,6 +2858,7 @@ mysql&amp;gt; show tables;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;A few weeks ago I stumbled upon the &lt;a href=&quot;http://twitto.org/&quot;&gt;Twitto&lt;/a&gt; ‘Web Framework in a Tweet’ by &lt;a href=&quot;http://fabien.potencier.org/&quot;&gt;Fabien Potencier&lt;/a&gt;, creator of the Symphony Framework.&lt;/p&gt;
 
 &lt;p&gt;I was sure I had come across it before, as well as the &lt;a href=&quot;http://f055.net/article/the-140-character-webapp-challenge/&quot;&gt;140 Character Web-App Challenge&lt;/a&gt; that has inspired it, but not paid much attention to either.  What made a difference this time, however, was that earlier that day I had written a tiny test function for a disposable proof of concept that didn’t warrant a full unit testing framework.  I opened up my file from earlier that day, and after a few tweaks, &lt;a href=&quot;https://twitter.com/sixdaysad/status/223484283254349824&quot;&gt;tweeted&lt;/a&gt; the result.&lt;/p&gt;
@@ -2674,6 +2877,10 @@ mysql&amp;gt; show tables;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
+      <summary type="html">Some git strategies swapping branches without bringing the uncommitted or experimental changes with you</summary>
+      &lt;p&gt;&lt;a href=&quot;http://adamcod.es/2012/08/03/git-cleanly-move-between-branches.html&quot;&gt;Continue Reading...&lt;/a&gt;&lt;/p&gt;
+    
     <content type="html">&lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
 
 &lt;p&gt;You’re working on &lt;code&gt;feature/awesome-new-stuff&lt;/code&gt; and have a whole bunch of changes that you don’t want to commit yet, and you get a call about a bug that needs to be fixed asap.  You checkout develop, create a hotfix branch and make your changes.  Then you do &lt;code&gt;git status&lt;/code&gt; and see all of your experimental changes from &lt;code&gt;feature/awesome-new-stuff&lt;/code&gt; have come with you, making it harder to spot the changes relating only to the hotfix.&lt;/p&gt;
@@ -2728,6 +2935,10 @@ git reset&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
+      <summary type="html">A Filter for the Imagine PHP Image Library to create circle thumbnails</summary>
+      &lt;p&gt;&lt;a href=&quot;http://adamcod.es/2012/07/25/imagine-php-image-library.html&quot;&gt;Continue Reading...&lt;/a&gt;&lt;/p&gt;
+    
     <content type="html">&lt;h2 id=&quot;what-is-imagine&quot;&gt;What is Imagine&lt;/h2&gt;
 
 &lt;p&gt;Image processing in PHP is &lt;em&gt;really&lt;/em&gt; unpleasant.  Imagine is a PHP 5.3 library which makes image processing suck way less.  According to the &lt;a href=&quot;http://imagine.readthedocs.org&quot;&gt;documentation&lt;/a&gt;:&lt;/p&gt;
@@ -2845,6 +3056,10 @@ $filter-&amp;gt;apply($imagine-&amp;gt;open(&amp;#39;/path/to/square/image.jpg&a
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
+      <summary type="html">This is a rare error that may crop-up when developing a CakePHP application - this is how to solve it</summary>
+      &lt;p&gt;&lt;a href=&quot;http://adamcod.es/2012/07/17/cakephp-class-string-not-found.html&quot;&gt;Continue Reading...&lt;/a&gt;&lt;/p&gt;
+    
     <content type="html">&lt;p&gt;This is a really easy to fix error that occurs in a very specific situation.  Namely when developing an application in CakePHP that makes use of the ACL behavior whilst also having a &lt;code&gt;beforeSave&lt;/code&gt; method on the User model.  It can be pretty frustrating at first because there’s nothing about it on the Internet, and as far as you can tell, there isn’t an error on line xx, and you’re not using the String object anywhere.&lt;/p&gt;
 
 &lt;p&gt;It’s happening because of a missing options array on the &lt;code&gt;beforeSave&lt;/code&gt; method you added to the User model.  Simply change:&lt;/p&gt;
@@ -2869,6 +3084,10 @@ $filter-&amp;gt;apply($imagine-&amp;gt;open(&amp;#39;/path/to/square/image.jpg&a
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
+      <summary type="html">If you&#39;ve ever had a use-case where you want to make a class property publicly read-able, but not modifiable, (without adding a getter), this is how you do it.</summary>
+      &lt;p&gt;&lt;a href=&quot;http://adamcod.es/2012/07/13/unchangable-public-variables-in-php.html&quot;&gt;Continue Reading...&lt;/a&gt;&lt;/p&gt;
+    
     <content type="html">&lt;p&gt;If you’ve ever had a use-case where you want to make a class property publicly readable, but not writable, (without adding a getter), this is how you do it.&lt;/p&gt;
 
 &lt;h2 id=&quot;disclaimer&quot;&gt;Disclaimer&lt;/h2&gt;
@@ -2993,6 +3212,10 @@ Exception if set: Passed&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
+      <summary type="html">If you get this frustraiting and confusing message when trying to install the andriod SDK in Ubuntu, the fix is pretty easy.</summary>
+      &lt;p&gt;&lt;a href=&quot;http://adamcod.es/2012/07/10/unable-to-run-adb-andriod-ubuntu-eclipse.html&quot;&gt;Continue Reading...&lt;/a&gt;&lt;/p&gt;
+    
     <content type="html">&lt;p&gt;If you get the following really annoying message while trying to install the andriod SDK on ubuntu:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;Stopping ADB server failed (code -1).
@@ -3018,6 +3241,10 @@ Starting ADB server failed (code -1).
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
+      <summary type="html">A simple git one-liner that will help you when you make changes to the wrong branch</summary>
+      &lt;p&gt;&lt;a href=&quot;http://adamcod.es/2012/07/04/git-changes-wrong-branch.html&quot;&gt;Continue Reading...&lt;/a&gt;&lt;/p&gt;
+    
     <content type="html">&lt;h2 id=&quot;weve-all-done-it&quot;&gt;We’ve all done it&lt;/h2&gt;
 
 &lt;p&gt;You get an emergency email from your boss and have to immediately drop everything you’re doing to solve his problem.  You listen to what’s wrong and make all the necessary changes, test it, and then you’re ready to commit, only you’re on &lt;code&gt;feature/awesome-new-stuff&lt;/code&gt; and forgot to checkout &lt;code&gt;develop&lt;/code&gt; before you made your changes. ****.&lt;/p&gt;
@@ -3085,6 +3312,7 @@ Starting ADB server failed (code -1).
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;The developers at my new job have been using subversion for the last 8 years, and with a few exceptions, huge &lt;em&gt;code-bomb&lt;/em&gt; style commits covering numerous features and changes (and with generic one-line commit messages) seem to have been the norm.  Source control was used primarily for backup (a sin I think many teams are guilty of at one point or another), and wasn’t used to its full potential, so no-one really paid attention to commit messages or the size of commits; after they were written they were never referenced again.&lt;/p&gt;
 
 &lt;p&gt;When I joined the team, they had already researched and seen the benefits of Git and wanted to move as soon as possible. With my advocation and re-iteration of the various benefits management were quickly convinced and the work was scheduled.  I wanted to make sure Git became a useful tool for the whole team and once everything was ready to be moved across, that meant introducing the idea of smaller atomic commits with better (more useful) commit messages.&lt;/p&gt;
@@ -3171,6 +3399,7 @@ Relation: #issue
       <name>Adam Brett</name>
       <uri>http://adamcod.es/</uri>
     </author>
+    
     <content type="html">&lt;p&gt;Hello, this is a test.&lt;/p&gt;
 
 &lt;p&gt;Ever since I got my first low spec VPS I’ve been interested in finding more efficient ways of using those resources.  I’ve looked at all sorts of caching and server tweaks aimed as consuming less resources and had some successes, and quite a lot of failures, so when I first came across the jekyll blogging engine a few years ago &lt;em&gt;it just made sense&lt;/em&gt;.&lt;/p&gt;

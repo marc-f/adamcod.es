@@ -65,6 +65,8 @@
 
 <p>What I think even fewer people realise is actually how amazingly easy it is to create one of these extensions.</p>
 
+<!-- more -->
+
 <h2 id="what-you-need-to-know-the-essentials">What You Need to Know (The Essentials)</h2>
 
 <ol>
@@ -272,7 +274,7 @@ fi</code></pre></noscript></div>
     usage; exit 1
 fi</code></pre></noscript></div>
 
-<p>Now we’ve loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn’t there’s obviously something wrong, so do our standard “print usage information and error exit status” step.</p>
+<p>Now we’ve loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn’t there’s obviously something wrong, so do our standard “print usage information and error exit status” step.  This actually produces some output we have to do something about, so we do some bash trickery and redirect it into <code>/dev/null</code>, which is basically a black hole for anything you don’t want.</p>
 
 <div><script src="https://gist.github.com/5983671.js?file=run-command.sh"></script>
 <noscript><pre><code>cmd_$subcommand &quot;$@&quot;</code></pre></noscript></div>
@@ -337,7 +339,13 @@ main() {
 
 main &quot;$@&quot;</code></pre></noscript></div>
 
-<p>In part 2 (early next week) I’ll go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don’t miss it!</p>
+<p>In <a href="/2013/07/19/how-to-create-git-plugin-part2.html">part 2</a> I go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don’t miss it!</p>
+
+<h2 id="read-next"> Read Next</h2>
+
+<ul>
+  <li><a href="/2013/07/19/how-to-create-git-plugin-part2.html">How to Create a Git Plugin (Part 2)</a></li>
+</ul>
 
 <div class="footnotes">
   <ol>
@@ -378,6 +386,10 @@ main &quot;$@&quot;</code></pre></noscript></div>
     </li>
     
 
+    
+    <li class="next">
+        <a href="/2013/07/19/how-to-create-git-plugin-part2.html">Next &rarr;</a>
+    </li>
     
 </ul>
 
