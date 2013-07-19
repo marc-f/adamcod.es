@@ -6,6 +6,8 @@ I think most Git users know by now how to create an alias in Git to make a funct
 
 What I think even fewer people realise is actually how amazingly easy it is to create one of these extensions.
 
+<!-- more -->
+
 ##What You Need to Know (The Essentials)
 
 1. Create a shell or bash script that does what you want to do
@@ -142,7 +144,7 @@ This means we can put our sub-commands in their own files, with their own variab
 
 {% gist 5983671 make-sure-file-includes-subcommand.sh %}
 
-Now we've loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn't there's obviously something wrong, so do our standard "print usage information and error exit status" step.
+Now we've loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn't there's obviously something wrong, so do our standard "print usage information and error exit status" step.  This actually produces some output we have to do something about, so we do some bash trickery and redirect it into `/dev/null`, which is basically a black hole for anything you don't want.
 
 {% gist 5983671 run-command.sh %}
 
@@ -160,6 +162,10 @@ Finally, bringing it all together our plugin's main file should look like this:
 
 {% gist 5983671 git-adamcodes.sh %}
 
-In part 2 (early next week) I'll go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don't miss it!
+In [part 2](/2013/07/19/how-to-create-git-plugin-part2.html) I go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don't miss it!
+
+## Read Next
+
+* [How to Create a Git Plugin (Part 2)](/2013/07/19/how-to-create-git-plugin-part2.html)
 
 [^1]: https://github.com/nvie/gitflow

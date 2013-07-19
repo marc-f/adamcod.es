@@ -13,6 +13,8 @@
 
     {% if page.description %}
     <meta name="description" content="{{ page.description }}">
+    {% elsif page.summary %}
+    <meta name="description" content="{{ page.summary | strip_html }}">
     {% endif %}
 
     <meta name="author" content="Adam Brett">

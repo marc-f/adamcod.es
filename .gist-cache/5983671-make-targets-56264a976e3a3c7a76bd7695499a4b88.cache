@@ -1,0 +1,10 @@
+all:
+  dothis
+  thenthis
+
+install:
+  dothis
+  andthenthis
+
+uninstall:
+  ...
