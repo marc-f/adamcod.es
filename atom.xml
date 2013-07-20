@@ -26,18 +26,18 @@ layout: nil
       <uri>http://adamcod.es/</uri>
     </author>
     {% if post.summary %}
-      <summary type="html">{{ post.summary | xml_escape }}</summary>
+      <summary type="html">{{ post.summary | replace:'href="/', 'href="http://adamcodes/' | xml_escape }}</summary>
       {{ '<p><a href="http://adamcod.es' | append:post.url | append:'">Continue Reading...</a></p>' | xml_escape }}
     {% elsif post.description %}
-      <summary type="html">{{ post.description | xml_escape }}</summary>
+      <summary type="html">{{ post.description | replace:'href="/', 'href="http://adamcodes/' | xml_escape }}</summary>
       {{ '<p><a href="http://adamcod.es' | append:post.url | append:'">Continue Reading...</a></p>' | xml_escape }}
     {% elsif post.content contains '<!-- more -->'  %}
       <summary type="html">
-        {{ post.content | split: '<!-- more -->' | first | xml_escape }}
+        {{ post.content | split: '<!-- more -->' | first | replace:'href="/', 'href="http://adamcodes/' | xml_escape }}
         {{ '<p><a href="http://adamcod.es' | append:post.url | append:'">Continue Reading...</a></p>' | xml_escape }}
       </summary>
     {% endif %}
-    <content type="html">{{ post.content | xml_escape }}</content>
+    <content type="html">{{ post.content | replace:'href="/', 'href="http://adamcodes/' | xml_escape }}</content>
   </entry>
   {% endfor %}
 
