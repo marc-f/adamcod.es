@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-07-19T17:29:15+01:00</updated>
+  <updated>2013-07-20T18:49:04+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -23,7 +23,7 @@
       <uri>http://adamcod.es/</uri>
     </author>
     
-    <content type="html">&lt;p&gt;This is part 2 of a 2 part series (&lt;a href=&quot;/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1 here&lt;/a&gt;) on creating git plugins.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This is part 2 of a 2 part series (&lt;a href=&quot;http://adamcodes/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1 here&lt;/a&gt;) on creating git plugins.&lt;/p&gt;
 
 &lt;p&gt;In the first part I explained how to create a basic plugin, and how to create a plugin runner that will allow you to group a bunch of commands together.&lt;/p&gt;
 
@@ -31,9 +31,9 @@
 
 &lt;h2 id=&quot;some-requirements&quot;&gt;Some Requirements&lt;/h2&gt;
 
-&lt;p&gt;In &lt;a href=&quot;/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1&lt;/a&gt; we decided that our hello sub-command should print &lt;code&gt;Hello World&lt;/code&gt; when we use the command with no options, and print out &lt;code&gt;Hello {name}&lt;/code&gt; if any further options are passed.&lt;/p&gt;
+&lt;p&gt;In &lt;a href=&quot;http://adamcodes/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1&lt;/a&gt; we decided that our hello sub-command should print &lt;code&gt;Hello World&lt;/code&gt; when we use the command with no options, and print out &lt;code&gt;Hello {name}&lt;/code&gt; if any further options are passed.&lt;/p&gt;
 
-&lt;p&gt;Today I’m going to expand that a little and add a help subcommand to our subcommand that simply prints out our usage information for the subcommand, rather than the usage information for the whole plugin as we did in &lt;a href=&quot;/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Today I’m going to expand that a little and add a help subcommand to our subcommand that simply prints out our usage information for the subcommand, rather than the usage information for the whole plugin as we did in &lt;a href=&quot;http://adamcodes/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;getting-started&quot;&gt;Getting Started&lt;/h2&gt;
 
@@ -70,7 +70,7 @@ say_hello() {
 
 &lt;p&gt;I’ll go over this quickly, as it’s fairly basic and it should be obvious what it does.  Line 1 is our hashbang, and lines 3-6 define our usage function, which is just echoing out some strings.  The empty echo is an easy way to create a newline.&lt;/p&gt;
 
-&lt;p&gt;Line 8 is the function definition for our subcommand.  As we mentioned earlier, it’s in the format &lt;code&gt;cmd_subcommand&lt;/code&gt;, where in this instance, the subcommand is &lt;code&gt;hello&lt;/code&gt;.  This is the function that our runner from &lt;a href=&quot;/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1&lt;/a&gt; is going to call, and pass in our command line arguments to.&lt;/p&gt;
+&lt;p&gt;Line 8 is the function definition for our subcommand.  As we mentioned earlier, it’s in the format &lt;code&gt;cmd_subcommand&lt;/code&gt;, where in this instance, the subcommand is &lt;code&gt;hello&lt;/code&gt;.  This is the function that our runner from &lt;a href=&quot;http://adamcodes/2013/07/12/how-to-create-git-plugin.html&quot;&gt;part 1&lt;/a&gt; is going to call, and pass in our command line arguments to.&lt;/p&gt;
 
 &lt;p&gt;The first line of our command, line 9, checks the number of arguments passed to the function, if it’s less than (&lt;code&gt;-lt&lt;/code&gt;) 1, we just want to say “Hello World”, and exit with a success status.&lt;/p&gt;
 
@@ -168,7 +168,7 @@ uninstall:
 &lt;h2 id=&quot;read-next&quot;&gt; Read Next&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2012/08/03/git-cleanly-move-between-branches.html&quot;&gt;Git - A clean branch switching strategy&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://adamcodes/2012/08/03/git-cleanly-move-between-branches.html&quot;&gt;Git - A clean branch switching strategy&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
@@ -482,12 +482,12 @@ main() {
 
 main &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
-&lt;p&gt;In &lt;a href=&quot;/2013/07/19/how-to-create-git-plugin-part2.html&quot;&gt;part 2&lt;/a&gt; I go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don’t miss it!&lt;/p&gt;
+&lt;p&gt;In &lt;a href=&quot;http://adamcodes/2013/07/19/how-to-create-git-plugin-part2.html&quot;&gt;part 2&lt;/a&gt; I go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don’t miss it!&lt;/p&gt;
 
 &lt;h2 id=&quot;read-next&quot;&gt; Read Next&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2013/07/19/how-to-create-git-plugin-part2.html&quot;&gt;How to Create a Git Plugin (Part 2)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://adamcodes/2013/07/19/how-to-create-git-plugin-part2.html&quot;&gt;How to Create a Git Plugin (Part 2)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
@@ -889,7 +889,7 @@ nano info.php
 &lt;h2 id=&quot;read-next&quot;&gt; Read Next&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;Vagrant is easy Chef is hard&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://adamcodes/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;Vagrant is easy Chef is hard&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
@@ -1020,7 +1020,7 @@ phpunit --version
 &lt;h2 id=&quot;read-next&quot;&gt; Read Next&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2013/04/08/composer-and-zend-framework-1.x.html&quot;&gt;Composer &amp;amp; Zend Framework 1.x&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://adamcodes/2013/04/08/composer-and-zend-framework-1.x.html&quot;&gt;Composer &amp;amp; Zend Framework 1.x&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
@@ -1029,7 +1029,7 @@ phpunit --version
       &lt;p&gt;http://framework.zend.com/issues/browse/ZF-11871&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
     &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;See: &lt;a href=&quot;/2013/04/08/composer-and-zend-framework-1.x.md&quot;&gt;Composer &amp;amp; Zend Framework 1.x&lt;/a&gt; to get Zend Framework working with Composer&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;See: &lt;a href=&quot;http://adamcodes/2013/04/08/composer-and-zend-framework-1.x.md&quot;&gt;Composer &amp;amp; Zend Framework 1.x&lt;/a&gt; to get Zend Framework working with Composer&lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
@@ -1164,7 +1164,7 @@ require_once &#39;Zend/Application.php&#39;;
 &lt;h2 id=&quot;read-next&quot;&gt;Read Next&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2013/05/30/zend-1.x-phpunit-3.4-and-3.7-composer.html&quot;&gt;Zend Framework 1.x, PHPUnit 3.4 and PHPUnit 3.7 side-by-side&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://adamcodes/2013/05/30/zend-1.x-phpunit-3.4-and-3.7-composer.html&quot;&gt;Zend Framework 1.x, PHPUnit 3.4 and PHPUnit 3.7 side-by-side&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&quot;further-reading&quot;&gt;Further Reading&lt;/h2&gt;
@@ -2029,7 +2029,7 @@ class TimePeriod
       <uri>http://adamcod.es/</uri>
     </author>
     
-    <content type="html">&lt;p&gt;This is part 2 of a 2 part quick-start to using Vagrant&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Chef&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to speed up and simplify your development environment.  If you haven’t read the first part, and aren’t already familiar with Vagrant go to &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;part 1 here&lt;/a&gt;.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This is part 2 of a 2 part quick-start to using Vagrant&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Chef&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; to speed up and simplify your development environment.  If you haven’t read the first part, and aren’t already familiar with Vagrant go to &lt;a href=&quot;http://adamcodes/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;part 1 here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;In part 1 we covered the key commands and config settings you need to get vagrant up and running quickly with little-to-no fuss.  But that was the easy part.  Now comes the hard part.  Chef.&lt;/p&gt;
 
@@ -2630,7 +2630,7 @@ mysql&amp;gt; show tables;
       <uri>http://adamcod.es/</uri>
     </author>
     
-    <content type="html">&lt;p&gt;This is part 1 of a 2 part quickstart to using Vagrant and Chef to speed up and simplify your development environment.  If you’re already familiar with Vagrant and just want to find out about Chef, go to &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html&quot;&gt;part 2 here&lt;/a&gt;.&lt;/p&gt;
+    <content type="html">&lt;p&gt;This is part 1 of a 2 part quickstart to using Vagrant and Chef to speed up and simplify your development environment.  If you’re already familiar with Vagrant and just want to find out about Chef, go to &lt;a href=&quot;http://adamcodes/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html&quot;&gt;part 2 here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;If you haven’t started using Chef&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; and Vagrant&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; yet, you should, it’s awesome and in a few short weeks has totally changed my development environment.&lt;/p&gt;
 
@@ -2741,7 +2741,7 @@ mysql&amp;gt; show tables;
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;This should be enough to get you started using Vagrant.  If you follow these steps, then run &lt;code&gt;vagrant up&lt;/code&gt; you should have a functioning VM, and the key commands should be enough to give you a great grounding in how to use vagrant.  Now carry on reading &lt;a href=&quot;/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html&quot;&gt;part 2&lt;/a&gt; to find out how to make your VM actually do something useful.&lt;/p&gt;
+&lt;p&gt;This should be enough to get you started using Vagrant.  If you follow these steps, then run &lt;code&gt;vagrant up&lt;/code&gt; you should have a functioning VM, and the key commands should be enough to give you a great grounding in how to use vagrant.  Now carry on reading &lt;a href=&quot;http://adamcodes/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html&quot;&gt;part 2&lt;/a&gt; to find out how to make your VM actually do something useful.&lt;/p&gt;
 
 &lt;div class=&quot;footnotes&quot;&gt;
   &lt;ol&gt;
