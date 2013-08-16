@@ -4,13 +4,85 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-07-20T18:49:04+01:00</updated>
+  <updated>2013-08-16T10:28:07+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/08/09/take-note-code-connexx-2013</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/08/09/take-note-code-connexx-2013.html"/>
+    <title>Take Note: Code Connexx 2013</title>
+    <published>2013-08-09T00:00:00+01:00</published>
+    <updated>2013-08-09T00:00:00+01:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    
+    <content type="html">&lt;p&gt;No matter where you come from or what your background may be, you take notes.  There is no escaping them.  Whether you write them down, record them digitally, or just store them mentally (arguably not very reliable unless you have an eidetic memory), you are taking notes.&lt;/p&gt;
+
+&lt;p&gt;As a developer taking notes is a soft skill that probably doesn’t even register on your radar, you would rather spend 3 days learning a new compiler than spend 15 minutes improving your note-taking, and that’s cool, but the pay-off for efficient notes can be huge, and an investment well worth your time.&lt;/p&gt;
+
+&lt;p&gt;On the most simple level, efficient notes will allow you to confidently forget something you’ve learnt or must remember, safe in the knowledge that you will be able to find that information again in your notes at a moments notice, freeing up your brain for more pressing tasks, such as learning new compilers, or solving complex problems in your new app.&lt;/p&gt;
+
+&lt;h2 id=&quot;types-of-notes&quot;&gt;Types of Notes&lt;/h2&gt;
+
+&lt;p&gt;All forms of note-taking can be distilled down to three types:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Information Retention&lt;/li&gt;
+  &lt;li&gt;Progress Tracking&lt;/li&gt;
+  &lt;li&gt;Idea Exploration&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Information Retention is all about remembering things; Shopping lists, copying from text-books in school (in your own words of course), to do lists, minutes at a meeting.  These are all forms of Information Retention, as in, if you don’t write this down, you’re going to forget it.  There can be many different forms of outcome from Information Retention notes.  Sometimes you want to use them to track your progress (a to do list), other times you just want them as a record of who said what at a meeting (minutes).&lt;/p&gt;
+
+&lt;p&gt;Progress Tracking is more about visualising a series of steps or actions.  To do lists, Diaries and Planners, and Gantt Charts are all forms of Progress Tracking notes.&lt;/p&gt;
+
+&lt;p&gt;Finally, there is Idea Exploration.  This is where writing something down can help you visualise it and grasp it better.  This could be a sketch, a wireframe, or a mind-map.&lt;/p&gt;
+
+&lt;p&gt;There is some considerable overlap between these three types of notes, for example, it could be argued that a shopping list could be both Progress Tracking (ticking items off as you purchase them) and Information Retention (if you don’t write items down you might forget them).  That’s okay.  A list can be either or both, depending on how you use it.&lt;/p&gt;
+
+&lt;p&gt;Putting these note types to work for you as a developer, and ultimately helping you increase your productivity involves two things:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;How you organise your notes&lt;/li&gt;
+  &lt;li&gt;Learning and applying some basic techniques&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;organisation&quot;&gt;Organisation&lt;/h2&gt;
+
+&lt;p&gt;An organisation system is the most vital of the two things you need for productive note-taking.  You can get by writing your notes down long form, but if you can’t find a specific piece of information when you need it, you may as well not have it.&lt;/p&gt;
+
+&lt;p&gt;There are many organisation systems, the most popular of which is “Getting Things Done” (or GTD). GTD is &lt;em&gt;not&lt;/em&gt; a system I would recommend.  GTD has something called &lt;em&gt;Contexts&lt;/em&gt;, and you will find a large portion of the information on The Internet relating to GTD seems to be people coming up with systems for dealing with contexts and attempting to make them less complex (like using cards and clips or envelopes instead of notebooks, e.g. “The Hipster PDA”&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;).&lt;/p&gt;
+
+&lt;p&gt;The reason for contexts in GTD (and ultimately why people seem to use cards and envelopes instead of notebooks to manage them), is also the main reason you need an organisation system in the first place: &lt;strong&gt;Notes are liner in nature, but your thoughts are not&lt;/strong&gt;.  This means you could be writing out a to-do list, and then something pops into your head about another project, and you need to write it down immediately, but then it’s completely out of &lt;em&gt;context&lt;/em&gt; (in the non GTD sense) and not related to the original train of thought for the project.&lt;/p&gt;
+
+&lt;p&gt;You can’t have tags or cross-references in paper-based notes, so how you organise your notes becomes just as important as the notes themselves.  Contexts (and by extension systems such as using cards, envelopes etc instead of a normal notebook) in GTD attempt to overcome this by grouping your notes logically and in a way that makes it “easy” to move the “pages” around.  This is one way to achieve the ultimate goal of organised notes, but is very complex, and my feeling is that you’ll spend more time running the &lt;em&gt;system&lt;/em&gt; than you gain by having the notes.&lt;/p&gt;
+
+&lt;p&gt;GTD does have one important thing right, which is something that I think is the &lt;strong&gt;key&lt;/strong&gt; to improving your productivity through note-taking, and that is: &lt;strong&gt;Everything in your head gets written down&lt;/strong&gt;.  By writing down absolutely everything, and having an organisation system that you are 100% confident in (meaning you can find anything as soon as you need it), you free your mind to work on other, more important tasks (such as writing code).&lt;/p&gt;
+
+&lt;p&gt;If you want to come up with your own method, I recommend starting with a table of contents and page numbers!  But if you’d like to hear about the system I’ve come up with, you can checkout my talk on the subject at &lt;a href=&quot;http://codeconnexx.com/talks/#taking-better-notes&quot;&gt;CodeConnexx 2013&lt;/a&gt;.  Otherwise, subscribe below and I’ll be sure to post the sides and write a post about it once the talk is over!&lt;/p&gt;
+
+&lt;h2 id=&quot;read-next&quot;&gt;Read Next:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://codeconnexx.com/&quot;&gt;CodeConnexx 2013&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;http://www.43folders.com/2004/09/03/introducing-the-hipster-pda&lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/07/19/how-to-create-git-plugin-part2</id>
@@ -92,7 +164,7 @@ say_hello() {
 
 &lt;p&gt;You should then be able to drop in to a shell anywhere you have git available, and give it a try:&lt;/p&gt;
 
-&lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/9319659531/&quot;&gt;&lt;img src=&quot;http://farm6.static.flickr.com/5520/9319659531_4a8f189098.jpg&quot; title=&quot;Screen Shot 2013-07-19 at 16.28.05&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;embed Flickr&quot;&gt;&lt;a href=&quot;http://www.flickr.com/photos/adbrett/9319659531/&quot;&gt;&lt;img src=&quot;http://farm6.static.flickr.com/5520/9319659531_4a8f189098.jpg&quot; title=&quot;Git Plugin&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;easy-install--uninstall-with-make&quot;&gt;Easy Install + Uninstall With Make&lt;/h2&gt;
 
