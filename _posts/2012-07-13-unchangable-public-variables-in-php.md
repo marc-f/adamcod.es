@@ -3,6 +3,7 @@ layout: post
 author: adam
 title: Unchangable Public Variables In PHP
 summary: If you've ever had a use-case where you want to make a class property publicly read-able, but not modifiable, (without adding a getter), this is how you do it.
+mark_old_post: false
 ---
 
 If you've ever had a use-case where you want to make a class property publicly readable, but not writable, (without adding a getter), this is how you do it.

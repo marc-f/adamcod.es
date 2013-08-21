@@ -3,6 +3,7 @@ layout: post
 author: adam
 title: Git - Help! I made my changes on the wrong branch (easy fix)
 summary: A simple git one-liner that will help you when you make changes to the wrong branch
+mark_old_post: false
 ---
 
 ##We've all done it##

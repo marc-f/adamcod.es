@@ -3,6 +3,7 @@ layout: post
 author: adam
 title: Git - A clean branch switching strategy
 summary: Some git strategies swapping branches without bringing the uncommitted or experimental changes with you
+mark_old_post: false
 ---
 
 ##Background
