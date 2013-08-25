@@ -18,11 +18,7 @@
     <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
 
     <!-- fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
-
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" type="text/css">
 </head>
 <body>
     <section class="layout-meta">
@@ -63,8 +59,7 @@
     <div class="entry-content">
         <p>There was a proposal<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> for a new getter and setter syntax that would have enabled you to write code like this:</p>
 
-<div><script src="https://gist.github.com/4621373.js?file=rfc.php"></script>
-<noscript><pre><code>&lt;?php
+<pre><code>&lt;?php
 
 // Code sample indicating the terminology
 class TimePeriod
@@ -77,23 +72,21 @@ class TimePeriod
         isset() { return isset($this-&gt;Seconds); } // &lt;-- Accessor, more specifically an issetter
         unset() { unset($this-&gt;Seconds); }        // &lt;-- Accessor, more specifically an unsetter
     }
-}</code></pre></noscript></div>
+}</code></pre>
 
 <p>The benefit here, is that accessing the properties directly on an instantiated object like this:</p>
 
-<div><script src="https://gist.github.com/4621373.js?file=rfc-test.php"></script>
-<noscript><pre><code> &lt;?php
+<pre><code> &lt;?php
  // Accessing the property is the same as accessing a class member
  $time = new TimePeriod();
  $time-&gt;Hours = 12; // Stored as 43200
- echo $time-&gt;Hours; // Outputs 12</code></pre></noscript></div>
+ echo $time-&gt;Hours; // Outputs 12</code></pre>
 
 <p>Would result in the getters and setters being called transparently.  Neat!  There are plenty of use-cases for this, and it would drastically reduce the amount of code in a lot of libraries and frameworks that are simple getters and setters, but unfortunately a large enough minority of core-contributors disagreed, or weren’t happy with the syntax, or the implementation (or something), and the proposal failed to pass, so it won’t be making it into the language. Not so neat.</p>
 
 <p>Fortunately, there is a way to replicate this functionality (albeit with less syntactic sugar) using PHP’s existing Magic Methods, and when combined with PHP 5.4’s traits<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>, we get something pretty close.  Consider the following:</p>
 
-<div><script src="https://gist.github.com/4621373.js?file=trait1.php"></script>
-<noscript><pre><code>&lt;?php
+<pre><code>&lt;?php
 trait Accessors
 {
     public function __get($name)
@@ -129,23 +122,21 @@ class TimePeriod
     {
         return $this-&gt;Seconds = $value * 3600;
     }
-}</code></pre></noscript></div>
+}</code></pre>
 
 <p>Now if we run our test code again:</p>
 
-<div><script src="https://gist.github.com/4621373.js?file=rfc-test.php"></script>
-<noscript><pre><code> &lt;?php
+<pre><code> &lt;?php
  // Accessing the property is the same as accessing a class member
  $time = new TimePeriod();
  $time-&gt;Hours = 12; // Stored as 43200
- echo $time-&gt;Hours; // Outputs 12</code></pre></noscript></div>
+ echo $time-&gt;Hours; // Outputs 12</code></pre>
 
 <p>We get the correct output!  For PHP 5.3 we could add the magic methods directly into the class that wants to use them, or create a base class and extend everything we want to have access to the magic getter/setters from that, but that feels messy, traits seem like the cleanest way to do this.</p>
 
 <p>If we add <code>__isset</code> and <code>__unset</code> to the <code>Accessor</code> trait, we can replicate that functionality too:</p>
 
-<div><script src="https://gist.github.com/4621373.js?file=trait2.php"></script>
-<noscript><pre><code>&lt;?php
+<pre><code>&lt;?php
 trait Accessors
 {
     public function __isset($name)
@@ -181,7 +172,7 @@ class TimePeriod
     {
         return unset($this-&gt;Seconds);
     }
-}</code></pre></noscript></div>
+}</code></pre>
 
 <p>Obviously this is a lot more verbose than the original RFC, but it does provide a way to mimic some of its functionality.  If you want to use it, you can see the full trait in <a href="https://gist.github.com/4621373#file-trait-full-php">this gist</a>.</p>
 
@@ -199,10 +190,10 @@ class TimePeriod
     </div>
 
     <section>
-        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+        <form class="well form-inline text-center" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
     <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
-    <p class="text-center">
-        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    <p>
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-primary" />
     </p>
 
     <input type="hidden" value="1" name="embed"/>
@@ -220,7 +211,7 @@ class TimePeriod
 
 <hr>
 
-<ul class="pager" />
+<ul class="pager">
     
     <li class="previous">
         <a href="/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html">&larr; Previous</a>
@@ -240,8 +231,16 @@ class TimePeriod
         </footer>
     </section>
 
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
-    <script type="text/javascript">
+    <script>
+        (function () {
+            var images = document.getElementsByTagName('img');
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+            }
+        })();
+    </script>
+    <script src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script>
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-10572636-6']);
       _gaq.push(['_trackPageview']);

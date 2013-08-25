@@ -18,11 +18,7 @@
     <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
 
     <!-- fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
-
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" type="text/css">
 </head>
 <body>
     <section class="layout-meta">
@@ -79,8 +75,7 @@
 
 <p>Now to begin writing our subcommand, create a file at the same level as your <code>git-adamcodes</code> file and name it <code>git-adamcodes-hello</code>.  In that file, you’ll need the following:</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=git-adamcodes-hello.sh"></script>
-<noscript><pre><code>#!/usr/bin/env sh
+<pre><code>#!/usr/bin/env sh
 
 usage() {
     echo &quot;usage: git adamcodes hello [name]&quot;
@@ -104,7 +99,7 @@ cmd_hello() {
 say_hello() {
     echo &quot;Hello ${1}&quot;
     echo
-}</code></pre></noscript></div>
+}</code></pre>
 
 <p>I’ll go over this quickly, as it’s fairly basic and it should be obvious what it does.  Line 1 is our hashbang, and lines 3-6 define our usage function, which is just echoing out some strings.  The empty echo is an easy way to create a newline.</p>
 
@@ -138,8 +133,7 @@ say_hello() {
 
 <p>Make starts with a bunch of build-targets (or functions) that are defined like so:</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=make-targets"></script>
-<noscript><pre><code>all:
+<pre><code>all:
   dothis
   thenthis
 
@@ -148,19 +142,17 @@ install:
   andthenthis
 
 uninstall:
-  ...</code></pre></noscript></div>
+  ...</code></pre>
 
 <p>Each target is on it’s own line, and it’s the target named follow by a colon.  <code>all:</code> is a the target that is run when you don’t specify another target, so it’s a good place to either build your whole app, or in our case, show a help message.</p>
 
 <p>Each line below the target is a command to run.  Whitespace is important here, each line indented by a tab character tells make that’s a shell command it should run.</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=make-variables"></script>
-<noscript><pre><code>DIRECTORY = /usr/local/bin</code></pre></noscript></div>
+<pre><code>DIRECTORY = /usr/local/bin</code></pre>
 
 <p>Make also has the concept of variables, but unlike shell or bash, whitespace is not important here, you can have as many spaces you like either side of the equals sign.</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=Makefile"></script>
-<noscript><pre><code>BIN_DIR   = /usr/local/bin
+<pre><code>BIN_DIR   = /usr/local/bin
 LOADER    = git-adamcodes
 COMMANDS  = git-adamcodes-hello
 COMMNADS += git-adamcodes-anothercommand
@@ -177,7 +169,7 @@ uninstall:
 	test -d $(BIN_DIR) &amp;&amp; \
 	cd $(BIN_DIR) &amp;&amp; \
 	rm -f $(LOADER) $(COMMANDS)
-</code></pre></noscript></div>
+</code></pre>
 
 <p>Finally, this is our complete makefile for our plugin.  It should live in the same directory as our plugin files, and it should be named <code>Makefile</code> (capitalisation is important).</p>
 
@@ -223,10 +215,10 @@ uninstall:
     </div>
 
     <section>
-        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+        <form class="well form-inline text-center" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
     <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
-    <p class="text-center">
-        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    <p>
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-primary" />
     </p>
 
     <input type="hidden" value="1" name="embed"/>
@@ -244,7 +236,7 @@ uninstall:
 
 <hr>
 
-<ul class="pager" />
+<ul class="pager">
     
     <li class="previous">
         <a href="/2013/07/12/how-to-create-git-plugin.html">&larr; Previous</a>
@@ -264,8 +256,16 @@ uninstall:
         </footer>
     </section>
 
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
-    <script type="text/javascript">
+    <script>
+        (function () {
+            var images = document.getElementsByTagName('img');
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+            }
+        })();
+    </script>
+    <script src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script>
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-10572636-6']);
       _gaq.push(['_trackPageview']);

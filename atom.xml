@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-08-21T13:40:58+01:00</updated>
+  <updated>2013-08-25T17:36:47+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -113,8 +113,7 @@
 
 &lt;p&gt;Now to begin writing our subcommand, create a file at the same level as your &lt;code&gt;git-adamcodes&lt;/code&gt; file and name it &lt;code&gt;git-adamcodes-hello&lt;/code&gt;.  In that file, you’ll need the following:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=git-adamcodes-hello.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;#!/usr/bin/env sh
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env sh
 
 usage() {
     echo &amp;quot;usage: git adamcodes hello [name]&amp;quot;
@@ -138,7 +137,7 @@ cmd_hello() {
 say_hello() {
     echo &amp;quot;Hello ${1}&amp;quot;
     echo
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I’ll go over this quickly, as it’s fairly basic and it should be obvious what it does.  Line 1 is our hashbang, and lines 3-6 define our usage function, which is just echoing out some strings.  The empty echo is an easy way to create a newline.&lt;/p&gt;
 
@@ -172,8 +171,7 @@ say_hello() {
 
 &lt;p&gt;Make starts with a bunch of build-targets (or functions) that are defined like so:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=make-targets&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;all:
+&lt;pre&gt;&lt;code&gt;all:
   dothis
   thenthis
 
@@ -182,19 +180,17 @@ install:
   andthenthis
 
 uninstall:
-  ...&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+  ...&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Each target is on it’s own line, and it’s the target named follow by a colon.  &lt;code&gt;all:&lt;/code&gt; is a the target that is run when you don’t specify another target, so it’s a good place to either build your whole app, or in our case, show a help message.&lt;/p&gt;
 
 &lt;p&gt;Each line below the target is a command to run.  Whitespace is important here, each line indented by a tab character tells make that’s a shell command it should run.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=make-variables&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;DIRECTORY = /usr/local/bin&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;DIRECTORY = /usr/local/bin&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Make also has the concept of variables, but unlike shell or bash, whitespace is not important here, you can have as many spaces you like either side of the equals sign.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=Makefile&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;BIN_DIR   = /usr/local/bin
+&lt;pre&gt;&lt;code&gt;BIN_DIR   = /usr/local/bin
 LOADER    = git-adamcodes
 COMMANDS  = git-adamcodes-hello
 COMMNADS += git-adamcodes-anothercommand
@@ -211,7 +207,7 @@ uninstall:
 	test -d $(BIN_DIR) &amp;amp;&amp;amp; \
 	cd $(BIN_DIR) &amp;amp;&amp;amp; \
 	rm -f $(LOADER) $(COMMANDS)
-&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Finally, this is our complete makefile for our plugin.  It should live in the same directory as our plugin files, and it should be named &lt;code&gt;Makefile&lt;/code&gt; (capitalisation is important).&lt;/p&gt;
 
@@ -333,36 +329,31 @@ uninstall:
 
 &lt;p&gt;A hashbang looks like this:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=hashbang.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;#!/bin/sh&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;#!/bin/sh&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now most people will have a compatible shell available in that location, but we can make it a bit more portable by checking the users’ ENV for the location of their shell, just in-case:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=hashbang-env.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;#!/usr/bin/env sh&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env sh&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Next, we need a couple of help functions.  These should be fairly self explanatory, they just print words to the screen.  The first is going to print out our version number:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=version.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;version() {
+&lt;pre&gt;&lt;code&gt;version() {
     echo &amp;quot;adamcodes git plugin v0.1.0&amp;quot;
     echo
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;And the next is going to print our usage information:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=usage.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;usage() {
+&lt;pre&gt;&lt;code&gt;usage() {
     echo &amp;quot;usage: git adamcodes &amp;lt;subcommand&amp;gt;&amp;quot;
     echo
     echo &amp;quot;Available subcommands are:&amp;quot;
     echo &amp;quot;hello &amp;lt;name&amp;gt;  Print out Hello World or Hello &amp;lt;name&amp;gt; (if provided)&amp;quot;
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Next, we get into the main part.  Tradition dictates that the main execution of a bash script takes place in the &lt;code&gt;main&lt;/code&gt; function, so that’s what we’ll call ours, too:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=main.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;main() {
+&lt;pre&gt;&lt;code&gt;main() {
     if [ &amp;quot;$#&amp;quot; -lt 1 ]; then
         usage; exit 1
     fi
@@ -390,14 +381,13 @@ uninstall:
     fi
 
     cmd_$subcommand &amp;quot;$@&amp;quot;
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Okay, if you’re not used to shell scripting this will probably look a bit scary.  Let’s break it down piece-by-piece.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=param-count.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;if [ &amp;quot;$#&amp;quot; -lt 1 ]; then
+&lt;pre&gt;&lt;code&gt;if [ &amp;quot;$#&amp;quot; -lt 1 ]; then
     usage; exit 1
-fi&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+fi&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This first line is fairly simple.  When you pass an argument to a shell script it gets passed in in numbered variables $0 to $N.  Each space is treated as a new variable, with $0 containing the name of the script you ran.  &lt;code&gt;if [ &quot;$#&quot; -lt 1 ]&lt;/code&gt; is basically saying “if the number of options is less than one”.&lt;/p&gt;
 
@@ -405,8 +395,7 @@ fi&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;code&gt;exit 1&lt;/code&gt; is all about reporting back to Git (and the shell) whether a command ran successfully or not.  &lt;code&gt;exit&lt;/code&gt; will kill the execution of a script, just like in PHP, and a successful exit means exiting with &lt;code&gt;0&lt;/code&gt;.  An exit in the range &lt;code&gt;1-255&lt;/code&gt; is considered an error and can be used to map to error messages if you have a manual or whatever.  We don’t, so we’ll just exit with 1 to let the shell know it didn’t run successfully, as we expected more parameters.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=get-subcommand.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;local subcommand=&amp;quot;$1&amp;quot;; shift&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;local subcommand=&amp;quot;$1&amp;quot;; shift&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The next line does two things again.  You can do more than one thing per line in bash by separating with a semi-colon.  If you put them one per line you don’t need the semi-colon.  First, we define a local variable called &lt;code&gt;subcommand&lt;/code&gt;, hence, the &lt;code&gt;local&lt;/code&gt;, and then we’re assigning the first parameter passed to our script into that variable.&lt;/p&gt;
 
@@ -447,20 +436,18 @@ $4: test
 
 &lt;p&gt;You’ll notice the script name always remains in &lt;code&gt;$0&lt;/code&gt;, this is important for later.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=test-for-version-or-help.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;case $subcommand in
+&lt;pre&gt;&lt;code&gt;case $subcommand in
     &amp;quot;-h&amp;quot;|&amp;quot;--help&amp;quot;)
         usage; exit 0
         ;;
     &amp;quot;-v&amp;quot;|&amp;quot;--version&amp;quot;)
         version; exit 0
         ;;
-esac&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+esac&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Next we use a standard case statement to check whether the subcommand we just set is equal to &lt;code&gt;-h&lt;/code&gt;, &lt;code&gt;--help&lt;/code&gt;, &lt;code&gt;-v&lt;/code&gt; or &lt;code&gt;--version&lt;/code&gt;.  As per our spec above, each of these should run a specific function.  If we find a match we simply run the correct function and exit with 0, which means that we ran successfully.  the &lt;code&gt;;;&lt;/code&gt; below each set of commands is the equivalent of &lt;code&gt;break&lt;/code&gt; in PHP and tells the shell to not continue checking the rest of the case statement.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=get-working-dir.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;local workingdir=$(dirname &amp;quot;$(echo &amp;quot;$0&amp;quot; | sed -e &amp;#39;s,\\,/,g&amp;#39;)&amp;quot;)&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;local workingdir=$(dirname &amp;quot;$(echo &amp;quot;$0&amp;quot; | sed -e &amp;#39;s,\\,/,g&amp;#39;)&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This next snippet gets our working directory.  We need this so we know where to look for our sub-command files, as they should be in the same directory as the script we’re running.&lt;/p&gt;
 
@@ -470,29 +457,25 @@ esac&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;p&gt;As we mentioned earlier, when you run a bash script the script name gets passed into the script in the variable &lt;code&gt;$0&lt;/code&gt;, so running &lt;code&gt;$(dirname $0)&lt;/code&gt; should give us what we’re after, however, that’s not so great for our windows users (e.g. cygwin), as the path separator will be the wrong way around.  Therefore, we nest another &lt;code&gt;$(...)&lt;/code&gt; call where we echo out the value of &lt;code&gt;$0&lt;/code&gt;, pipe the output into the &lt;code&gt;sed&lt;/code&gt; command, and replace all backslashes with forward slashes.  We then take the output of that (captured by the nested &lt;code&gt;$(...)&lt;/code&gt;) and pass it back into dirname, and then assign the captured output of that to the &lt;code&gt;workingdir&lt;/code&gt; variable.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=check-file-exists.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;if [ ! -e &amp;quot;$WORKINGDIR/git-adamcodes-$subcommand&amp;quot; ]; then
+&lt;pre&gt;&lt;code&gt;if [ ! -e &amp;quot;$WORKINGDIR/git-adamcodes-$subcommand&amp;quot; ]; then
     usage; exit 1
-fi&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+fi&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Next, we’re simply checking to see if the file for the subcommand exists.  We’re expecting the files to be in the same directory as our current file, and to be named in the format &lt;code&gt;git-namespace-subcommand&lt;/code&gt;.  If we don’t find it, we need to print out our usage info and exit with an error status.  If we do, we can simply carry on.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=load-file.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;source &amp;quot;$WORKINGDIR/git-adamcodes-$subcommand&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;source &amp;quot;$WORKINGDIR/git-adamcodes-$subcommand&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;code&gt;source&lt;/code&gt; is a built-in command that will run a file inside the current shell.  That means it will load all functions and variables from that file and they will be available throughout the shell.  Anything that this script executes will also execute, it’s exactly the same as running the file yourself.&lt;/p&gt;
 
 &lt;p&gt;This means we can put our sub-commands in their own files, with their own variables, but not run them, just make them accessible when we need them.  Think of this like a PHP &lt;code&gt;include&lt;/code&gt;.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=make-sure-file-includes-subcommand.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;if [ ! type &amp;quot;cmd_$subcommand&amp;quot; ]; then
+&lt;pre&gt;&lt;code&gt;if [ ! type &amp;quot;cmd_$subcommand&amp;quot; ]; then
     usage; exit 1
-fi&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+fi&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now we’ve loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn’t there’s obviously something wrong, so do our standard “print usage information and error exit status” step.  This actually produces some output we have to do something about, so we do some bash trickery and redirect it into &lt;code&gt;/dev/null&lt;/code&gt;, which is basically a black hole for anything you don’t want.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=run-command.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;cmd_$subcommand &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;cmd_$subcommand &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Finally we get down to it.  This step runs our sub-command and passes in our &lt;code&gt;$0...$n&lt;/code&gt; variables as function parameters.  We expect our sub-command’s main function to be called &lt;code&gt;cmd_subcommand&lt;/code&gt; where &lt;em&gt;subcommand&lt;/em&gt; is the name of the sub-command you want to type to run it.  If we also called them &lt;code&gt;main&lt;/code&gt; we’d end up with a conflict with our existing main function.&lt;/p&gt;
 
@@ -500,15 +483,13 @@ fi&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;p&gt;Now we’ve built up our &lt;code&gt;main&lt;/code&gt; function it won’t run on its own, we need to actually call it and pass in our &lt;code&gt;$0...$n&lt;/code&gt; variables.  To do that, we just do the same as above, but call main instead:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=runit.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;main &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;main &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h4 id=&quot;pulling-it-all-together&quot;&gt;Pulling it all Together&lt;/h4&gt;
 
 &lt;p&gt;Finally, bringing it all together our plugin’s main file should look like this:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5983671.js?file=git-adamcodes.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;#!/usr/bin/env sh
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env sh
 
 usage() {
     echo &amp;quot;usage: git adamcodes &amp;lt;subcommand&amp;gt;&amp;quot;
@@ -552,7 +533,7 @@ main() {
     cmd_$subcommand &amp;quot;$@&amp;quot;
 }
 
-main &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+main &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;In &lt;a href=&quot;http://adamcodes/2013/07/19/how-to-create-git-plugin-part2.html&quot;&gt;part 2&lt;/a&gt; I go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don’t miss it!&lt;/p&gt;
 
@@ -1002,11 +983,10 @@ nano info.php
 
 &lt;p&gt;&lt;em&gt;BUT WAIT!&lt;/em&gt;  I hear you cry.  &lt;em&gt;Doesn’t composer have the ability to install PEAR packages&lt;/em&gt;.  Yes, it does, so let’s give it a try.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5684774.js?file=composer-init.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;cd ~/Projects
+&lt;pre&gt;&lt;code&gt;cd ~/Projects
 mkdir zf-phpunit
 cd zf-phpunit
-composer init&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+composer init&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Fill in the details until you get to the section that asks you to define your dependencies interactively, then add zendframework1, and continue:&lt;/p&gt;
 
@@ -1014,10 +994,9 @@ composer init&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;p&gt;Now run &lt;code&gt;composer install&lt;/code&gt; and it should go off and grab a copy of zend framework 1 for you.  Once this is complete, create a new zend framework project:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5684774.js?file=zf-init.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;./vendor/zendframework/zendframework1/bin/zf.sh create project .
+&lt;pre&gt;&lt;code&gt;./vendor/zendframework/zendframework1/bin/zf.sh create project .
 Creating project at ~/Projects/zf-phpunit
-Note: This command created a web project, for more information setting up your VHOST, please see docs/README&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+Note: This command created a web project, for more information setting up your VHOST, please see docs/README&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Add the composer autoloader to your &lt;code&gt;public/index.php&lt;/code&gt;  and &lt;code&gt;tests/bootstrap.php&lt;/code&gt; files&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt; and you should have a fully functioning zend framework 1 project.&lt;/p&gt;
 
@@ -1025,10 +1004,9 @@ Note: This command created a web project, for more information setting up your V
 
 &lt;p&gt;zf tool has created a default test for you automatically, so lets try and run it using our system install of phpunit:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5684774.js?file=3.7-test-run.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;cd tests
+&lt;pre&gt;&lt;code&gt;cd tests
 phpunit --version
-# PHPUnit 3.7.21 by Sebastian Bergmann.&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+# PHPUnit 3.7.21 by Sebastian Bergmann.&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Which should give you an error something like this:&lt;/p&gt;
 
@@ -1040,8 +1018,7 @@ phpunit --version
 
 &lt;p&gt;Open &lt;code&gt;composer.json&lt;/code&gt; in your favourite text editor and add the following:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5684774.js?file=composer-additions.json&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;quot;repositories&amp;quot;: [
+&lt;pre&gt;&lt;code&gt;&amp;quot;repositories&amp;quot;: [
   {
     &amp;quot;type&amp;quot;: &amp;quot;pear&amp;quot;,
     &amp;quot;url&amp;quot;: &amp;quot;http://pear.phpunit.de&amp;quot;
@@ -1049,7 +1026,7 @@ phpunit --version
 ],
 &amp;quot;require-dev&amp;quot;: {
   &amp;quot;pear-pear.phpunit.de/PHPUnit&amp;quot;: &amp;quot;3.4.*&amp;quot;
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now run &lt;code&gt;composer update&lt;/code&gt; to grab our new dependencies.  Composer should do its thing and you’ll be left with PHPUnit and the latest ZendFramework 1 version in &lt;code&gt;./vendor&lt;/code&gt;, and a PHPUnit 3.4 executable in &lt;code&gt;./vendor/bin/phpunit&lt;/code&gt;.  So let’s try running that.&lt;/p&gt;
 
@@ -1061,8 +1038,7 @@ phpunit --version
 
 &lt;p&gt;This will get you through almost everything, but in our particular case, we had to install a few dependencies for PHPUnit that composer doesn’t seem to grab:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/5684774.js?file=composer-extra.json&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;{
+&lt;pre&gt;&lt;code&gt;{
   &amp;quot;repositories&amp;quot;: [
     {
       &amp;quot;type&amp;quot;: &amp;quot;pear&amp;quot;,
@@ -1085,7 +1061,7 @@ phpunit --version
     &amp;quot;pear-pear.symfony-project.com/YAML&amp;quot;: &amp;quot;1.0.2&amp;quot;,
     &amp;quot;pear-pear.phpunit.de/PHPUnit&amp;quot;: &amp;quot;3.4.*&amp;quot;
   }
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Run &lt;code&gt;composer update&lt;/code&gt; again and you should have everything installed that you need to use PHPUnit 3.4 for your project.&lt;/p&gt;
 
@@ -1836,8 +1812,7 @@ require_once &#39;Zend/Application.php&#39;;
 
 &lt;p&gt;Now you can add the &lt;code&gt;mark_old_post_tag.rb&lt;/code&gt; file to your &lt;code&gt;_plugins&lt;/code&gt; folder.&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4757705.js?file=mark_old_posts.rb&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;# Mark Old Posts Liquid Tag
+&lt;pre&gt;&lt;code&gt;# Mark Old Posts Liquid Tag
 #
 # A liquid tag for Jekyll sites to mark old posts as deprecated
 #
@@ -1913,7 +1888,7 @@ module Jekyll
 end
 
 Liquid::Template.register_tag(&amp;#39;mark_old_posts&amp;#39;, Jekyll::MarkOldPostTag)
-&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the &lt;code&gt;html_output_for&lt;/code&gt; method if you want to change anything.&lt;/p&gt;
 
@@ -1955,8 +1930,7 @@ Liquid::Template.register_tag(&amp;#39;mark_old_posts&amp;#39;, Jekyll::MarkOldP
     
     <content type="html">&lt;p&gt;There was a proposal&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; for a new getter and setter syntax that would have enabled you to write code like this:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=rfc.php&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
 
 // Code sample indicating the terminology
 class TimePeriod
@@ -1969,23 +1943,21 @@ class TimePeriod
         isset() { return isset($this-&amp;gt;Seconds); } // &amp;lt;-- Accessor, more specifically an issetter
         unset() { unset($this-&amp;gt;Seconds); }        // &amp;lt;-- Accessor, more specifically an unsetter
     }
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The benefit here, is that accessing the properties directly on an instantiated object like this:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=rfc-test.php&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt; &amp;lt;?php
+&lt;pre&gt;&lt;code&gt; &amp;lt;?php
  // Accessing the property is the same as accessing a class member
  $time = new TimePeriod();
  $time-&amp;gt;Hours = 12; // Stored as 43200
- echo $time-&amp;gt;Hours; // Outputs 12&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+ echo $time-&amp;gt;Hours; // Outputs 12&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Would result in the getters and setters being called transparently.  Neat!  There are plenty of use-cases for this, and it would drastically reduce the amount of code in a lot of libraries and frameworks that are simple getters and setters, but unfortunately a large enough minority of core-contributors disagreed, or weren’t happy with the syntax, or the implementation (or something), and the proposal failed to pass, so it won’t be making it into the language. Not so neat.&lt;/p&gt;
 
 &lt;p&gt;Fortunately, there is a way to replicate this functionality (albeit with less syntactic sugar) using PHP’s existing Magic Methods, and when combined with PHP 5.4’s traits&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;, we get something pretty close.  Consider the following:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=trait1.php&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
 trait Accessors
 {
     public function __get($name)
@@ -2021,23 +1993,21 @@ class TimePeriod
     {
         return $this-&amp;gt;Seconds = $value * 3600;
     }
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Now if we run our test code again:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=rfc-test.php&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt; &amp;lt;?php
+&lt;pre&gt;&lt;code&gt; &amp;lt;?php
  // Accessing the property is the same as accessing a class member
  $time = new TimePeriod();
  $time-&amp;gt;Hours = 12; // Stored as 43200
- echo $time-&amp;gt;Hours; // Outputs 12&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+ echo $time-&amp;gt;Hours; // Outputs 12&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;We get the correct output!  For PHP 5.3 we could add the magic methods directly into the class that wants to use them, or create a base class and extend everything we want to have access to the magic getter/setters from that, but that feels messy, traits seem like the cleanest way to do this.&lt;/p&gt;
 
 &lt;p&gt;If we add &lt;code&gt;__isset&lt;/code&gt; and &lt;code&gt;__unset&lt;/code&gt; to the &lt;code&gt;Accessor&lt;/code&gt; trait, we can replicate that functionality too:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/4621373.js?file=trait2.php&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
 trait Accessors
 {
     public function __isset($name)
@@ -2073,7 +2043,7 @@ class TimePeriod
     {
         return unset($this-&amp;gt;Seconds);
     }
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Obviously this is a lot more verbose than the original RFC, but it does provide a way to mimic some of its functionality.  If you want to use it, you can see the full trait in &lt;a href=&quot;https://gist.github.com/4621373#file-trait-full-php&quot;&gt;this gist&lt;/a&gt;.&lt;/p&gt;
 
@@ -2961,8 +2931,7 @@ mysql&amp;gt; show tables;
 
 &lt;p&gt;The simplest way to avoid this is to stash any changes before you move to another branch, this looks something like this:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3075876.js?file=quick-and-dirty.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;git stash
+&lt;pre&gt;&lt;code&gt;git stash
 git checkout develop
 git flow hotfix start &amp;lt;release&amp;gt;
 ...
@@ -2970,18 +2939,17 @@ git flow hotfix start &amp;lt;release&amp;gt;
 ...
 git flow hotfix finish &amp;lt;release&amp;gt;
 git checkout feature/awesome-new-stuff
-git stash pop&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+git stash pop&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;However, if you find yourself doing this a lot, for a lot of different features and branches, this can get messy pretty quickly.  Instead, why not leverage the flexibility of git and just commit early and often, and simply amend as you go:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3075876.js?file=wip.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;git add .
+&lt;pre&gt;&lt;code&gt;git add .
 git commit -a -m &amp;#39;WIP&amp;#39;
 ...
 &amp;lt;codecodecode&amp;gt;
 ...
 git add .
-git commit --amend&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+git commit --amend&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Because you are working locally in git commits can be undone and re-done at will, it’s only when you push the commit to a central repository that you need to pay serious attention.&lt;/p&gt;
 
@@ -2989,9 +2957,8 @@ git commit --amend&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;p&gt;When you’re ready for the real commit on a branch you can run:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3075876.js?file=finish.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;git reset --soft HEAD~
-git reset&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;git reset --soft HEAD~
+git reset&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The first reset will undo your last commit (the WIP commit), with the second reset un-staging the files.  You can now re-commit all of your changes paying more serious attention to your commit message.&lt;/p&gt;
 </content>
@@ -3041,8 +3008,7 @@ git reset&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
 
 &lt;p&gt;Having read about Imagine, it had peaked my interested, and I’d wanted to use it on a project for a while.  It turns out that creating a circle thumbnail with Imagine is actually really easy.  Much like most custom things in Imagine, you want to create a filter, I called mine &lt;code&gt;CircleThumbnailFilter&lt;/code&gt; (original, I know).  It looks like this:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3060605.js?file=CircleThumbnailFilter.php&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
 class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
 {
     private $imagine;
@@ -3079,7 +3045,7 @@ class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
         // apply the mask to the thumbnail and return it
         return $thumbnail-&amp;gt;applyMask($mask);
     }
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The constructor is fairly self explanatory, it takes an instance of your imagine interface, and a box instance which is used to control the size of your thumbnail.&lt;/p&gt;
 
@@ -3105,14 +3071,13 @@ class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
 
 &lt;p&gt;You will also need to autoload or require the CircleThumbnailFilter object somehow, you could put it in your app’s namespace or just do it the old-school way with &lt;code&gt;require_once&lt;/code&gt;.  Either way, when both are loaded, you can run the circle filter like so:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3060605.js?file=usage.php&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
 
 $imagine = new Imagine\Gd\Imagine();
 $filter  = new CircleThumbnailFilter($imagine, new Imagine\Image\Box(100, 100));
 
 $filter-&amp;gt;apply($imagine-&amp;gt;open(&amp;#39;/path/to/square/image.jpg&amp;#39;))
-    -&amp;gt;save(&amp;#39;/path/to/circle/image.png&amp;#39;);&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+    -&amp;gt;save(&amp;#39;/path/to/circle/image.png&amp;#39;);&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Make sure that no-matter what your input format (which isn’t really important, Imagine should know what to do with most valid image formats), make sure you output it as something with transparency (preferably png).  Don’t do what I did and spend 40 minutes wondering why the transparency mask wasn’t applying when you were outputting as a jpg.&lt;/p&gt;
 </content>
@@ -3170,8 +3135,7 @@ $filter-&amp;gt;apply($imagine-&amp;gt;open(&amp;#39;/path/to/square/image.jpg&a
 
 &lt;p&gt;This trick involves using PHP’s magic methods and looks like this:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3104351.js?file=MagicPublicProperty.php&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
 
 class MagicPublicProperty {
     protected $_primaryKey = &amp;#39;id&amp;#39;;
@@ -3195,7 +3159,7 @@ class MagicPublicProperty {
             return isset($this-&amp;gt;_primaryKey);
         }
     }
-}&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Here we have a protected property that is obviously only accessible to instances of this class or child classes.&lt;/p&gt;
 
@@ -3211,8 +3175,7 @@ class MagicPublicProperty {
 
 &lt;p&gt;Here are some quick tests to prove it’s working as expected:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3104351.js?file=tests.php&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
 
 require_once __DIR__ . &amp;#39;/MagicPublicProperty.php&amp;#39;;
 
@@ -3261,15 +3224,14 @@ function test($c,$m) {
         echo &amp;quot;$m: Failed\n&amp;quot;;
     }
 }
-echo &amp;quot;\n\n&amp;quot;;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+echo &amp;quot;\n\n&amp;quot;;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;and the results:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3104351.js?file=results&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;Is set: Passed
+&lt;pre&gt;&lt;code&gt;Is set: Passed
 Is accessible: Passed
 Is internally changeable: Passed
-Exception if set: Passed&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+Exception if set: Passed&lt;/code&gt;&lt;/pre&gt;
 
 </content>
   </entry>
@@ -3331,8 +3293,7 @@ Starting ADB server failed (code -1).
 
 &lt;p&gt;First, make sure all of your &lt;em&gt;feature&lt;/em&gt; changes are committed to the correct branch (but &lt;em&gt;not&lt;/em&gt; the fixes you want to move!), then:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3047748.js?file=checkout.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;git checkout &amp;lt;branch&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;git checkout &amp;lt;branch&amp;gt;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Be sure to replace &lt;code&gt;&amp;lt;branch&amp;gt;&lt;/code&gt; with the name of the branch you actually want to commit to.&lt;/p&gt;
 
@@ -3340,18 +3301,15 @@ Starting ADB server failed (code -1).
 
 &lt;p&gt;If you’ve already committed your changes, you need to do a SOFT reset. A soft reset will put your changes back into the index, instead of destroying them like a HARD reset would:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3047748.js?file=soft-reset.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;git reset --soft HEAD^&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;git reset --soft HEAD^&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;A quick note here, the ^ is the number of commits to roll-back, so if you wanted to go back 2 commits, you’d use:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3047748.js?file=soft-reset-2.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;git reset --soft HEAD^^&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;git reset --soft HEAD^^&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;and for 3 commits&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3047748.js?file=soft-reset-3.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;git reset --soft HEAD^^^&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;git reset --soft HEAD^^^&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;and so on… then you can run the &lt;a href=&quot;#if-youve-not-committed-yet&quot;&gt;checkout&lt;/a&gt; command above.&lt;/p&gt;
 
@@ -3359,8 +3317,7 @@ Starting ADB server failed (code -1).
 
 &lt;p&gt;If the changes you want to move will conflict with something on the branch you’re moving to git will simply refuse to checkout the new branch.  In this instance you want to use the stash-checkout-pop command like so:&lt;/p&gt;
 
-&lt;div&gt;&lt;script src=&quot;https://gist.github.com/3047748.js?file=stash-checkout-pop.sh&quot;&gt;&lt;/script&gt;
-&lt;noscript&gt;&lt;pre&gt;&lt;code&gt;git stash &amp;amp;&amp;amp; git checkout &amp;lt;branch&amp;gt; &amp;amp;&amp;amp; git stash pop&lt;/code&gt;&lt;/pre&gt;&lt;/noscript&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;git stash &amp;amp;&amp;amp; git checkout &amp;lt;branch&amp;gt; &amp;amp;&amp;amp; git stash pop&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This will stash the changes so you have nothing to move, then checkout the new branch (as with nothing to move there can be no conflicts), and finally pop the stashed changes into the new branch ready for committing.&lt;/p&gt;
 

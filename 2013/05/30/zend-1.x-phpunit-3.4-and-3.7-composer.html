@@ -18,11 +18,7 @@
     <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
 
     <!-- fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
-
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" type="text/css">
 </head>
 <body>
     <section class="layout-meta">
@@ -69,11 +65,10 @@
 
 <p><em>BUT WAIT!</em>  I hear you cry.  <em>Doesn’t composer have the ability to install PEAR packages</em>.  Yes, it does, so let’s give it a try.</p>
 
-<div><script src="https://gist.github.com/5684774.js?file=composer-init.sh"></script>
-<noscript><pre><code>cd ~/Projects
+<pre><code>cd ~/Projects
 mkdir zf-phpunit
 cd zf-phpunit
-composer init</code></pre></noscript></div>
+composer init</code></pre>
 
 <p>Fill in the details until you get to the section that asks you to define your dependencies interactively, then add zendframework1, and continue:</p>
 
@@ -81,10 +76,9 @@ composer init</code></pre></noscript></div>
 
 <p>Now run <code>composer install</code> and it should go off and grab a copy of zend framework 1 for you.  Once this is complete, create a new zend framework project:</p>
 
-<div><script src="https://gist.github.com/5684774.js?file=zf-init.sh"></script>
-<noscript><pre><code>./vendor/zendframework/zendframework1/bin/zf.sh create project .
+<pre><code>./vendor/zendframework/zendframework1/bin/zf.sh create project .
 Creating project at ~/Projects/zf-phpunit
-Note: This command created a web project, for more information setting up your VHOST, please see docs/README</code></pre></noscript></div>
+Note: This command created a web project, for more information setting up your VHOST, please see docs/README</code></pre>
 
 <p>Add the composer autoloader to your <code>public/index.php</code>  and <code>tests/bootstrap.php</code> files<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> and you should have a fully functioning zend framework 1 project.</p>
 
@@ -92,10 +86,9 @@ Note: This command created a web project, for more information setting up your V
 
 <p>zf tool has created a default test for you automatically, so lets try and run it using our system install of phpunit:</p>
 
-<div><script src="https://gist.github.com/5684774.js?file=3.7-test-run.sh"></script>
-<noscript><pre><code>cd tests
+<pre><code>cd tests
 phpunit --version
-# PHPUnit 3.7.21 by Sebastian Bergmann.</code></pre></noscript></div>
+# PHPUnit 3.7.21 by Sebastian Bergmann.</code></pre>
 
 <p>Which should give you an error something like this:</p>
 
@@ -107,8 +100,7 @@ phpunit --version
 
 <p>Open <code>composer.json</code> in your favourite text editor and add the following:</p>
 
-<div><script src="https://gist.github.com/5684774.js?file=composer-additions.json"></script>
-<noscript><pre><code>&quot;repositories&quot;: [
+<pre><code>&quot;repositories&quot;: [
   {
     &quot;type&quot;: &quot;pear&quot;,
     &quot;url&quot;: &quot;http://pear.phpunit.de&quot;
@@ -116,7 +108,7 @@ phpunit --version
 ],
 &quot;require-dev&quot;: {
   &quot;pear-pear.phpunit.de/PHPUnit&quot;: &quot;3.4.*&quot;
-}</code></pre></noscript></div>
+}</code></pre>
 
 <p>Now run <code>composer update</code> to grab our new dependencies.  Composer should do its thing and you’ll be left with PHPUnit and the latest ZendFramework 1 version in <code>./vendor</code>, and a PHPUnit 3.4 executable in <code>./vendor/bin/phpunit</code>.  So let’s try running that.</p>
 
@@ -128,8 +120,7 @@ phpunit --version
 
 <p>This will get you through almost everything, but in our particular case, we had to install a few dependencies for PHPUnit that composer doesn’t seem to grab:</p>
 
-<div><script src="https://gist.github.com/5684774.js?file=composer-extra.json"></script>
-<noscript><pre><code>{
+<pre><code>{
   &quot;repositories&quot;: [
     {
       &quot;type&quot;: &quot;pear&quot;,
@@ -152,7 +143,7 @@ phpunit --version
     &quot;pear-pear.symfony-project.com/YAML&quot;: &quot;1.0.2&quot;,
     &quot;pear-pear.phpunit.de/PHPUnit&quot;: &quot;3.4.*&quot;
   }
-}</code></pre></noscript></div>
+}</code></pre>
 
 <p>Run <code>composer update</code> again and you should have everything installed that you need to use PHPUnit 3.4 for your project.</p>
 
@@ -176,10 +167,10 @@ phpunit --version
     </div>
 
     <section>
-        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+        <form class="well form-inline text-center" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
     <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
-    <p class="text-center">
-        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    <p>
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-primary" />
     </p>
 
     <input type="hidden" value="1" name="embed"/>
@@ -197,7 +188,7 @@ phpunit --version
 
 <hr>
 
-<ul class="pager" />
+<ul class="pager">
     
     <li class="previous">
         <a href="/2013/05/10/composer-and-zend-framework-1.x.html">&larr; Previous</a>
@@ -217,8 +208,16 @@ phpunit --version
         </footer>
     </section>
 
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
-    <script type="text/javascript">
+    <script>
+        (function () {
+            var images = document.getElementsByTagName('img');
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+            }
+        })();
+    </script>
+    <script src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script>
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-10572636-6']);
       _gaq.push(['_trackPageview']);

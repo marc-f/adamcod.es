@@ -18,11 +18,7 @@
     <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
 
     <!-- fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
-
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" type="text/css">
 </head>
 <body>
     <section class="layout-meta">
@@ -118,36 +114,31 @@
 
 <p>A hashbang looks like this:</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=hashbang.sh"></script>
-<noscript><pre><code>#!/bin/sh</code></pre></noscript></div>
+<pre><code>#!/bin/sh</code></pre>
 
 <p>Now most people will have a compatible shell available in that location, but we can make it a bit more portable by checking the users’ ENV for the location of their shell, just in-case:</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=hashbang-env.sh"></script>
-<noscript><pre><code>#!/usr/bin/env sh</code></pre></noscript></div>
+<pre><code>#!/usr/bin/env sh</code></pre>
 
 <p>Next, we need a couple of help functions.  These should be fairly self explanatory, they just print words to the screen.  The first is going to print out our version number:</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=version.sh"></script>
-<noscript><pre><code>version() {
+<pre><code>version() {
     echo &quot;adamcodes git plugin v0.1.0&quot;
     echo
-}</code></pre></noscript></div>
+}</code></pre>
 
 <p>And the next is going to print our usage information:</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=usage.sh"></script>
-<noscript><pre><code>usage() {
+<pre><code>usage() {
     echo &quot;usage: git adamcodes &lt;subcommand&gt;&quot;
     echo
     echo &quot;Available subcommands are:&quot;
     echo &quot;hello &lt;name&gt;  Print out Hello World or Hello &lt;name&gt; (if provided)&quot;
-}</code></pre></noscript></div>
+}</code></pre>
 
 <p>Next, we get into the main part.  Tradition dictates that the main execution of a bash script takes place in the <code>main</code> function, so that’s what we’ll call ours, too:</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=main.sh"></script>
-<noscript><pre><code>main() {
+<pre><code>main() {
     if [ &quot;$#&quot; -lt 1 ]; then
         usage; exit 1
     fi
@@ -175,14 +166,13 @@
     fi
 
     cmd_$subcommand &quot;$@&quot;
-}</code></pre></noscript></div>
+}</code></pre>
 
 <p>Okay, if you’re not used to shell scripting this will probably look a bit scary.  Let’s break it down piece-by-piece.</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=param-count.sh"></script>
-<noscript><pre><code>if [ &quot;$#&quot; -lt 1 ]; then
+<pre><code>if [ &quot;$#&quot; -lt 1 ]; then
     usage; exit 1
-fi</code></pre></noscript></div>
+fi</code></pre>
 
 <p>This first line is fairly simple.  When you pass an argument to a shell script it gets passed in in numbered variables $0 to $N.  Each space is treated as a new variable, with $0 containing the name of the script you ran.  <code>if [ "$#" -lt 1 ]</code> is basically saying “if the number of options is less than one”.</p>
 
@@ -190,8 +180,7 @@ fi</code></pre></noscript></div>
 
 <p><code>exit 1</code> is all about reporting back to Git (and the shell) whether a command ran successfully or not.  <code>exit</code> will kill the execution of a script, just like in PHP, and a successful exit means exiting with <code>0</code>.  An exit in the range <code>1-255</code> is considered an error and can be used to map to error messages if you have a manual or whatever.  We don’t, so we’ll just exit with 1 to let the shell know it didn’t run successfully, as we expected more parameters.</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=get-subcommand.sh"></script>
-<noscript><pre><code>local subcommand=&quot;$1&quot;; shift</code></pre></noscript></div>
+<pre><code>local subcommand=&quot;$1&quot;; shift</code></pre>
 
 <p>The next line does two things again.  You can do more than one thing per line in bash by separating with a semi-colon.  If you put them one per line you don’t need the semi-colon.  First, we define a local variable called <code>subcommand</code>, hence, the <code>local</code>, and then we’re assigning the first parameter passed to our script into that variable.</p>
 
@@ -232,20 +221,18 @@ $4: test
 
 <p>You’ll notice the script name always remains in <code>$0</code>, this is important for later.</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=test-for-version-or-help.sh"></script>
-<noscript><pre><code>case $subcommand in
+<pre><code>case $subcommand in
     &quot;-h&quot;|&quot;--help&quot;)
         usage; exit 0
         ;;
     &quot;-v&quot;|&quot;--version&quot;)
         version; exit 0
         ;;
-esac</code></pre></noscript></div>
+esac</code></pre>
 
 <p>Next we use a standard case statement to check whether the subcommand we just set is equal to <code>-h</code>, <code>--help</code>, <code>-v</code> or <code>--version</code>.  As per our spec above, each of these should run a specific function.  If we find a match we simply run the correct function and exit with 0, which means that we ran successfully.  the <code>;;</code> below each set of commands is the equivalent of <code>break</code> in PHP and tells the shell to not continue checking the rest of the case statement.</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=get-working-dir.sh"></script>
-<noscript><pre><code>local workingdir=$(dirname &quot;$(echo &quot;$0&quot; | sed -e &#39;s,\\,/,g&#39;)&quot;)</code></pre></noscript></div>
+<pre><code>local workingdir=$(dirname &quot;$(echo &quot;$0&quot; | sed -e &#39;s,\\,/,g&#39;)&quot;)</code></pre>
 
 <p>This next snippet gets our working directory.  We need this so we know where to look for our sub-command files, as they should be in the same directory as the script we’re running.</p>
 
@@ -255,29 +242,25 @@ esac</code></pre></noscript></div>
 
 <p>As we mentioned earlier, when you run a bash script the script name gets passed into the script in the variable <code>$0</code>, so running <code>$(dirname $0)</code> should give us what we’re after, however, that’s not so great for our windows users (e.g. cygwin), as the path separator will be the wrong way around.  Therefore, we nest another <code>$(...)</code> call where we echo out the value of <code>$0</code>, pipe the output into the <code>sed</code> command, and replace all backslashes with forward slashes.  We then take the output of that (captured by the nested <code>$(...)</code>) and pass it back into dirname, and then assign the captured output of that to the <code>workingdir</code> variable.</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=check-file-exists.sh"></script>
-<noscript><pre><code>if [ ! -e &quot;$WORKINGDIR/git-adamcodes-$subcommand&quot; ]; then
+<pre><code>if [ ! -e &quot;$WORKINGDIR/git-adamcodes-$subcommand&quot; ]; then
     usage; exit 1
-fi</code></pre></noscript></div>
+fi</code></pre>
 
 <p>Next, we’re simply checking to see if the file for the subcommand exists.  We’re expecting the files to be in the same directory as our current file, and to be named in the format <code>git-namespace-subcommand</code>.  If we don’t find it, we need to print out our usage info and exit with an error status.  If we do, we can simply carry on.</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=load-file.sh"></script>
-<noscript><pre><code>source &quot;$WORKINGDIR/git-adamcodes-$subcommand&quot;</code></pre></noscript></div>
+<pre><code>source &quot;$WORKINGDIR/git-adamcodes-$subcommand&quot;</code></pre>
 
 <p><code>source</code> is a built-in command that will run a file inside the current shell.  That means it will load all functions and variables from that file and they will be available throughout the shell.  Anything that this script executes will also execute, it’s exactly the same as running the file yourself.</p>
 
 <p>This means we can put our sub-commands in their own files, with their own variables, but not run them, just make them accessible when we need them.  Think of this like a PHP <code>include</code>.</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=make-sure-file-includes-subcommand.sh"></script>
-<noscript><pre><code>if [ ! type &quot;cmd_$subcommand&quot; ]; then
+<pre><code>if [ ! type &quot;cmd_$subcommand&quot; ]; then
     usage; exit 1
-fi</code></pre></noscript></div>
+fi</code></pre>
 
 <p>Now we’ve loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn’t there’s obviously something wrong, so do our standard “print usage information and error exit status” step.  This actually produces some output we have to do something about, so we do some bash trickery and redirect it into <code>/dev/null</code>, which is basically a black hole for anything you don’t want.</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=run-command.sh"></script>
-<noscript><pre><code>cmd_$subcommand &quot;$@&quot;</code></pre></noscript></div>
+<pre><code>cmd_$subcommand &quot;$@&quot;</code></pre>
 
 <p>Finally we get down to it.  This step runs our sub-command and passes in our <code>$0...$n</code> variables as function parameters.  We expect our sub-command’s main function to be called <code>cmd_subcommand</code> where <em>subcommand</em> is the name of the sub-command you want to type to run it.  If we also called them <code>main</code> we’d end up with a conflict with our existing main function.</p>
 
@@ -285,15 +268,13 @@ fi</code></pre></noscript></div>
 
 <p>Now we’ve built up our <code>main</code> function it won’t run on its own, we need to actually call it and pass in our <code>$0...$n</code> variables.  To do that, we just do the same as above, but call main instead:</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=runit.sh"></script>
-<noscript><pre><code>main &quot;$@&quot;</code></pre></noscript></div>
+<pre><code>main &quot;$@&quot;</code></pre>
 
 <h4 id="pulling-it-all-together">Pulling it all Together</h4>
 
 <p>Finally, bringing it all together our plugin’s main file should look like this:</p>
 
-<div><script src="https://gist.github.com/5983671.js?file=git-adamcodes.sh"></script>
-<noscript><pre><code>#!/usr/bin/env sh
+<pre><code>#!/usr/bin/env sh
 
 usage() {
     echo &quot;usage: git adamcodes &lt;subcommand&gt;&quot;
@@ -337,7 +318,7 @@ main() {
     cmd_$subcommand &quot;$@&quot;
 }
 
-main &quot;$@&quot;</code></pre></noscript></div>
+main &quot;$@&quot;</code></pre>
 
 <p>In <a href="/2013/07/19/how-to-create-git-plugin-part2.html">part 2</a> I go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don’t miss it!</p>
 
@@ -358,10 +339,10 @@ main &quot;$@&quot;</code></pre></noscript></div>
     </div>
 
     <section>
-        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+        <form class="well form-inline text-center" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
     <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
-    <p class="text-center">
-        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    <p>
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-primary" />
     </p>
 
     <input type="hidden" value="1" name="embed"/>
@@ -379,7 +360,7 @@ main &quot;$@&quot;</code></pre></noscript></div>
 
 <hr>
 
-<ul class="pager" />
+<ul class="pager">
     
     <li class="previous">
         <a href="/2013/07/02/you-cant-trust-the-cloud.html">&larr; Previous</a>
@@ -399,8 +380,16 @@ main &quot;$@&quot;</code></pre></noscript></div>
         </footer>
     </section>
 
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
-    <script type="text/javascript">
+    <script>
+        (function () {
+            var images = document.getElementsByTagName('img');
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+            }
+        })();
+    </script>
+    <script src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script>
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-10572636-6']);
       _gaq.push(['_trackPageview']);

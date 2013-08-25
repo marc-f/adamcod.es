@@ -18,11 +18,7 @@
     <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
 
     <!-- fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
-
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" type="text/css">
 </head>
 <body>
     <section class="layout-meta">
@@ -123,10 +119,10 @@
     </div>
 
     <section>
-        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+        <form class="well form-inline text-center" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
     <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
-    <p class="text-center">
-        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    <p>
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-primary" />
     </p>
 
     <input type="hidden" value="1" name="embed"/>
@@ -144,7 +140,7 @@
 
 <hr>
 
-<ul class="pager" />
+<ul class="pager">
     
     <li class="previous">
         <a href="/2013/07/19/how-to-create-git-plugin-part2.html">&larr; Previous</a>
@@ -160,8 +156,16 @@
         </footer>
     </section>
 
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
-    <script type="text/javascript">
+    <script>
+        (function () {
+            var images = document.getElementsByTagName('img');
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+            }
+        })();
+    </script>
+    <script src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script>
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-10572636-6']);
       _gaq.push(['_trackPageview']);

@@ -20,11 +20,7 @@
     <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
 
     <!-- fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
-
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" type="text/css">
 </head>
 <body>
     <section class="layout-meta">
@@ -77,8 +73,7 @@
 
 <p>First, make sure all of your <em>feature</em> changes are committed to the correct branch (but <em>not</em> the fixes you want to move!), then:</p>
 
-<div><script src="https://gist.github.com/3047748.js?file=checkout.sh"></script>
-<noscript><pre><code>git checkout &lt;branch&gt;</code></pre></noscript></div>
+<pre><code>git checkout &lt;branch&gt;</code></pre>
 
 <p>Be sure to replace <code>&lt;branch&gt;</code> with the name of the branch you actually want to commit to.</p>
 
@@ -86,18 +81,15 @@
 
 <p>If you’ve already committed your changes, you need to do a SOFT reset. A soft reset will put your changes back into the index, instead of destroying them like a HARD reset would:</p>
 
-<div><script src="https://gist.github.com/3047748.js?file=soft-reset.sh"></script>
-<noscript><pre><code>git reset --soft HEAD^</code></pre></noscript></div>
+<pre><code>git reset --soft HEAD^</code></pre>
 
 <p>A quick note here, the ^ is the number of commits to roll-back, so if you wanted to go back 2 commits, you’d use:</p>
 
-<div><script src="https://gist.github.com/3047748.js?file=soft-reset-2.sh"></script>
-<noscript><pre><code>git reset --soft HEAD^^</code></pre></noscript></div>
+<pre><code>git reset --soft HEAD^^</code></pre>
 
 <p>and for 3 commits</p>
 
-<div><script src="https://gist.github.com/3047748.js?file=soft-reset-3.sh"></script>
-<noscript><pre><code>git reset --soft HEAD^^^</code></pre></noscript></div>
+<pre><code>git reset --soft HEAD^^^</code></pre>
 
 <p>and so on… then you can run the <a href="#if-youve-not-committed-yet">checkout</a> command above.</p>
 
@@ -105,8 +97,7 @@
 
 <p>If the changes you want to move will conflict with something on the branch you’re moving to git will simply refuse to checkout the new branch.  In this instance you want to use the stash-checkout-pop command like so:</p>
 
-<div><script src="https://gist.github.com/3047748.js?file=stash-checkout-pop.sh"></script>
-<noscript><pre><code>git stash &amp;&amp; git checkout &lt;branch&gt; &amp;&amp; git stash pop</code></pre></noscript></div>
+<pre><code>git stash &amp;&amp; git checkout &lt;branch&gt; &amp;&amp; git stash pop</code></pre>
 
 <p>This will stash the changes so you have nothing to move, then checkout the new branch (as with nothing to move there can be no conflicts), and finally pop the stashed changes into the new branch ready for committing.</p>
 
@@ -121,10 +112,10 @@
     </div>
 
     <section>
-        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+        <form class="well form-inline text-center" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
     <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
-    <p class="text-center">
-        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    <p>
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-primary" />
     </p>
 
     <input type="hidden" value="1" name="embed"/>
@@ -142,7 +133,7 @@
 
 <hr>
 
-<ul class="pager" />
+<ul class="pager">
     
     <li class="previous">
         <a href="/2012/07/03/anatomy-of-a-good-commit-message.html">&larr; Previous</a>
@@ -162,8 +153,16 @@
         </footer>
     </section>
 
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
-    <script type="text/javascript">
+    <script>
+        (function () {
+            var images = document.getElementsByTagName('img');
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+            }
+        })();
+    </script>
+    <script src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script>
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-10572636-6']);
       _gaq.push(['_trackPageview']);

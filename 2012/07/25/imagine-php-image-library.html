@@ -20,11 +20,7 @@
     <link rel="alternate" type="application/rss+xml" href="http://feeds.feedburner.com/adamcodes/">
 
     <!-- fonts -->
-    <link href="http://fonts.googleapis.com/css?family=Cardo|Open+Sans:300,400" rel="stylesheet" type="text/css">
-
-    <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet" type="text/css">
 </head>
 <body>
     <section class="layout-meta">
@@ -104,8 +100,7 @@
 
 <p>Having read about Imagine, it had peaked my interested, and I’d wanted to use it on a project for a while.  It turns out that creating a circle thumbnail with Imagine is actually really easy.  Much like most custom things in Imagine, you want to create a filter, I called mine <code>CircleThumbnailFilter</code> (original, I know).  It looks like this:</p>
 
-<div><script src="https://gist.github.com/3060605.js?file=CircleThumbnailFilter.php"></script>
-<noscript><pre><code>&lt;?php
+<pre><code>&lt;?php
 class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
 {
     private $imagine;
@@ -142,7 +137,7 @@ class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
         // apply the mask to the thumbnail and return it
         return $thumbnail-&gt;applyMask($mask);
     }
-}</code></pre></noscript></div>
+}</code></pre>
 
 <p>The constructor is fairly self explanatory, it takes an instance of your imagine interface, and a box instance which is used to control the size of your thumbnail.</p>
 
@@ -168,24 +163,23 @@ class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
 
 <p>You will also need to autoload or require the CircleThumbnailFilter object somehow, you could put it in your app’s namespace or just do it the old-school way with <code>require_once</code>.  Either way, when both are loaded, you can run the circle filter like so:</p>
 
-<div><script src="https://gist.github.com/3060605.js?file=usage.php"></script>
-<noscript><pre><code>&lt;?php
+<pre><code>&lt;?php
 
 $imagine = new Imagine\Gd\Imagine();
 $filter  = new CircleThumbnailFilter($imagine, new Imagine\Image\Box(100, 100));
 
 $filter-&gt;apply($imagine-&gt;open(&#39;/path/to/square/image.jpg&#39;))
-    -&gt;save(&#39;/path/to/circle/image.png&#39;);</code></pre></noscript></div>
+    -&gt;save(&#39;/path/to/circle/image.png&#39;);</code></pre>
 
 <p>Make sure that no-matter what your input format (which isn’t really important, Imagine should know what to do with most valid image formats), make sure you output it as something with transparency (preferably png).  Don’t do what I did and spend 40 minutes wondering why the transparency mask wasn’t applying when you were outputting as a jpg.</p>
 
     </div>
 
     <section>
-        <form class="well form-inline" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
+        <form class="well form-inline text-center" action="https://tinyletter.com/adambrett" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/adambrett', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true">
     <p>For more exclusive content, including screen-casts, videos, and early beta access to my projects, subscribe to my email list below.</p>
-    <p class="text-center">
-        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-success" />
+    <p>
+        <input type="text" name="email" placeholder="Enter your email address" /> <input type="submit" value="Subscribe" class="btn btn-primary" />
     </p>
 
     <input type="hidden" value="1" name="embed"/>
@@ -203,7 +197,7 @@ $filter-&gt;apply($imagine-&gt;open(&#39;/path/to/square/image.jpg&#39;))
 
 <hr>
 
-<ul class="pager" />
+<ul class="pager">
     
     <li class="previous">
         <a href="/2012/07/17/cakephp-class-string-not-found.html">&larr; Previous</a>
@@ -223,8 +217,16 @@ $filter-&gt;apply($imagine-&gt;open(&#39;/path/to/square/image.jpg&#39;))
         </footer>
     </section>
 
-    <script type="text/javascript" src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
-    <script type="text/javascript">
+    <script>
+        (function () {
+            var images = document.getElementsByTagName('img');
+            for (var i = 0; i < images.length; i++) {
+                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+            }
+        })();
+    </script>
+    <script src="http://platform.twitter.com/widgets.js?ver=1.1"></script>
+    <script>
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-10572636-6']);
       _gaq.push(['_trackPageview']);

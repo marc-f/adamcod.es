@@ -10,6 +10,74 @@
     </url>
     
     <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/assets/font-awesome/less/font-awesome-ie7.less</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/assets/font-awesome/less/font-awesome.less</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/assets/font-awesome/less/icons.less</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/assets/font-awesome/less/variables.less</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/assets/font-awesome/scss/font-awesome-ie7.scss</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/assets/font-awesome/scss/font-awesome.scss</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/assets/less/responsive.less</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/assets/less/site.less</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/cheatsheet.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/community.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/examples.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/get-started.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/icons.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/license.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/test.html</loc>
+    </url>
+    
+    <url>
+        <loc>http://adamcod.es/bower_components/font-awesome/src/whats-new.html</loc>
+    </url>
+    
+    <url>
         <loc>http://adamcod.es/</loc>
     </url>
     
