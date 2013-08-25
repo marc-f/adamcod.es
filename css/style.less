@@ -3,192 +3,459 @@
   --------------------------------------
   Copyright : All Rights Reserved.
   Author    : Adam Brett
-  Revision  : 2
+  Revision  : 3
   Date      : 28 Jun 2012
   Date      : 28 Jan 2013
+  Date      : 21 Aug 2013
 
-/* Import Bootstrap
--------------------------------------------------- */
 
-// CSS Reset
-@import "../components/bootstrap/less/reset.less";
+position
+display and box model
+font, leading, color, text
+background and border
+CSS3 properties like border-radius and box-shadow
+and a handful of other purely visual properties
+*/
 
-// Core variables and mixins
-@import "../components/bootstrap/less/variables.less"; // Modify this for custom colors, font-sizes, etc
+@import "../bower_components/font-awesome/less/font-awesome.less";
+@FontAwesomePath: "../bower_components/font-awesome/font";
 
-// Overwrite some variables
+@baseColor:       #049CDB;
+@accentColor:     darken(@baseColor, 15%);
 
-// Colours
+@backgroundColor: #fafafa;
+@foregroundColor: #2a2a2a;
+
+@red:             #DD1144;
+
+@sansFontFamily:  "Open Sans", Arial, sans-serif;
+@serifFontFamily: "Times New Roman", Times, serif;
+@monoFontFamily:  Menlo, Monaco, Consolas, "Courier New", monospace;
+
+@baseFontSize:    16px;
+@baseLineHeight:  26px;
+
+/* MIXINS
+------------------------------------------------- */
+// Drop shadows
+.box-shadow(@shadow) {
+  -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
+          box-shadow: @shadow;
+}
+
+// Opacity
+.opacity(@opacity) {
+  opacity: @opacity;
+  // IE8 filter
+  @opacity-ie: (@opacity * 100);
+  filter: ~"alpha(opacity=@{opacity-ie})";
+}
+
+// Clearfix
+// Source: http://nicolasgallagher.com/micro-clearfix-hack/
+//
+// For modern browsers
+// 1. The space content is one way to avoid an Opera bug when the
+// contenteditable attribute is included anywhere else in the document.
+// Otherwise it causes space to appear at the top and bottom of elements
+// that are clearfixed.
+// 2. The use of `table` rather than `block` is only necessary if using
+// `:before` to contain the top-margins of child elements.
+.clearfix() {
+  &:before,
+  &:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+// User select
+// For selecting text on the page
+.user-select(@select) {
+  -webkit-user-select: @select;
+     -moz-user-select: @select;
+      -ms-user-select: @select; // IE10+
+       -o-user-select: @select;
+          user-select: @select;
+}
+
+// Webkit-style focus
+.tab-focus() {
+  // Default
+  outline: thin dotted #333;
+  // Webkit
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+// Button variants
 // -------------------------
-@baseColor:              @blue;
+// Easily pump out default styles, as well as :hover, :focus, :active,
+// and disabled options for all buttons
+.button-variant(@color; @background; @border) {
+  color: @color;
+  background-color: @background;
+  border-color: @border;
 
-// Links
-// -------------------------
-@linkColor:             @baseColor;
-@linkColorHover:        darken(@linkColor, 15%);
-
-// Typography
-// -------------------------
-@sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
-@serifFontFamily:       "Cardo", Georgia, "Times New Roman", Times, serif;
-@monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace;
-
-@baseFontSize:          17px;
-@baseFontFamily:        @serifFontFamily;
-@baseLineHeight:        27px;
-@altFontFamily:         "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-@headingsFontFamily:    @altFontFamily; // empty to use BS default, @baseFontFamily
-@headingsFontWeight:    300;            // instead of browser default, bold
-@headingsColor:         @baseColor;     // empty to use BS default, @textColor
-
-@import "../components/bootstrap/less/mixins.less";
-
-// Grid system and page structure
-@import "../components/bootstrap/less/scaffolding.less";
-
-// Base CSS
-@import "../components/bootstrap/less/type.less";
-h1 {
-    font-size:30px;
-    line-height:54px;
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  .open .dropdown-toggle& {
+    color: @color;
+    background-color: darken(@background, 8%);
+        border-color: darken(@border, 12%);
+  }
+  &:active,
+  &.active,
+  .open .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @background;
+          border-color: @border
+    }
+  }
 }
 
-h1 small {
-    font-size:18px;
+/* SETUP
+------------------------------------------------- */
+html {
+    background: url(http://basehold.it/image.php?height=26) repeat top left !important
 }
 
-h2 {
-    font-size:24px;
-    line-height:54px;
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
-h2 small {
-    font-size:18px;
+html {
+    padding: @baseLineHeight;
+    padding-bottom: 0;
+
+    font-size: 62.5%;
 }
 
-h3 {
-    font-size:18px;
-    line-height:40.5px;
+body {
+    position: relative;
+
+    // about 80 characters
+    width: 50em;
+    margin: 0 auto;
+
+    font-family: @serifFontFamily;
+    font-size: @baseFontSize;
+    line-height: @baseLineHeight;
 }
 
-h3 small {
-    font-size:14px;
-}
-
-h4 h5,h6
-{
-    line-height:27px;
-}
-
-h4 {
-    font-size:14px;
-}
-
-h4 small {
-    font-size:12px;
-}
-
-h5 {
-    font-size:12px;
-}
-
-h6 {
-    font-size:11px;
-    color:#999;
-    text-transform:uppercase;
-}
-
-ul, ol {
-    margin-bottom: @baseLineHeight;
-}
-
-ul ul,
-ul ol,
-ol ol,
-ol ul {
-    margin-bottom: 13.5px;
-    margin-top: 13.5px;
-}
-
-@import "../components/bootstrap/less/code.less";
-pre,
-code {
-    font-size: 13px;
-}
+// Consistent vertical rhythm for all block-level elements.
+h1,h2,h3,h4,h5,h6,hgroup,
+ul,ol,dl,
+blockquote,p,address,
+table,
+fieldset,figure,
 pre {
     margin-bottom: @baseLineHeight;
 }
 
-@import "../components/bootstrap/less/tables.less";
-
-// Components: common
-@import "../components/bootstrap/less/wells.less";
-
-// Components: Buttons & Alerts
-@import "../components/bootstrap/less/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
-.alert {
-    padding-right: 14px;
-    margin-top: 27px;
-
+h1, h2, h3, h4, h5, h6, hgroup {
     font-family: @sansFontFamily;
-    font-size: 14px;
+    font-weight: 300;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+hr {
+    // make sure it doesn't knock out vertical rhythm
+    margin-bottom: (@baseLineHeight - 3px);
+}
+
+// Comfortable indenting to allow hung bullets.
+ol,
+ul,
+blockquote {
+    margin-left: 1.8em;
+}
+
+// No whitespace between nested lists.
+li ul,
+li ol {
+    margin-bottom: 0;
+}
+
+// Some nice, basic table styling.
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+th {
+    text-align: left;
+}
+
+// Don’t let images break anything...
+img {
+    max-width: 100%;
+}
+
+// ...unless we tell them to.
+img[width],
+img[height] {
+    max-width: none;
+}
+
+// Make code stand out.
+code:before,
+code:after {
+    color: @red;
+
+    content: "`";
+}
+
+pre code:before,
+pre code:after {
+    color: @red;
+
+    content: "";
+    content: normal;
+}
+
+code {
+    font-family: @monoFontFamily;
+    font-size: (@baseFontSize - 3px);
+    line-height: (@baseLineHeight - 3px);
+}
+
+sup {
+    line-height: (@baseLineHeight / 2);
+}
+
+/* LAYOUT
+------------------------------------------------- */
+.layout-main {
+    float: left;
+
+    width: 40em;
+
+    article {
+        margin-top: (@baseLineHeight * 4);
+
+        .meta {
+            margin: 0;
+        }
+    }
+}
+
+.layout-meta {
+    position: absolute;
+    right: 0;
+
+    width: 8em;
+
+    header {
+        padding-top: (@baseLineHeight * 6);
+
+        strong {
+            font-family: @sansFontFamily;
+            font-size: 36px;
+        }
+
+        a {
+            color: @baseColor;
+
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    header, nav {
+        position: fixed;
+        top: 40%;
+    }
+}
+
+
+/* PLUGINS
+------------------------------------------------- */
+.twitter-share-button {
+    // twitter button knocks out vertical rhythm
+    margin: 3px 0 (@baseLineHeight - 5px);
+}
+
+.well {
+    min-height: @baseLineHeight;
+    padding: ((@baseLineHeight / 2) - 1px);
+    margin-bottom: @baseLineHeight;
+
+    background-color: darken(@backgroundColor, 5%);
+    border: 1px solid darken(@backgroundColor, 15%);
+    border-radius: 4px;
+
+    .box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
+
+    blockquote {
+        border-color: #ddd;
+    }
+
+    // Consistent vertical rhythm for all block-level elements.
+    h1,h2,h3,h4,h5,h6,hgroup,
+    ul,ol,dl,
+    blockquote,p,address,
+    table,
+    fieldset,figure,
+    pre {
+        margin-bottom: (@baseLineHeight / 2);
+    }
+}
+
+.btn {
+    display: inline-block;
+    padding: 2px 3px;
+    margin-bottom: 0; // For input.btn
+
+
     line-height: @baseLineHeight;
+    text-align: center;
+    vertical-align: middle;
 
-    h1, h2, h3, h4, h5, h6 {
-        color: inherit;
-        font-family: @sansFontFamily;
-        font-size: 16px;
-        font-weight: bold;
+    cursor: pointer;
+
+    border: 1px solid transparent;
+    border-radius: 4px;
+    white-space: nowrap;
+    .user-select(none);
+
+    &:focus {
+        .tab-focus();
     }
 
-    code {
-        padding: 0;
-
-        background: 0;
-
-        border: 0;
+    &:hover,
+    &:focus {
+        color: @accentColor;
+        text-decoration: none;
     }
 
-    & > p {
-        margin-bottom: 13.5px;
+    &:active,
+    &.active {
+        outline: 0;
+        background-image: none;
+        .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
     }
 
-    & > *:last-child {
-        margin-bottom: 0;
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        cursor: not-allowed;
+        pointer-events: none; // Future-proof disabling of clicks
+        .opacity(.65);
+        .box-shadow(none);
     }
 }
 
-// Components: Nav
-@import "../components/bootstrap/less/pager.less";
-.pager a {
-    .border-radius(1.6em);
+.btn-default {
+    .button-variant(darken(@foregroundColor, 5%); darken(@backgroundColor, 5%); darken(@backgroundColor, 15%));
 }
 
-// Utility classes
-@import "../components/bootstrap/less/utilities.less"; // Has to be last to override when necessary
+.btn-primary {
+    .button-variant(darken(@backgroundColor, 5%); @accentColor; darken(@backgroundColor, 5%));
+}
 
-// Button classes
-@import "../components/bootstrap/less/buttons.less";
+.text-center {
+    text-align: center;
+}
 
-// Form classes
-@import "../components/bootstrap/less/forms.less";
+.meta {
+    font-family: @sansFontFamily;
+}
 
-/* Import Font-Awesome
--------------------------------------------------- */
-@import "font-awesome/less/font-awesome.less";
+.footnotes {
+    font-size: (@baseFontSize * 0.8);
 
-/*
-    position
-    display and box model
-    font, leading, color, text
-    background and border
-    CSS3 properties like border-radius and box-shadow
-    and a handful of other purely visual properties
-*/
+    li {
+        p {
+            margin-bottom: 0;
+        }
+    }
+}
 
-/* Basic
--------------------------------------------------- */
+.pager {
+    .clearfix();
+
+    margin-bottom: 15px;
+    margin-left: 0;
+
+    font-family: @serifFontFamily !important;
+
+    list-style-type: none;
+    font-family: @sansFontFamily;
+    font-size: (@baseFontSize - 2);
+    font-weight: bold;
+
+    ul {
+        margin: 0;
+
+        list-style-type: none;
+
+        li {
+            margin-bottom: 6px;
+        }
+    }
+
+    a {
+        display: inline-block;
+        padding: 5px 14px;
+
+        color: @baseColor;
+        text-decoration: none;
+
+        border: 1px solid darken(@backgroundColor, 15%);
+        border-radius: @baseLineHeight;
+
+        &:hover {
+            color: @accentColor;
+            background-color: darken(@backgroundColor, 5%);
+        }
+    }
+
+    .previous {
+        float: left;
+    }
+
+    .next {
+        float: right;
+    }
+}
+
+.embed {
+    margin-bottom: @baseLineHeight;
+
+    img {
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+/* THEME
+------------------------------------------------- */
 body:before {
     position: fixed;
     left: 0;
@@ -205,283 +472,73 @@ body:before {
     content: "";
 }
 
-
-body {
-    width: 760px;
-
-    position: relative;
-
-    margin: 0 auto;
-    padding: 0 100px;
-
-    // background: url(../img/baseline.png) top left;
+html {
+    background-color: @backgroundColor;
+    color: @foregroundColor;
 }
 
-header {
-    position: fixed;
-    top: 50%;
+h1,h2,h3,h4,h5,h6,hgroup {
+    color: @baseColor;
+}
 
-    z-index: 10;
+article a,
+footer a {
+    color: @baseColor;
 
-    padding-left: 610px;
-    padding-top: 50px;
+    text-decoration: none;
 
-    p {
-        margin-top: 1.7em;
-
-        text-align: left;
-
-        strong {
-            a {
-                font-family: @headingsFontFamily;
-                font-size: 36px;
-
-                color: @headingsColor;
-
-                text-decoration: none;
-            }
-        }
+    &:hover {
+        color: @accentColor;
+        text-decoration: underline;
     }
 }
 
+ul,ol,dl,
+blockquote,p,address,
+table {
+    code {
+        color: @red;
+    }
+}
+
+pre {
+    padding: @baseLineHeight;
+    background-color: @foregroundColor;
+    color: @backgroundColor;
+}
+
 nav {
-    width: 140px;
-
-    position: fixed;
-    top: 50%;
-
-    z-index: 10;
-
-    padding-left: 610px;
-
-    font-family: @headingsFontFamily;
-    font-size: 14px;
+    font-family: @sansFontFamily;
+    font-size: (@baseFontSize - 2);
     font-weight: bold;
 
-
     ul {
-        margin: -50% 0 0;
+        margin: 0;
 
         list-style-type: none;
 
         li {
-            line-height: 22px;
+            margin-bottom: 6px;
         }
     }
 
     a {
         display: inline-block;
-
-        margin: 5px 0;
         padding: 5px 14px;
 
+        color: lighten(@foregroundColor, 15%);
         text-decoration: none;
 
-        color: @gray;
-
-        background-color: #fff;
-        border: 1px solid #ddd;
-
-        .border-radius(1.6em);
+        border: 1px solid darken(@backgroundColor, 15%);
+        border-radius: @baseLineHeight;
 
         &:hover {
-            text-decoration: none;
-
-            background-color: #f5f5f5;
+            color: @accentColor;
+            background-color: darken(@backgroundColor, 5%);
         }
     }
 }
 
-article {
-    min-width: 500px;
-
-    overflow: auto;
-    position: relative;
-    z-index: 20;
-
-    margin: 107px 0 0;
-
-    div.embed {
-        margin-bottom: @baseLineHeight;
-    }
-
-    h1 {
-        margin-bottom: @baseLineHeight;
-
-        line-height: @baseLineHeight;
-    }
-
-    h2 {
-        margin-bottom: @baseLineHeight;
-
-        line-height: @baseLineHeight;
-    }
-
-    h4 {
-        font-size: 16px;
-    }
-
-    img {
-        display: block;
-
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    p {
-        margin-bottom: @baseLineHeight;
-
-        &.meta {
-            margin: 0;
-
-            font-family: @headingsFontFamily;
-
-            color: @gray;
-        }
-    }
-
-    ol li li {
-        list-style-type: lower-latin;
-
-        li {
-            list-style-type: lower-roman;
-        }
-    }
-
-    footer p {
-        margin: 0;
-    }
-
-    .entry-content {
-        margin-top: @baseLineHeight;
-    }
+small {
+    color: lighten(@foregroundColor, 15%);
 }
-
-
-/* Layout
--------------------------------------------------- */
-.layout-main {
-    margin: @baseLineHeight 200px 0 0;
-}
-
-/* Modules
--------------------------------------------------- */
-.text-center {
-    text-align: center;
-}
-
-.footnotes {
-    font-size: 0.8em;
-
-    ul, ol {
-        p {
-            margin-bottom: 0;
-        }
-    }
-}
-
-.gist {
-    font-size: 13px;
-    line-height: 1.6em;
-
-    pre {
-        white-space: pre;
-    }
-}
-
-.gist-meta {
-    padding: 0 .5em !important;
-
-    font-size: 10px !important;
-    line-height: 2em !important;
-}
-
-#disqus_thread {
-    width: 400px;
-
-    position: relative;
-    z-index: 1;
-
-    margin: 120px 200px 60px 0;
-}
-
-.twitter-button {
-    height: 23px;
-    margin: 4px 0 0;
-}
-
-.pager {
-    position: relative;
-    z-index: 11;
-}
-
-/* Responsive
--------------------------------------------------- */
-@media (max-width: 980px) {
-    body {
-        padding-left: 20px;
-        padding-right: 20px;
-
-        width: auto;
-    }
-
-    article {
-        width: auto;
-
-        margin: 0;
-    }
-
-    header, nav {
-        position: static;
-
-        padding: 0;
-    }
-
-        header p {
-            text-align: center;
-        }
-
-    nav {
-        text-align: center;
-        width: auto;
-
-        ul {
-            display: inline-block;
-
-            li {
-                display: inline-block;
-
-                margin: 0 10px;
-
-                line-height: 1.6em;
-            }
-        }
-    }
-
-    .layout-main {
-        margin-right: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-    }
-
-    body, p, li {
-        font-size: 14px;
-    }
-
-    pre,
-    code {
-        font-size: 10px;
-    }
-
-    h1, header p strong a {
-        font-size: 24px;
-    }
-
-    h2 {
-        font-size: 18px;
-    }
-}
-
