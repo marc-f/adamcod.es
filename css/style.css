@@ -1735,9 +1735,6 @@ a .icon-flip-vertical:before {
 ------------------------------------------------- */
 /* SETUP
 ------------------------------------------------- */
-html {
-  background: url(http://basehold.it/image.php?height=26) repeat top left !important;
-}
 * {
   margin: 0;
   padding: 0;
