@@ -67,25 +67,27 @@
 
 <p>The simplest way to avoid this is to stash any changes before you move to another branch, this looks something like this:</p>
 
-<pre><code>git stash
-git checkout develop
-git flow hotfix start &lt;release&gt;
-...
-&lt;codecodecode&gt;
-...
-git flow hotfix finish &lt;release&gt;
-git checkout feature/awesome-new-stuff
-git stash pop</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1">git stash
+</span><span id="True-2">git checkout develop
+</span><span id="True-3">git flow hotfix start &lt;release&gt;
+</span><span id="True-4">...
+</span><span id="True-5">&lt;codecodecode&gt;
+</span><span id="True-6">...
+</span><span id="True-7">git flow hotfix finish &lt;release&gt;
+</span><span id="True-8">git checkout feature/awesome-new-stuff
+</span><span id="True-9">git stash pop
+</span></code></pre></div>
 
 <p>However, if you find yourself doing this a lot, for a lot of different features and branches, this can get messy pretty quickly.  Instead, why not leverage the flexibility of git and just commit early and often, and simply amend as you go:</p>
 
-<pre><code>git add .
-git commit -a -m &#39;WIP&#39;
-...
-&lt;codecodecode&gt;
-...
-git add .
-git commit --amend</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1">git add .
+</span><span id="True-2">git commit -a -m <span class="s1">&#39;WIP&#39;</span>
+</span><span id="True-3">...
+</span><span id="True-4">&lt;codecodecode&gt;
+</span><span id="True-5">...
+</span><span id="True-6">git add .
+</span><span id="True-7">git commit --amend
+</span></code></pre></div>
 
 <p>Because you are working locally in git commits can be undone and re-done at will, it’s only when you push the commit to a central repository that you need to pay serious attention.</p>
 
@@ -93,8 +95,9 @@ git commit --amend</code></pre>
 
 <p>When you’re ready for the real commit on a branch you can run:</p>
 
-<pre><code>git reset --soft HEAD~
-git reset</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1">git reset --soft HEAD~
+</span><span id="True-2">git reset
+</span></code></pre></div>
 
 <p>The first reset will undo your last commit (the WIP commit), with the second reset un-staging the files.  You can now re-commit all of your changes paying more serious attention to your commit message.</p>
 
@@ -146,7 +149,7 @@ git reset</code></pre>
         (function () {
             var images = document.getElementsByTagName('img');
             for (var i = 0; i < images.length; i++) {
-                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+                images[i].style.height = (Math.ceil(images[i].clientHeight/26) * 26) + 'px';
             }
         })();
     </script>

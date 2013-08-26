@@ -79,7 +79,8 @@ Starting ADB server failed (code -1).
 
 <p>It’s because you’re running 64bit ubuntu, and phones (and therefore the SDK) are only 32bit, if you run:</p>
 
-<pre><code>apt-get install ia32-libs</code></pre>
+<pre><code>apt-get install ia32-libs
+</code></pre>
 
 <p>It will solve all of your problems and the SDK will install correctly.</p>
 
@@ -131,7 +132,7 @@ Starting ADB server failed (code -1).
         (function () {
             var images = document.getElementsByTagName('img');
             for (var i = 0; i < images.length; i++) {
-                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+                images[i].style.height = (Math.ceil(images[i].clientHeight/26) * 26) + 'px';
             }
         })();
     </script>

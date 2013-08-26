@@ -75,31 +75,32 @@
 
 <p>Now to begin writing our subcommand, create a file at the same level as your <code>git-adamcodes</code> file and name it <code>git-adamcodes-hello</code>.  In that file, you’ll need the following:</p>
 
-<pre><code>#!/usr/bin/env sh
-
-usage() {
-    echo &quot;usage: git adamcodes hello [name]&quot;
-    echo
-}
-
-cmd_hello() {
-    if [ &quot;$#&quot; -lt 1 ]; then
-        say_hello World; exit 0
-    elif [ &quot;$#&quot; -eq 1 ]; then
-        if [ $1 == &quot;help&quot; ]; then
-            usage; exit 0
-        fi
-
-        say_hello $1; exit 0
-    fi
-
-    usage; exit 1
-}
-
-say_hello() {
-    echo &quot;Hello ${1}&quot;
-    echo
-}</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="c">#!/usr/bin/env sh</span>
+</span><span id="True-2">
+</span><span id="True-3">usage<span class="o">()</span> <span class="o">{</span>
+</span><span id="True-4">    <span class="nb">echo</span> <span class="s2">&quot;usage: git adamcodes hello [name]&quot;</span>
+</span><span id="True-5">    <span class="nb">echo</span>
+</span><span id="True-6"><span class="o">}</span>
+</span><span id="True-7">
+</span><span id="True-8">cmd_hello<span class="o">()</span> <span class="o">{</span>
+</span><span id="True-9">    <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$#&quot;</span> -lt 1 <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-10"><span class="k">        </span>say_hello World; <span class="nb">exit </span>0
+</span><span id="True-11">    <span class="k">elif</span> <span class="o">[</span> <span class="s2">&quot;$#&quot;</span> -eq 1 <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-12"><span class="k">        if</span> <span class="o">[</span> <span class="nv">$1</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-13"><span class="k">            </span>usage; <span class="nb">exit </span>0
+</span><span id="True-14">        <span class="k">fi</span>
+</span><span id="True-15">
+</span><span id="True-16"><span class="k">        </span>say_hello <span class="nv">$1</span>; <span class="nb">exit </span>0
+</span><span id="True-17">    <span class="k">fi</span>
+</span><span id="True-18">
+</span><span id="True-19"><span class="k">    </span>usage; <span class="nb">exit </span>1
+</span><span id="True-20"><span class="o">}</span>
+</span><span id="True-21">
+</span><span id="True-22">say_hello<span class="o">()</span> <span class="o">{</span>
+</span><span id="True-23">    <span class="nb">echo</span> <span class="s2">&quot;Hello ${1}&quot;</span>
+</span><span id="True-24">    <span class="nb">echo</span>
+</span><span id="True-25"><span class="o">}</span>
+</span></code></pre></div>
 
 <p>I’ll go over this quickly, as it’s fairly basic and it should be obvious what it does.  Line 1 is our hashbang, and lines 3-6 define our usage function, which is just echoing out some strings.  The empty echo is an easy way to create a newline.</p>
 
@@ -133,43 +134,45 @@ say_hello() {
 
 <p>Make starts with a bunch of build-targets (or functions) that are defined like so:</p>
 
-<pre><code>all:
-  dothis
-  thenthis
-
-install:
-  dothis
-  andthenthis
-
-uninstall:
-  ...</code></pre>
+<div class="highlight"><pre><code class="make"><span id="True-1"><span class="nf">all</span><span class="o">:</span>
+</span><span id="True-2">  dothis
+</span><span id="True-3">  thenthis
+</span><span id="True-4">
+</span><span id="True-5"><span class="nf">install</span><span class="o">:</span>
+</span><span id="True-6">  dothis
+</span><span id="True-7">  andthenthis
+</span><span id="True-8">
+</span><span id="True-9"><span class="nf">uninstall</span><span class="o">:</span>
+</span><span id="True-10">  ...
+</span></code></pre></div>
 
 <p>Each target is on it’s own line, and it’s the target named follow by a colon.  <code>all:</code> is a the target that is run when you don’t specify another target, so it’s a good place to either build your whole app, or in our case, show a help message.</p>
 
 <p>Each line below the target is a command to run.  Whitespace is important here, each line indented by a tab character tells make that’s a shell command it should run.</p>
 
-<pre><code>DIRECTORY = /usr/local/bin</code></pre>
+<div class="highlight"><pre><code class="make"><span id="True-1"><span class="nv">DIRECTORY</span> <span class="o">=</span> /usr/local/bin
+</span></code></pre></div>
 
 <p>Make also has the concept of variables, but unlike shell or bash, whitespace is not important here, you can have as many spaces you like either side of the equals sign.</p>
 
-<pre><code>BIN_DIR   = /usr/local/bin
-LOADER    = git-adamcodes
-COMMANDS  = git-adamcodes-hello
-COMMNADS += git-adamcodes-anothercommand
-
-all:
-	@echo &quot;usage: make [install|uninstall]&quot;
-
-install:
-	install -d -m 0755 $(BIN_DIR)
-	install -m 0755 $(LOADER) $(BIN_DIR)
-	install -m 0644 $(COMMANDS) $(BIN_DIR)
-
-uninstall:
-	test -d $(BIN_DIR) &amp;&amp; \
-	cd $(BIN_DIR) &amp;&amp; \
-	rm -f $(LOADER) $(COMMANDS)
-</code></pre>
+<div class="highlight"><pre><code class="make"><span id="True-1"><span class="nv">BIN_DIR</span>   <span class="o">=</span> /usr/local/bin
+</span><span id="True-2"><span class="nv">LOADER</span>    <span class="o">=</span> git-adamcodes
+</span><span id="True-3"><span class="nv">COMMANDS</span>  <span class="o">=</span> git-adamcodes-hello
+</span><span id="True-4"><span class="nv">COMMNADS</span> <span class="o">+=</span> git-adamcodes-anothercommand
+</span><span id="True-5">
+</span><span id="True-6"><span class="nf">all</span><span class="o">:</span>
+</span><span id="True-7">    @echo <span class="s2">&quot;usage: make [install|uninstall]&quot;</span>
+</span><span id="True-8">
+</span><span id="True-9"><span class="nf">install</span><span class="o">:</span>
+</span><span id="True-10">    install -d -m 0755 <span class="k">$(</span>BIN_DIR<span class="k">)</span>
+</span><span id="True-11">    install -m 0755 <span class="k">$(</span>LOADER<span class="k">)</span> <span class="k">$(</span>BIN_DIR<span class="k">)</span>
+</span><span id="True-12">    install -m 0644 <span class="k">$(</span>COMMANDS<span class="k">)</span> <span class="k">$(</span>BIN_DIR<span class="k">)</span>
+</span><span id="True-13">
+</span><span id="True-14"><span class="nf">uninstall</span><span class="o">:</span>
+</span><span id="True-15">    <span class="nb">test</span> -d <span class="k">$(</span>BIN_DIR<span class="k">)</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+</span><span id="True-16">    <span class="nb">cd</span> <span class="k">$(</span>BIN_DIR<span class="k">)</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+</span><span id="True-17">    rm -f <span class="k">$(</span>LOADER<span class="k">)</span> <span class="k">$(</span>COMMANDS<span class="k">)</span>
+</span></code></pre></div>
 
 <p>Finally, this is our complete makefile for our plugin.  It should live in the same directory as our plugin files, and it should be named <code>Makefile</code> (capitalisation is important).</p>
 
@@ -260,7 +263,7 @@ uninstall:
         (function () {
             var images = document.getElementsByTagName('img');
             for (var i = 0; i < images.length; i++) {
-                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+                images[i].style.height = (Math.ceil(images[i].clientHeight/26) * 26) + 'px';
             }
         })();
     </script>

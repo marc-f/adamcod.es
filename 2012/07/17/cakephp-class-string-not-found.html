@@ -74,11 +74,15 @@
 
 <p>It’s happening because of a missing options array on the <code>beforeSave</code> method you added to the User model.  Simply change:</p>
 
-<p><code>public function beforeSave() {</code></p>
+<div class="highlight"><pre><code class="php"><span id="True-1"><span class="cp">&lt;?php</span>
+</span><span id="True-2">    <span class="k">public</span> <span class="k">function</span> <span class="nf">beforeSave</span><span class="p">()</span> <span class="p">{</span>
+</span></code></pre></div>
 
 <p>to</p>
 
-<p><code>function beforeSave($options = array()) {</code></p>
+<div class="highlight"><pre><code class="php"><span id="True-1"><span class="cp">&lt;?php</span>
+</span><span id="True-2">    <span class="k">function</span> <span class="nf">beforeSave</span><span class="p">(</span><span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">())</span> <span class="p">{</span>
+</span></code></pre></div>
 
 <p>and make sure that you call <code>parent::beforeSave($options)</code> somewhere in your method definition.</p>
 
@@ -130,7 +134,7 @@
         (function () {
             var images = document.getElementsByTagName('img');
             for (var i = 0; i < images.length; i++) {
-                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+                images[i].style.height = (Math.ceil(images[i].clientHeight/26) * 26) + 'px';
             }
         })();
     </script>

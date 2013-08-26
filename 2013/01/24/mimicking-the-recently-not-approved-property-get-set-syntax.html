@@ -59,120 +59,126 @@
     <div class="entry-content">
         <p>There was a proposal<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> for a new getter and setter syntax that would have enabled you to write code like this:</p>
 
-<pre><code>&lt;?php
-
-// Code sample indicating the terminology
-class TimePeriod
-{
-    private $Seconds; // &lt;-- Traditional Property
-
-    public $Hours { // &lt;-- Guarded Property
-        get() { return $this-&gt;Seconds / 3600; }   // &lt;-- Accessor, more specifically a getter
-        set($x) { $this-&gt;Seconds = $x* 3600; }    // &lt;-- Accessor, more specifically a setter
-        isset() { return isset($this-&gt;Seconds); } // &lt;-- Accessor, more specifically an issetter
-        unset() { unset($this-&gt;Seconds); }        // &lt;-- Accessor, more specifically an unsetter
-    }
-}</code></pre>
+<div class="highlight"><pre><code class="php"><span id="True-1"><span class="cp">&lt;?php</span>
+</span><span id="True-2">
+</span><span id="True-3"><span class="c1">// Code sample indicating the terminology</span>
+</span><span id="True-4"><span class="k">class</span> <span class="nc">TimePeriod</span>
+</span><span id="True-5"><span class="p">{</span>
+</span><span id="True-6">    <span class="k">private</span> <span class="nv">$Seconds</span><span class="p">;</span> <span class="c1">// &lt;-- Traditional Property</span>
+</span><span id="True-7">
+</span><span id="True-8">    <span class="k">public</span> <span class="nv">$Hours</span> <span class="p">{</span> <span class="c1">// &lt;-- Guarded Property</span>
+</span><span id="True-9">        <span class="nx">get</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Seconds</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">;</span> <span class="p">}</span>   <span class="c1">// &lt;-- Accessor, more specifically a getter</span>
+</span><span id="True-10">        <span class="nx">set</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Seconds</span> <span class="o">=</span> <span class="nv">$x</span><span class="o">*</span> <span class="mi">3600</span><span class="p">;</span> <span class="p">}</span>    <span class="c1">// &lt;-- Accessor, more specifically a setter</span>
+</span><span id="True-11">        <span class="nb">isset</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Seconds</span><span class="p">);</span> <span class="p">}</span> <span class="c1">// &lt;-- Accessor, more specifically an issetter</span>
+</span><span id="True-12">        <span class="nb">unset</span><span class="p">()</span> <span class="p">{</span> <span class="nb">unset</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Seconds</span><span class="p">);</span> <span class="p">}</span>        <span class="c1">// &lt;-- Accessor, more specifically an unsetter</span>
+</span><span id="True-13">    <span class="p">}</span>
+</span><span id="True-14"><span class="p">}</span>
+</span></code></pre></div>
 
 <p>The benefit here, is that accessing the properties directly on an instantiated object like this:</p>
 
-<pre><code> &lt;?php
- // Accessing the property is the same as accessing a class member
- $time = new TimePeriod();
- $time-&gt;Hours = 12; // Stored as 43200
- echo $time-&gt;Hours; // Outputs 12</code></pre>
+<div class="highlight"><pre><code class="php"><span id="True-1"><span class="x"> </span><span class="cp">&lt;?php</span>
+</span><span id="True-2"> <span class="c1">// Accessing the property is the same as accessing a class member</span>
+</span><span id="True-3"> <span class="nv">$time</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TimePeriod</span><span class="p">();</span>
+</span><span id="True-4"> <span class="nv">$time</span><span class="o">-&gt;</span><span class="na">Hours</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">// Stored as 43200</span>
+</span><span id="True-5"> <span class="k">echo</span> <span class="nv">$time</span><span class="o">-&gt;</span><span class="na">Hours</span><span class="p">;</span> <span class="c1">// Outputs 12</span>
+</span></code></pre></div>
 
 <p>Would result in the getters and setters being called transparently.  Neat!  There are plenty of use-cases for this, and it would drastically reduce the amount of code in a lot of libraries and frameworks that are simple getters and setters, but unfortunately a large enough minority of core-contributors disagreed, or weren’t happy with the syntax, or the implementation (or something), and the proposal failed to pass, so it won’t be making it into the language. Not so neat.</p>
 
 <p>Fortunately, there is a way to replicate this functionality (albeit with less syntactic sugar) using PHP’s existing Magic Methods, and when combined with PHP 5.4’s traits<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>, we get something pretty close.  Consider the following:</p>
 
-<pre><code>&lt;?php
-trait Accessors
-{
-    public function __get($name)
-    {
-        $getter = &quot;get{$name}&quot;;
-        if (method_exists($this, $getter)) {
-            return $this-&gt;$getter();
-        }
-    }
-
-    public function __set($name, $value)
-    {
-        $setter = &quot;set{$name}&quot;;
-        if (method_exists($this, $setter)) {
-            return $this-&gt;$setter($value);
-        }
-    }
-}
-
-// Code sample indicating the terminology
-class TimePeriod
-{
-    use Accessors;
-
-    private $Seconds;  // &lt;-- Traditional Property
-
-    protected function getHours()
-    {
-        return $this-&gt;Seconds / 3600;
-    }
-
-    protected function setHours($value)
-    {
-        return $this-&gt;Seconds = $value * 3600;
-    }
-}</code></pre>
+<div class="highlight"><pre><code class="php"><span id="True-1"><span class="cp">&lt;?php</span>
+</span><span id="True-2"><span class="k">trait</span> <span class="nx">Accessors</span>
+</span><span id="True-3"><span class="p">{</span>
+</span><span id="True-4">    <span class="k">public</span> <span class="k">function</span> <span class="nf">__get</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+</span><span id="True-5">    <span class="p">{</span>
+</span><span id="True-6">        <span class="nv">$getter</span> <span class="o">=</span> <span class="s2">&quot;get</span><span class="si">{</span><span class="nv">$name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+</span><span id="True-7">        <span class="k">if</span> <span class="p">(</span><span class="nb">method_exists</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="nv">$getter</span><span class="p">))</span> <span class="p">{</span>
+</span><span id="True-8">            <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nv">$getter</span><span class="p">();</span>
+</span><span id="True-9">        <span class="p">}</span>
+</span><span id="True-10">    <span class="p">}</span>
+</span><span id="True-11">
+</span><span id="True-12">    <span class="k">public</span> <span class="k">function</span> <span class="nf">__set</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$value</span><span class="p">)</span>
+</span><span id="True-13">    <span class="p">{</span>
+</span><span id="True-14">        <span class="nv">$setter</span> <span class="o">=</span> <span class="s2">&quot;set</span><span class="si">{</span><span class="nv">$name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+</span><span id="True-15">        <span class="k">if</span> <span class="p">(</span><span class="nb">method_exists</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="nv">$setter</span><span class="p">))</span> <span class="p">{</span>
+</span><span id="True-16">            <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nv">$setter</span><span class="p">(</span><span class="nv">$value</span><span class="p">);</span>
+</span><span id="True-17">        <span class="p">}</span>
+</span><span id="True-18">    <span class="p">}</span>
+</span><span id="True-19"><span class="p">}</span>
+</span><span id="True-20">
+</span><span id="True-21"><span class="c1">// Code sample indicating the terminology</span>
+</span><span id="True-22"><span class="k">class</span> <span class="nc">TimePeriod</span>
+</span><span id="True-23"><span class="p">{</span>
+</span><span id="True-24">    <span class="k">use</span> <span class="nx">Accessors</span><span class="p">;</span>
+</span><span id="True-25">
+</span><span id="True-26">    <span class="k">private</span> <span class="nv">$Seconds</span><span class="p">;</span>  <span class="c1">// &lt;-- Traditional Property</span>
+</span><span id="True-27">
+</span><span id="True-28">    <span class="k">protected</span> <span class="k">function</span> <span class="nf">getHours</span><span class="p">()</span>
+</span><span id="True-29">    <span class="p">{</span>
+</span><span id="True-30">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Seconds</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">;</span>
+</span><span id="True-31">    <span class="p">}</span>
+</span><span id="True-32">
+</span><span id="True-33">    <span class="k">protected</span> <span class="k">function</span> <span class="nf">setHours</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span>
+</span><span id="True-34">    <span class="p">{</span>
+</span><span id="True-35">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Seconds</span> <span class="o">=</span> <span class="nv">$value</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">;</span>
+</span><span id="True-36">    <span class="p">}</span>
+</span><span id="True-37"><span class="p">}</span>
+</span></code></pre></div>
 
 <p>Now if we run our test code again:</p>
 
-<pre><code> &lt;?php
- // Accessing the property is the same as accessing a class member
- $time = new TimePeriod();
- $time-&gt;Hours = 12; // Stored as 43200
- echo $time-&gt;Hours; // Outputs 12</code></pre>
+<div class="highlight"><pre><code class="php"><span id="True-1"><span class="x"> </span><span class="cp">&lt;?php</span>
+</span><span id="True-2"> <span class="c1">// Accessing the property is the same as accessing a class member</span>
+</span><span id="True-3"> <span class="nv">$time</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TimePeriod</span><span class="p">();</span>
+</span><span id="True-4"> <span class="nv">$time</span><span class="o">-&gt;</span><span class="na">Hours</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span> <span class="c1">// Stored as 43200</span>
+</span><span id="True-5"> <span class="k">echo</span> <span class="nv">$time</span><span class="o">-&gt;</span><span class="na">Hours</span><span class="p">;</span> <span class="c1">// Outputs 12</span>
+</span><span id="True-6"> 
+</span></code></pre></div>
 
 <p>We get the correct output!  For PHP 5.3 we could add the magic methods directly into the class that wants to use them, or create a base class and extend everything we want to have access to the magic getter/setters from that, but that feels messy, traits seem like the cleanest way to do this.</p>
 
 <p>If we add <code>__isset</code> and <code>__unset</code> to the <code>Accessor</code> trait, we can replicate that functionality too:</p>
 
-<pre><code>&lt;?php
-trait Accessors
-{
-    public function __isset($name)
-    {
-        $issetter = &quot;isset{$name}&quot;;
-        if (method_exists($this, $issetter)) {
-            return $this-&gt;$issetter();
-        }
-    }
-
-    public function __unset($name)
-    {
-        $unsetter = &quot;set{$name}&quot;;
-        if (method_exists($this, $unsetter)) {
-            return $this-&gt;$unsetter();
-        }
-    }
-}
-
-// Code sample indicating the terminology
-class TimePeriod
-{
-    use Accessors;
-
-    private $Seconds;  // &lt;-- Traditional Property
-
-    protected function issetHours()
-    {
-        return isset($this-&gt;Seconds);
-    }
-
-    protected function unsetHours($value)
-    {
-        return unset($this-&gt;Seconds);
-    }
-}</code></pre>
+<div class="highlight"><pre><code class="php"><span id="True-1"><span class="cp">&lt;?php</span>
+</span><span id="True-2"><span class="k">trait</span> <span class="nx">Accessors</span>
+</span><span id="True-3"><span class="p">{</span>
+</span><span id="True-4">    <span class="k">public</span> <span class="k">function</span> <span class="nf">__isset</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+</span><span id="True-5">    <span class="p">{</span>
+</span><span id="True-6">        <span class="nv">$issetter</span> <span class="o">=</span> <span class="s2">&quot;isset</span><span class="si">{</span><span class="nv">$name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+</span><span id="True-7">        <span class="k">if</span> <span class="p">(</span><span class="nb">method_exists</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="nv">$issetter</span><span class="p">))</span> <span class="p">{</span>
+</span><span id="True-8">            <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nv">$issetter</span><span class="p">();</span>
+</span><span id="True-9">        <span class="p">}</span>
+</span><span id="True-10">    <span class="p">}</span>
+</span><span id="True-11">
+</span><span id="True-12">    <span class="k">public</span> <span class="k">function</span> <span class="nf">__unset</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+</span><span id="True-13">    <span class="p">{</span>
+</span><span id="True-14">        <span class="nv">$unsetter</span> <span class="o">=</span> <span class="s2">&quot;set</span><span class="si">{</span><span class="nv">$name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span>
+</span><span id="True-15">        <span class="k">if</span> <span class="p">(</span><span class="nb">method_exists</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="nv">$unsetter</span><span class="p">))</span> <span class="p">{</span>
+</span><span id="True-16">            <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nv">$unsetter</span><span class="p">();</span>
+</span><span id="True-17">        <span class="p">}</span>
+</span><span id="True-18">    <span class="p">}</span>
+</span><span id="True-19"><span class="p">}</span>
+</span><span id="True-20">
+</span><span id="True-21"><span class="c1">// Code sample indicating the terminology</span>
+</span><span id="True-22"><span class="k">class</span> <span class="nc">TimePeriod</span>
+</span><span id="True-23"><span class="p">{</span>
+</span><span id="True-24">    <span class="k">use</span> <span class="nx">Accessors</span><span class="p">;</span>
+</span><span id="True-25">
+</span><span id="True-26">    <span class="k">private</span> <span class="nv">$Seconds</span><span class="p">;</span>  <span class="c1">// &lt;-- Traditional Property</span>
+</span><span id="True-27">
+</span><span id="True-28">    <span class="k">protected</span> <span class="k">function</span> <span class="nf">issetHours</span><span class="p">()</span>
+</span><span id="True-29">    <span class="p">{</span>
+</span><span id="True-30">        <span class="k">return</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Seconds</span><span class="p">);</span>
+</span><span id="True-31">    <span class="p">}</span>
+</span><span id="True-32">
+</span><span id="True-33">    <span class="k">protected</span> <span class="k">function</span> <span class="nf">unsetHours</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span>
+</span><span id="True-34">    <span class="p">{</span>
+</span><span id="True-35">        <span class="k">return</span> <span class="nb">unset</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">Seconds</span><span class="p">);</span>
+</span><span id="True-36">    <span class="p">}</span>
+</span><span id="True-37"><span class="p">}</span>
+</span></code></pre></div>
 
 <p>Obviously this is a lot more verbose than the original RFC, but it does provide a way to mimic some of its functionality.  If you want to use it, you can see the full trait in <a href="https://gist.github.com/4621373#file-trait-full-php">this gist</a>.</p>
 
@@ -235,7 +241,7 @@ class TimePeriod
         (function () {
             var images = document.getElementsByTagName('img');
             for (var i = 0; i < images.length; i++) {
-                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+                images[i].style.height = (Math.ceil(images[i].clientHeight/26) * 26) + 'px';
             }
         })();
     </script>

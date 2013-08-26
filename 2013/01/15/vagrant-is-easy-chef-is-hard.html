@@ -73,100 +73,97 @@
 
 <p>There are a couple of important concepts in Vagrant</p>
 
-<ol>
+<h3 id="baseboxes">Baseboxes</h3>
+
+<p>Baseboxes are virtual machine images.  This is the default start state of your VM.  Think of setting up a new VM, then saving a snapshot so that you can restore to that point any time you want.  That’s like a basebox.  Except baseboxes are scripted, so they’re way cooler.</p>
+
+<p>Lots of people have created baseboxes for you already<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>, so you don’t need to create your own.  The default is <code>lucid32</code>, an ubuntu basebox.  This will probably be fine unless you know why you need another one.</p>
+
+<p>Key Command (to add a new box): <code>vagrant box add lucid32 http://files.vagrantup.com/lucid32.box</code></p>
+
+<p><code>lucid32</code> is how you’ll reference the box locally, the url is where it can be downloaded.</p>
+
+<h3 id="vagrantfile">VagrantFile</h3>
+
+<p><code>Vagrantfile</code> is the name of a textfile in the root of your project.  It provides all of the config settings, such as which directories on the host to mount in the VM (your code, etc), as well as networking config.</p>
+
+<p>You’ll want to end up with a <code>Vagrantfile</code> that looks something like this:</p>
+
+<div class="highlight"><pre><code class="ruby"><span id="True-1"><span class="ss">Vagrant</span><span class="p">:</span><span class="ss">:Config</span><span class="o">.</span><span class="n">run</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span id="True-2">  <span class="c1"># Your local name for the basebox you want to use.</span>
+</span><span id="True-3">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;lucid32&quot;</span>
+</span><span id="True-4">
+</span><span id="True-5">  <span class="c1"># Assign this VM to a host-only network IP, allowing you to access it</span>
+</span><span id="True-6">  <span class="c1"># via the IP. Host-only networks can talk to the host machine as well as</span>
+</span><span id="True-7">  <span class="c1"># any other machines on the same network, but cannot be accessed (through this</span>
+</span><span id="True-8">  <span class="c1"># network interface) by any external networks.</span>
+</span><span id="True-9">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">network</span> <span class="ss">:hostonly</span><span class="p">,</span> <span class="s2">&quot;192.168.33.33&quot;</span>
+</span><span id="True-10">
+</span><span id="True-11">  <span class="c1"># Use the vagrant hostmaster plugin[^5] to automatically add a domain name</span>
+</span><span id="True-12">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">host_name</span> <span class="o">=</span> <span class="s2">&quot;www.example.vm&quot;</span>
+</span><span id="True-13">
+</span><span id="True-14">  <span class="c1"># Share an additional folder to the guest VM. The first argument is</span>
+</span><span id="True-15">  <span class="c1"># an identifier, the second is the path on the guest to mount the</span>
+</span><span id="True-16">  <span class="c1"># folder, and the third is the path on the host to the actual folder.</span>
+</span><span id="True-17">  <span class="c1"># You can add as many of these as you like, anywhere you like</span>
+</span><span id="True-18">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">share_folder</span> <span class="s2">&quot;v-data&quot;</span><span class="p">,</span> <span class="s2">&quot;/srv/data&quot;</span><span class="p">,</span> <span class="s2">&quot;../data&quot;</span><span class="p">,</span> <span class="ss">:nfs</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span id="True-19">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">share_folder</span> <span class="s2">&quot;v-site&quot;</span><span class="p">,</span> <span class="s2">&quot;/srv/site&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="ss">:nfs</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span id="True-20">
+</span><span id="True-21">  <span class="c1"># Enable provisioning with chef solo, specifying a cookbooks path, roles</span>
+</span><span id="True-22">  <span class="c1"># path, and data_bags path (all relative to this Vagrantfile), and adding</span>
+</span><span id="True-23">  <span class="c1"># some recipes and/or roles.</span>
+</span><span id="True-24">  <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provision</span> <span class="ss">:chef_solo</span> <span class="k">do</span> <span class="o">|</span><span class="n">chef</span><span class="o">|</span>
+</span><span id="True-25">    <span class="n">chef</span><span class="o">.</span><span class="n">roles_path</span> <span class="o">=</span> <span class="s2">&quot;../chef/roles&quot;</span>
+</span><span id="True-26">    <span class="n">chef</span><span class="o">.</span><span class="n">cookbooks_path</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;../chef/site-cookbooks&quot;</span><span class="p">,</span> <span class="s2">&quot;../chef/cookbooks&quot;</span><span class="o">]</span>
+</span><span id="True-27">    <span class="n">chef</span><span class="o">.</span><span class="n">add_role</span> <span class="s2">&quot;webserver&quot;</span>
+</span><span id="True-28">  <span class="k">end</span>
+</span><span id="True-29"><span class="k">end</span>
+</span></code></pre></div>
+
+<p>Key Command (to add a new Vagrantfile to your current project): <code>vagrant init</code></p>
+
+<h3 id="baseboxes-are-normally-empty">Baseboxes are normally empty</h3>
+
+<p>When you have a base ubuntu install, you can’t do much with it, that’s the same with baseboxes.  While you could build a basebox that already has everything you need installed, that’s not really using it to the best of its ability.  To get anything installed, you need a provisioner, and that’s where Chef comes in.  You can also use puppet, but don’t worry too much about that for now, provisioning is the hard part and we’ll cover it in the next post.</p>
+
+<h3 id="key-commands">Key Commands</h3>
+
+<p>There are 6 key commands you will need day-to-day for vagrant</p>
+
+<ul>
   <li>
-    <p>Baseboxes</p>
+    <p><code>vagrant up</code></p>
 
-    <p>Baseboxes are virtual machine images.  This is the default start state of your VM.  Think of setting up a new VM, then saving a snapshot so that you can restore to that point any time you want.  That’s like a basebox.  Except baseboxes are scripted, so they’re way cooler.</p>
-
-    <p>Lots of people have created baseboxes for you already<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>, so you don’t need to create your own.  The default is <code>lucid32</code>, an ubuntu basebox.  This will probably be fine unless you know why you need another one.</p>
-
-    <p>Key Command (to add a new box): <code>vagrant box add lucid32 http://files.vagrantup.com/lucid32.box</code></p>
-
-    <p><code>lucid32</code> is how you’ll reference the box locally, the url is where it can be downloaded.</p>
+    <p>This starts the VM if it’s not already running.</p>
   </li>
   <li>
-    <p>VagrantFile</p>
+    <p><code>vagrant suspend</code></p>
 
-    <p><code>Vagrantfile</code> is the name of a textfile in the root of your project.  It provides all of the config settings, such as which directories on the host to mount in the VM (your code, etc), as well as networking config.</p>
-
-    <p>You’ll want to end up with a <code>Vagrantfile</code> that looks something like this:</p>
-
-    <pre><code> Vagrant::Config.run do |config|
-   # Your local name for the basebox you want to use.
-   config.vm.box = "lucid32"
-
-   # Assign this VM to a host-only network IP, allowing you to access it
-   # via the IP. Host-only networks can talk to the host machine as well as
-   # any other machines on the same network, but cannot be accessed (through this
-   # network interface) by any external networks.
-   config.vm.network :hostonly, "192.168.33.33"
-
-   # Use the vagrant hostmaster plugin[^5] to automatically add a domain name
-   config.vm.host_name = "www.example.vm"
-
-   # Share an additional folder to the guest VM. The first argument is
-   # an identifier, the second is the path on the guest to mount the
-   # folder, and the third is the path on the host to the actual folder.
-   # You can add as many of these as you like, anywhere you like
-   config.vm.share_folder "v-data", "/srv/data", "../data", :nfs =&gt; true
-   config.vm.share_folder "v-site", "/srv/site", ".", :nfs =&gt; true
-
-   # Enable provisioning with chef solo, specifying a cookbooks path, roles
-   # path, and data_bags path (all relative to this Vagrantfile), and adding
-   # some recipes and/or roles.
-   config.vm.provision :chef_solo do |chef|
-     chef.roles_path = "../chef/roles"
-     chef.cookbooks_path = ["../chef/site-cookbooks", "../chef/cookbooks"]
-     chef.add_role "webserver"
-   end
- end
-</code></pre>
-
-    <p>Key Command (to add a new Vagrantfile to your current project): <code>vagrant init</code></p>
+    <p>This saves the machine state and temporarily shuts down the VM.  Running <code>vagrant up</code> will bring it back again exactly as it was.</p>
   </li>
   <li>
-    <p>Baseboxes are normally empty</p>
+    <p><code>vagrant ssh</code></p>
 
-    <p>When you have a base ubuntu install, you can’t do much with it, that’s the same with baseboxes.  While you could build a basebox that already has everything you need installed, that’s not really using it to the best of its ability.  To get anything installed, you need a provisioner, and that’s where Chef comes in.  You can also use puppet, but don’t worry too much about that for now, provisioning is the hard part and we’ll cover it in the next post.</p>
+    <p>Login to your VM using ssh.  Vagrant uses its own private/public keys which are automatically copied to the VM, so there’s no username/password to worry about.</p>
   </li>
   <li>
-    <p>There are 6 key commands you will need day-to-day for vagrant</p>
+    <p><code>vagrant provision</code></p>
 
-    <ul>
-      <li>
-        <p><code>vagrant up</code></p>
-
-        <p>This starts the VM if it’s not already running.</p>
-      </li>
-      <li>
-        <p><code>vagrant suspend</code></p>
-
-        <p>This saves the machine state and temporarily shuts down the VM.  Running <code>vagrant up</code> will bring it back again exactly as it was.</p>
-      </li>
-      <li>
-        <p><code>vagrant ssh</code></p>
-
-        <p>Login to your VM using ssh.  Vagrant uses its own private/public keys which are automatically copied to the VM, so there’s no username/password to worry about.</p>
-      </li>
-      <li>
-        <p><code>vagrant provision</code></p>
-
-        <p>This re-runs your provisioner of choice (e.g. if you’ve updated something) without having to start from scratch.</p>
-      </li>
-      <li>
-        <p><code>vagrant reload</code></p>
-
-        <p>This resets the VM to the basebox’s original state and re-runs your provisioner.</p>
-      </li>
-      <li>
-        <p><code>vagrant destroy</code></p>
-
-        <p>This completely removes all trace of the VM from your system (but not the basebox or provisioner).</p>
-      </li>
-    </ul>
+    <p>This re-runs your provisioner of choice (e.g. if you’ve updated something) without having to start from scratch.</p>
   </li>
-</ol>
+  <li>
+    <p><code>vagrant reload</code></p>
+
+    <p>This resets the VM to the basebox’s original state and re-runs your provisioner.</p>
+  </li>
+  <li>
+    <p><code>vagrant destroy</code></p>
+
+    <p>This completely removes all trace of the VM from your system (but not the basebox or provisioner).</p>
+  </li>
+</ul>
+
+<h3 id="summary">Summary</h3>
 
 <p>This should be enough to get you started using Vagrant.  If you follow these steps, then run <code>vagrant up</code> you should have a functioning VM, and the key commands should be enough to give you a great grounding in how to use vagrant.  Now carry on reading <a href="/2013/01/15/vagrant-is-easy-chef-is-hard-part2.html">part 2</a> to find out how to make your VM actually do something useful.</p>
 
@@ -235,7 +232,7 @@
         (function () {
             var images = document.getElementsByTagName('img');
             for (var i = 0; i < images.length; i++) {
-                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+                images[i].style.height = (Math.ceil(images[i].clientHeight/26) * 26) + 'px';
             }
         })();
     </script>

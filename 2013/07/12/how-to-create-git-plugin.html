@@ -114,65 +114,71 @@
 
 <p>A hashbang looks like this:</p>
 
-<pre><code>#!/bin/sh</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="c">#!/bin/sh</span>
+</span></code></pre></div>
 
 <p>Now most people will have a compatible shell available in that location, but we can make it a bit more portable by checking the users’ ENV for the location of their shell, just in-case:</p>
 
-<pre><code>#!/usr/bin/env sh</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="c">#!/usr/bin/env sh</span>
+</span></code></pre></div>
 
 <p>Next, we need a couple of help functions.  These should be fairly self explanatory, they just print words to the screen.  The first is going to print out our version number:</p>
 
-<pre><code>version() {
-    echo &quot;adamcodes git plugin v0.1.0&quot;
-    echo
-}</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1">version<span class="o">()</span> <span class="o">{</span>
+</span><span id="True-2">    <span class="nb">echo</span> <span class="s2">&quot;adamcodes git plugin v0.1.0&quot;</span>
+</span><span id="True-3">    <span class="nb">echo</span>
+</span><span id="True-4"><span class="o">}</span>
+</span></code></pre></div>
 
 <p>And the next is going to print our usage information:</p>
 
-<pre><code>usage() {
-    echo &quot;usage: git adamcodes &lt;subcommand&gt;&quot;
-    echo
-    echo &quot;Available subcommands are:&quot;
-    echo &quot;hello &lt;name&gt;  Print out Hello World or Hello &lt;name&gt; (if provided)&quot;
-}</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1">usage<span class="o">()</span> <span class="o">{</span>
+</span><span id="True-2">    <span class="nb">echo</span> <span class="s2">&quot;usage: git adamcodes &lt;subcommand&gt;&quot;</span>
+</span><span id="True-3">    <span class="nb">echo</span>
+</span><span id="True-4"><span class="nb">    echo</span> <span class="s2">&quot;Available subcommands are:&quot;</span>
+</span><span id="True-5">    <span class="nb">echo</span> <span class="s2">&quot;hello &lt;name&gt;  Print out Hello World or Hello &lt;name&gt; (if provided)&quot;</span>
+</span><span id="True-6"><span class="o">}</span>
+</span></code></pre></div>
 
 <p>Next, we get into the main part.  Tradition dictates that the main execution of a bash script takes place in the <code>main</code> function, so that’s what we’ll call ours, too:</p>
 
-<pre><code>main() {
-    if [ &quot;$#&quot; -lt 1 ]; then
-        usage; exit 1
-    fi
-
-    local subcommand=&quot;$1&quot;; shift
-
-    case $subcommand in
-        &quot;-h&quot;|&quot;--help&quot;)
-            usage; exit 0
-            ;;
-        &quot;-v&quot;|&quot;--version&quot;)
-            version; exit 0
-            ;;
-    esac
-
-    export WORKINGDIR=$(dirname &quot;$(echo &quot;$0&quot; | sed -e &#39;s,\\,/,g&#39;)&quot;)
-    if [ ! -e &quot;$WORKINGDIR/git-adamcodes-$subcommand&quot; ]; then
-        usage; exit 1
-    fi
-
-    source &quot;$WORKINGDIR/git-adamcodes-$subcommand&quot;
-
-    if [ ! type &quot;cmd_$subcommand&quot; ]; then
-        usage; exit 1
-    fi
-
-    cmd_$subcommand &quot;$@&quot;
-}</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1">main<span class="o">()</span> <span class="o">{</span>
+</span><span id="True-2">    <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$#&quot;</span> -lt 1 <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-3"><span class="k">        </span>usage; <span class="nb">exit </span>1
+</span><span id="True-4">    <span class="k">fi</span>
+</span><span id="True-5">
+</span><span id="True-6"><span class="k">    </span><span class="nb">local </span><span class="nv">subcommand</span><span class="o">=</span><span class="s2">&quot;$1&quot;</span>; <span class="nb">shift</span>
+</span><span id="True-7">
+</span><span id="True-8"><span class="nb">    </span><span class="k">case</span> <span class="nv">$subcommand</span> in
+</span><span id="True-9">        <span class="s2">&quot;-h&quot;</span>|<span class="s2">&quot;--help&quot;</span><span class="o">)</span>
+</span><span id="True-10">            usage; <span class="nb">exit </span>0
+</span><span id="True-11">            ;;
+</span><span id="True-12">        <span class="s2">&quot;-v&quot;</span>|<span class="s2">&quot;--version&quot;</span><span class="o">)</span>
+</span><span id="True-13">            version; <span class="nb">exit </span>0
+</span><span id="True-14">            ;;
+</span><span id="True-15">    <span class="k">esac</span>
+</span><span id="True-16">
+</span><span id="True-17"><span class="k">    </span><span class="nb">export </span><span class="nv">WORKINGDIR</span><span class="o">=</span><span class="k">$(</span>dirname <span class="s2">&quot;$(echo &quot;</span><span class="nv">$0</span><span class="s2">&quot; | sed -e &#39;s,\\,/,g&#39;)&quot;</span><span class="k">)</span>
+</span><span id="True-18">    <span class="k">if</span> <span class="o">[</span> ! -e <span class="s2">&quot;$WORKINGDIR/git-adamcodes-$subcommand&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-19"><span class="k">        </span>usage; <span class="nb">exit </span>1
+</span><span id="True-20">    <span class="k">fi</span>
+</span><span id="True-21">
+</span><span id="True-22"><span class="k">    </span><span class="nb">source</span> <span class="s2">&quot;$WORKINGDIR/git-adamcodes-$subcommand&quot;</span>
+</span><span id="True-23">
+</span><span id="True-24">    <span class="k">if</span> <span class="o">[</span> ! <span class="nb">type</span> <span class="s2">&quot;cmd_$subcommand&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-25"><span class="k">        </span>usage; <span class="nb">exit </span>1
+</span><span id="True-26">    <span class="k">fi</span>
+</span><span id="True-27">
+</span><span id="True-28"><span class="k">    </span>cmd_<span class="nv">$subcommand</span> <span class="s2">&quot;$@&quot;</span>
+</span><span id="True-29"><span class="o">}</span>
+</span></code></pre></div>
 
 <p>Okay, if you’re not used to shell scripting this will probably look a bit scary.  Let’s break it down piece-by-piece.</p>
 
-<pre><code>if [ &quot;$#&quot; -lt 1 ]; then
-    usage; exit 1
-fi</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$#&quot;</span> -lt 1 <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-2"><span class="k">    </span>usage; <span class="nb">exit </span>1
+</span><span id="True-3"><span class="k">fi</span>
+</span></code></pre></div>
 
 <p>This first line is fairly simple.  When you pass an argument to a shell script it gets passed in in numbered variables $0 to $N.  Each space is treated as a new variable, with $0 containing the name of the script you ran.  <code>if [ "$#" -lt 1 ]</code> is basically saying “if the number of options is less than one”.</p>
 
@@ -180,7 +186,8 @@ fi</code></pre>
 
 <p><code>exit 1</code> is all about reporting back to Git (and the shell) whether a command ran successfully or not.  <code>exit</code> will kill the execution of a script, just like in PHP, and a successful exit means exiting with <code>0</code>.  An exit in the range <code>1-255</code> is considered an error and can be used to map to error messages if you have a manual or whatever.  We don’t, so we’ll just exit with 1 to let the shell know it didn’t run successfully, as we expected more parameters.</p>
 
-<pre><code>local subcommand=&quot;$1&quot;; shift</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="nb">local </span><span class="nv">subcommand</span><span class="o">=</span><span class="s2">&quot;$1&quot;</span>; <span class="nb">shift</span>
+</span></code></pre></div>
 
 <p>The next line does two things again.  You can do more than one thing per line in bash by separating with a semi-colon.  If you put them one per line you don’t need the semi-colon.  First, we define a local variable called <code>subcommand</code>, hence, the <code>local</code>, and then we’re assigning the first parameter passed to our script into that variable.</p>
 
@@ -221,18 +228,20 @@ $4: test
 
 <p>You’ll notice the script name always remains in <code>$0</code>, this is important for later.</p>
 
-<pre><code>case $subcommand in
-    &quot;-h&quot;|&quot;--help&quot;)
-        usage; exit 0
-        ;;
-    &quot;-v&quot;|&quot;--version&quot;)
-        version; exit 0
-        ;;
-esac</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="k">case</span> <span class="nv">$subcommand</span> in
+</span><span id="True-2">    <span class="s2">&quot;-h&quot;</span>|<span class="s2">&quot;--help&quot;</span><span class="o">)</span>
+</span><span id="True-3">        usage; <span class="nb">exit </span>0
+</span><span id="True-4">        ;;
+</span><span id="True-5">    <span class="s2">&quot;-v&quot;</span>|<span class="s2">&quot;--version&quot;</span><span class="o">)</span>
+</span><span id="True-6">        version; <span class="nb">exit </span>0
+</span><span id="True-7">        ;;
+</span><span id="True-8"><span class="k">esac</span>
+</span></code></pre></div>
 
 <p>Next we use a standard case statement to check whether the subcommand we just set is equal to <code>-h</code>, <code>--help</code>, <code>-v</code> or <code>--version</code>.  As per our spec above, each of these should run a specific function.  If we find a match we simply run the correct function and exit with 0, which means that we ran successfully.  the <code>;;</code> below each set of commands is the equivalent of <code>break</code> in PHP and tells the shell to not continue checking the rest of the case statement.</p>
 
-<pre><code>local workingdir=$(dirname &quot;$(echo &quot;$0&quot; | sed -e &#39;s,\\,/,g&#39;)&quot;)</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="nb">local </span><span class="nv">workingdir</span><span class="o">=</span><span class="k">$(</span>dirname <span class="s2">&quot;$(echo &quot;</span><span class="nv">$0</span><span class="s2">&quot; | sed -e &#39;s,\\,/,g&#39;)&quot;</span><span class="k">)</span>
+</span></code></pre></div>
 
 <p>This next snippet gets our working directory.  We need this so we know where to look for our sub-command files, as they should be in the same directory as the script we’re running.</p>
 
@@ -242,25 +251,29 @@ esac</code></pre>
 
 <p>As we mentioned earlier, when you run a bash script the script name gets passed into the script in the variable <code>$0</code>, so running <code>$(dirname $0)</code> should give us what we’re after, however, that’s not so great for our windows users (e.g. cygwin), as the path separator will be the wrong way around.  Therefore, we nest another <code>$(...)</code> call where we echo out the value of <code>$0</code>, pipe the output into the <code>sed</code> command, and replace all backslashes with forward slashes.  We then take the output of that (captured by the nested <code>$(...)</code>) and pass it back into dirname, and then assign the captured output of that to the <code>workingdir</code> variable.</p>
 
-<pre><code>if [ ! -e &quot;$WORKINGDIR/git-adamcodes-$subcommand&quot; ]; then
-    usage; exit 1
-fi</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="k">if</span> <span class="o">[</span> ! -e <span class="s2">&quot;$WORKINGDIR/git-adamcodes-$subcommand&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-2"><span class="k">    </span>usage; <span class="nb">exit </span>1
+</span><span id="True-3"><span class="k">fi</span>
+</span></code></pre></div>
 
 <p>Next, we’re simply checking to see if the file for the subcommand exists.  We’re expecting the files to be in the same directory as our current file, and to be named in the format <code>git-namespace-subcommand</code>.  If we don’t find it, we need to print out our usage info and exit with an error status.  If we do, we can simply carry on.</p>
 
-<pre><code>source &quot;$WORKINGDIR/git-adamcodes-$subcommand&quot;</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="nb">source</span> <span class="s2">&quot;$WORKINGDIR/git-adamcodes-$subcommand&quot;</span>
+</span></code></pre></div>
 
 <p><code>source</code> is a built-in command that will run a file inside the current shell.  That means it will load all functions and variables from that file and they will be available throughout the shell.  Anything that this script executes will also execute, it’s exactly the same as running the file yourself.</p>
 
 <p>This means we can put our sub-commands in their own files, with their own variables, but not run them, just make them accessible when we need them.  Think of this like a PHP <code>include</code>.</p>
 
-<pre><code>if [ ! type &quot;cmd_$subcommand&quot; ]; then
-    usage; exit 1
-fi</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="k">if</span> <span class="o">[</span> ! <span class="nb">type</span> <span class="s2">&quot;cmd_$subcommand&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-2"><span class="k">    </span>usage; <span class="nb">exit </span>1
+</span><span id="True-3"><span class="k">fi</span>
+</span></code></pre></div>
 
 <p>Now we’ve loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn’t there’s obviously something wrong, so do our standard “print usage information and error exit status” step.  This actually produces some output we have to do something about, so we do some bash trickery and redirect it into <code>/dev/null</code>, which is basically a black hole for anything you don’t want.</p>
 
-<pre><code>cmd_$subcommand &quot;$@&quot;</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1">cmd_<span class="nv">$subcommand</span> <span class="s2">&quot;$@&quot;</span>
+</span></code></pre></div>
 
 <p>Finally we get down to it.  This step runs our sub-command and passes in our <code>$0...$n</code> variables as function parameters.  We expect our sub-command’s main function to be called <code>cmd_subcommand</code> where <em>subcommand</em> is the name of the sub-command you want to type to run it.  If we also called them <code>main</code> we’d end up with a conflict with our existing main function.</p>
 
@@ -268,57 +281,59 @@ fi</code></pre>
 
 <p>Now we’ve built up our <code>main</code> function it won’t run on its own, we need to actually call it and pass in our <code>$0...$n</code> variables.  To do that, we just do the same as above, but call main instead:</p>
 
-<pre><code>main &quot;$@&quot;</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1">main <span class="s2">&quot;$@&quot;</span>
+</span></code></pre></div>
 
 <h4 id="pulling-it-all-together">Pulling it all Together</h4>
 
 <p>Finally, bringing it all together our plugin’s main file should look like this:</p>
 
-<pre><code>#!/usr/bin/env sh
-
-usage() {
-    echo &quot;usage: git adamcodes &lt;subcommand&gt;&quot;
-    echo
-    echo &quot;Available subcommands are:&quot;
-    echo &quot;hello &lt;name&gt;  Print out Hello World or Hello &lt;name&gt; (if provided)&quot;
-}
-
-version() {
-    echo &quot;adamcodes git plugin v0.1.0&quot;
-    echo
-}
-
-main() {
-    if [ &quot;$#&quot; -lt 1 ]; then
-        usage; exit 1
-    fi
-
-    local subcommand=&quot;$1&quot;; shift
-
-    case $subcommand in
-        &quot;-h&quot;|&quot;--help&quot;)
-            usage; exit 0
-            ;;
-        &quot;-v&quot;|&quot;--version&quot;)
-            version; exit 0
-            ;;
-    esac
-
-    local workingdir=$(dirname &quot;$(echo &quot;$0&quot; | sed -e &#39;s,\\,/,g&#39;)&quot;)
-    if [ ! -e &quot;$workingdir/git-adamcodes-$subcommand&quot; ]; then
-        usage; exit 1
-    fi
-
-    source &quot;$workingdir/git-adamcodes-$subcommand&quot;
-
-    if [ ! type &quot;cmd_$subcommand&quot; ]; then
-        usage; exit 1
-    fi
-
-    cmd_$subcommand &quot;$@&quot;
-}
-
-main &quot;$@&quot;</code></pre>
+<div class="highlight"><pre><code class="bash"><span id="True-1"><span class="c">#!/usr/bin/env sh</span>
+</span><span id="True-2">
+</span><span id="True-3">usage<span class="o">()</span> <span class="o">{</span>
+</span><span id="True-4">    <span class="nb">echo</span> <span class="s2">&quot;usage: git adamcodes &lt;subcommand&gt;&quot;</span>
+</span><span id="True-5">    <span class="nb">echo</span>
+</span><span id="True-6"><span class="nb">    echo</span> <span class="s2">&quot;Available subcommands are:&quot;</span>
+</span><span id="True-7">    <span class="nb">echo</span> <span class="s2">&quot;hello &lt;name&gt;  Print out Hello World or Hello &lt;name&gt; (if provided)&quot;</span>
+</span><span id="True-8"><span class="o">}</span>
+</span><span id="True-9">
+</span><span id="True-10">version<span class="o">()</span> <span class="o">{</span>
+</span><span id="True-11">    <span class="nb">echo</span> <span class="s2">&quot;adamcodes git plugin v0.1.0&quot;</span>
+</span><span id="True-12">    <span class="nb">echo</span>
+</span><span id="True-13"><span class="o">}</span>
+</span><span id="True-14">
+</span><span id="True-15">main<span class="o">()</span> <span class="o">{</span>
+</span><span id="True-16">    <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$#&quot;</span> -lt 1 <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-17"><span class="k">        </span>usage; <span class="nb">exit </span>1
+</span><span id="True-18">    <span class="k">fi</span>
+</span><span id="True-19">
+</span><span id="True-20"><span class="k">    </span><span class="nb">local </span><span class="nv">subcommand</span><span class="o">=</span><span class="s2">&quot;$1&quot;</span>; <span class="nb">shift</span>
+</span><span id="True-21">
+</span><span id="True-22"><span class="nb">    </span><span class="k">case</span> <span class="nv">$subcommand</span> in
+</span><span id="True-23">        <span class="s2">&quot;-h&quot;</span>|<span class="s2">&quot;--help&quot;</span><span class="o">)</span>
+</span><span id="True-24">            usage; <span class="nb">exit </span>0
+</span><span id="True-25">            ;;
+</span><span id="True-26">        <span class="s2">&quot;-v&quot;</span>|<span class="s2">&quot;--version&quot;</span><span class="o">)</span>
+</span><span id="True-27">            version; <span class="nb">exit </span>0
+</span><span id="True-28">            ;;
+</span><span id="True-29">    <span class="k">esac</span>
+</span><span id="True-30">
+</span><span id="True-31"><span class="k">    </span><span class="nb">local </span><span class="nv">workingdir</span><span class="o">=</span><span class="k">$(</span>dirname <span class="s2">&quot;$(echo &quot;</span><span class="nv">$0</span><span class="s2">&quot; | sed -e &#39;s,\\,/,g&#39;)&quot;</span><span class="k">)</span>
+</span><span id="True-32">    <span class="k">if</span> <span class="o">[</span> ! -e <span class="s2">&quot;$workingdir/git-adamcodes-$subcommand&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-33"><span class="k">        </span>usage; <span class="nb">exit </span>1
+</span><span id="True-34">    <span class="k">fi</span>
+</span><span id="True-35">
+</span><span id="True-36"><span class="k">    </span><span class="nb">source</span> <span class="s2">&quot;$workingdir/git-adamcodes-$subcommand&quot;</span>
+</span><span id="True-37">
+</span><span id="True-38">    <span class="k">if</span> <span class="o">[</span> ! <span class="nb">type</span> <span class="s2">&quot;cmd_$subcommand&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span id="True-39"><span class="k">        </span>usage; <span class="nb">exit </span>1
+</span><span id="True-40">    <span class="k">fi</span>
+</span><span id="True-41">
+</span><span id="True-42"><span class="k">    </span>cmd_<span class="nv">$subcommand</span> <span class="s2">&quot;$@&quot;</span>
+</span><span id="True-43"><span class="o">}</span>
+</span><span id="True-44">
+</span><span id="True-45">main <span class="s2">&quot;$@&quot;</span>
+</span></code></pre></div>
 
 <p>In <a href="/2013/07/19/how-to-create-git-plugin-part2.html">part 2</a> I go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don’t miss it!</p>
 
@@ -384,7 +399,7 @@ main &quot;$@&quot;</code></pre>
         (function () {
             var images = document.getElementsByTagName('img');
             for (var i = 0; i < images.length; i++) {
-                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+                images[i].style.height = (Math.ceil(images[i].clientHeight/26) * 26) + 'px';
             }
         })();
     </script>

@@ -67,83 +67,83 @@
 
 <p>Now you can add the <code>mark_old_post_tag.rb</code> file to your <code>_plugins</code> folder.</p>
 
-<pre><code># Mark Old Posts Liquid Tag
-#
-# A liquid tag for Jekyll sites to mark old posts as deprecated
-#
-# Usage:
-#     {% mark_old_posts &lt;time_ago_in_words|date&gt; %}
-#
-# Example:
-#     {% mark_old_posts 6 months ago %}
-#     {% mark_old_posts 1 year ago %}
-#     {% mark_old_posts 01/01/2012 %}
-#
-# Requires:
-#     chronic gem: sudo gem install chronic --no-ri --no-rdoc
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# @author Adam Brett &lt;adam@adambrett.co.uk&gt;
-# @license BSD-3-Clause
-# @version 0.1
-# @link http://gist.github.com/adambrett/
-# @link http://adamcod.es/2013/02/12/mark-old-posts-liquid-tag-jekyll.html
-#
-
-require &#39;chronic&#39;
-
-module Jekyll
-  class MarkOldPostTag &lt; Liquid::Tag
-    def initialize(tag_name, cut_off, tokens)
-      super
-      @cut_off_date = Chronic.parse(cut_off)
-      @cut_off = cut_off
-    end
-
-    def render(context)
-      post_date = context.environments.first[&quot;page&quot;][&quot;date&quot;]
-
-      unless (post_date.is_a? Time) &amp;&amp;(@cut_off_date.is_a? Time)
-        return &quot;&quot;
-      end
-
-      if context.environments.first[&quot;page&quot;][&quot;mark_old_post&quot;] == false
-        return &quot;&quot;
-      end
-
-      if post_date &gt; @cut_off_date
-        return &quot;&quot;
-      end
-
-      html_output_for context.environments.first[&quot;page&quot;][&quot;date&quot;]
-    end
-
-    def html_output_for(post_date)
-      post_date = post_date.strftime(&quot;%A, %B %d, %Y&quot;)
-      return &lt;&lt;-HTML
-&lt;div class=&quot;alert alert-warning&quot;&gt;
-  &lt;h4&gt;Out Of Date Warning&lt;/h4&gt;
-
-  &lt;p&gt;
-    This article was published on &lt;strong&gt;#{post_date}&lt;/strong&gt; which was
-    &lt;strong&gt;more than #{@cut_off}&lt;/strong&gt;, this means the content may be
-    out of date or no longer relevant.  You should &lt;strong&gt;verify that the
-    technical information in this article is still current&lt;/strong&gt; before
-    relying upon it for your own purposes.
-  &lt;/p&gt;
-&lt;/div&gt;
-      HTML
-    end
-  end
-end
-
-Liquid::Template.register_tag(&#39;mark_old_posts&#39;, Jekyll::MarkOldPostTag)
-</code></pre>
+<div class="highlight"><pre><code class="ruby"><span id="True-1"><span class="c1"># Mark Old Posts Liquid Tag</span>
+</span><span id="True-2"><span class="c1">#</span>
+</span><span id="True-3"><span class="c1"># A liquid tag for Jekyll sites to mark old posts as deprecated</span>
+</span><span id="True-4"><span class="c1">#</span>
+</span><span id="True-5"><span class="c1"># Usage:</span>
+</span><span id="True-6"><span class="c1">#     {% mark_old_posts &lt;time_ago_in_words|date&gt; %}</span>
+</span><span id="True-7"><span class="c1">#</span>
+</span><span id="True-8"><span class="c1"># Example:</span>
+</span><span id="True-9"><span class="c1">#     {% mark_old_posts 6 months ago %}</span>
+</span><span id="True-10"><span class="c1">#     {% mark_old_posts 1 year ago %}</span>
+</span><span id="True-11"><span class="c1">#     {% mark_old_posts 01/01/2012 %}</span>
+</span><span id="True-12"><span class="c1">#</span>
+</span><span id="True-13"><span class="c1"># Requires:</span>
+</span><span id="True-14"><span class="c1">#     chronic gem: sudo gem install chronic --no-ri --no-rdoc</span>
+</span><span id="True-15"><span class="c1">#</span>
+</span><span id="True-16"><span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+</span><span id="True-17"><span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+</span><span id="True-18"><span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+</span><span id="True-19"><span class="c1"># See the License for the specific language governing permissions and</span>
+</span><span id="True-20"><span class="c1"># limitations under the License.</span>
+</span><span id="True-21"><span class="c1">#</span>
+</span><span id="True-22"><span class="c1"># @author Adam Brett &lt;adam@adambrett.co.uk&gt;</span>
+</span><span id="True-23"><span class="c1"># @license BSD-3-Clause</span>
+</span><span id="True-24"><span class="c1"># @version 0.1</span>
+</span><span id="True-25"><span class="c1"># @link http://gist.github.com/adambrett/</span>
+</span><span id="True-26"><span class="c1"># @link http://adamcod.es/2013/02/12/mark-old-posts-liquid-tag-jekyll.html</span>
+</span><span id="True-27"><span class="c1">#</span>
+</span><span id="True-28">
+</span><span id="True-29"><span class="nb">require</span> <span class="s1">&#39;chronic&#39;</span>
+</span><span id="True-30">
+</span><span id="True-31"><span class="k">module</span> <span class="nn">Jekyll</span>
+</span><span id="True-32">  <span class="k">class</span> <span class="nc">MarkOldPostTag</span> <span class="o">&lt;</span> <span class="ss">Liquid</span><span class="p">:</span><span class="ss">:Tag</span>
+</span><span id="True-33">    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">tag_name</span><span class="p">,</span> <span class="n">cut_off</span><span class="p">,</span> <span class="n">tokens</span><span class="p">)</span>
+</span><span id="True-34">      <span class="k">super</span>
+</span><span id="True-35">      <span class="vi">@cut_off_date</span> <span class="o">=</span> <span class="no">Chronic</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">cut_off</span><span class="p">)</span>
+</span><span id="True-36">      <span class="vi">@cut_off</span> <span class="o">=</span> <span class="n">cut_off</span>
+</span><span id="True-37">    <span class="k">end</span>
+</span><span id="True-38">
+</span><span id="True-39">    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+</span><span id="True-40">      <span class="n">post_date</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">environments</span><span class="o">.</span><span class="n">first</span><span class="o">[</span><span class="s2">&quot;page&quot;</span><span class="o">][</span><span class="s2">&quot;date&quot;</span><span class="o">]</span>
+</span><span id="True-41">
+</span><span id="True-42">      <span class="k">unless</span> <span class="p">(</span><span class="n">post_date</span><span class="o">.</span><span class="n">is_a?</span> <span class="no">Time</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="vi">@cut_off_date</span><span class="o">.</span><span class="n">is_a?</span> <span class="no">Time</span><span class="p">)</span>
+</span><span id="True-43">        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+</span><span id="True-44">      <span class="k">end</span>
+</span><span id="True-45">
+</span><span id="True-46">      <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">environments</span><span class="o">.</span><span class="n">first</span><span class="o">[</span><span class="s2">&quot;page&quot;</span><span class="o">][</span><span class="s2">&quot;mark_old_post&quot;</span><span class="o">]</span> <span class="o">==</span> <span class="kp">false</span>
+</span><span id="True-47">        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+</span><span id="True-48">      <span class="k">end</span>
+</span><span id="True-49">
+</span><span id="True-50">      <span class="k">if</span> <span class="n">post_date</span> <span class="o">&gt;</span> <span class="vi">@cut_off_date</span>
+</span><span id="True-51">        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+</span><span id="True-52">      <span class="k">end</span>
+</span><span id="True-53">
+</span><span id="True-54">      <span class="n">html_output_for</span> <span class="n">context</span><span class="o">.</span><span class="n">environments</span><span class="o">.</span><span class="n">first</span><span class="o">[</span><span class="s2">&quot;page&quot;</span><span class="o">][</span><span class="s2">&quot;date&quot;</span><span class="o">]</span>
+</span><span id="True-55">    <span class="k">end</span>
+</span><span id="True-56">
+</span><span id="True-57">    <span class="k">def</span> <span class="nf">html_output_for</span><span class="p">(</span><span class="n">post_date</span><span class="p">)</span>
+</span><span id="True-58">      <span class="n">post_date</span> <span class="o">=</span> <span class="n">post_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, %B %d, %Y&quot;</span><span class="p">)</span>
+</span><span id="True-59">      <span class="k">return</span> <span class="o">&lt;&lt;-</span><span class="no">HTML</span>
+</span><span id="True-60"><span class="sh">&lt;div class=&quot;alert alert-warning&quot;&gt;</span>
+</span><span id="True-61"><span class="sh">  &lt;h4&gt;Out Of Date Warning&lt;/h4&gt;</span>
+</span><span id="True-62">
+</span><span id="True-63"><span class="sh">  &lt;p&gt;</span>
+</span><span id="True-64"><span class="sh">    This article was published on &lt;strong&gt;#{post_date}&lt;/strong&gt; which was</span>
+</span><span id="True-65"><span class="sh">    &lt;strong&gt;more than #{@cut_off}&lt;/strong&gt;, this means the content may be</span>
+</span><span id="True-66"><span class="sh">    out of date or no longer relevant.  You should &lt;strong&gt;verify that the</span>
+</span><span id="True-67"><span class="sh">    technical information in this article is still current&lt;/strong&gt; before</span>
+</span><span id="True-68"><span class="sh">    relying upon it for your own purposes.</span>
+</span><span id="True-69"><span class="sh">  &lt;/p&gt;</span>
+</span><span id="True-70"><span class="sh">&lt;/div&gt;</span>
+</span><span id="True-71"><span class="no">      HTML</span>
+</span><span id="True-72">    <span class="k">end</span>
+</span><span id="True-73">  <span class="k">end</span>
+</span><span id="True-74"><span class="k">end</span>
+</span><span id="True-75">
+</span><span id="True-76"><span class="ss">Liquid</span><span class="p">:</span><span class="ss">:Template</span><span class="o">.</span><span class="n">register_tag</span><span class="p">(</span><span class="s1">&#39;mark_old_posts&#39;</span><span class="p">,</span> <span class="ss">Jekyll</span><span class="p">:</span><span class="ss">:MarkOldPostTag</span><span class="p">)</span>
+</span></code></pre></div>
 
 <p>It’s not very customisable at the moment.  At some point in the future I’d like to allow you to specify the HTML markup without having to modify the plugin itself, but for now you have to modify the output of the <code>html_output_for</code> method if you want to change anything.</p>
 
@@ -218,7 +218,7 @@ Liquid::Template.register_tag(&#39;mark_old_posts&#39;, Jekyll::MarkOldPostTag)
         (function () {
             var images = document.getElementsByTagName('img');
             for (var i = 0; i < images.length; i++) {
-                images[i].style.height = (Math.floor(images[i].clientHeight/26) * 26) + 'px';
+                images[i].style.height = (Math.ceil(images[i].clientHeight/26) * 26) + 'px';
             }
         })();
     </script>
