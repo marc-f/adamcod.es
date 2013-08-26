@@ -24,6 +24,39 @@ and a handful of other purely visual properties
 @baseColor:       #049CDB;
 @accentColor:     darken(@baseColor, 15%);
 
+@stateWarningText: #c09853;
+@stateWarningBg: #fcf8e3;
+@stateWarningBorder: darken(spin(@stateWarningBg, -10), 3%);
+
+@stateDangerText: #b94a48;
+@stateDangerBg: #f2dede;
+@stateDangerBorder: darken(spin(@stateDangerBg, -10), 3%);
+
+@stateSuccessText: #468847;
+@stateSuccessBg: #dff0d8;
+@stateSuccessBorder: darken(spin(@stateSuccessBg, -10), 5%);
+
+@stateInfoText: #3a87ad;
+@stateInfoBg: #d9edf7;
+@stateInfoBorder: darken(spin(@stateInfoBg, -10), 7%);
+
+@alertSuccessBg: @stateSuccessBg;
+@alertSuccessText: @stateSuccessText;
+@alertSuccessBorder: @stateSuccessBorder;
+
+@alertInfoBg: @stateInfoBg;
+@alertInfoText: @stateInfoText;
+@alertInfoBorder: @stateInfoBorder;
+
+@alertWarningBg: @stateWarningBg;
+@alertWarningText: @stateWarningText;
+@alertWarningBorder: @stateWarningBorder;
+
+@alertDangerBg: @stateDangerBg;
+@alertDangerText: @stateDangerText;
+@alertDangerBorder: @stateDangerBorder;
+
+
 @backgroundColor: #fafafa;
 @foregroundColor: #2a2a2a;
 
@@ -129,11 +162,28 @@ and a handful of other purely visual properties
   }
 }
 
+// Alerts
+// -------------------------
+.alert-variant(@background; @border; @text-color) {
+    background-color: @background;
+    border-color: @border;
+    color: @text-color;
+
+    hr {
+        border-top-color: darken(@border, 5%);
+    }
+
+    .alert-link {
+        color: darken(@text-color, 10%);
+    }
+}
+
+
 /* SETUP
 ------------------------------------------------- */
-// html {
-//     background: url(http://basehold.it/image.php?height=26) repeat top left !important
-// }
+html {
+    background: url(http://basehold.it/image.php?height=26) repeat top left !important
+}
 
 * {
     margin: 0;
@@ -230,7 +280,7 @@ code:after {
 }
 
 pre {
-    overflow-x: auto;
+    // overflow-x: auto;
 
     code {
         color: @backgroundColor;
@@ -336,13 +386,51 @@ sup {
     }
 }
 
+
+.alert {
+    padding: ((@baseLineHeight / 2) - 1px);
+    margin-bottom: @baseLineHeight;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+    // Headings for larger alerts
+    h4 {
+        margin-bottom: 0;
+        margin-top: 0;
+        // Specified for the h4 to prevent conflicts of changing @headingsColor
+        color: inherit;
+    }
+
+    // Provide class for links that match alerts
+    .alert-link {
+        font-weight: bold;
+    }
+
+    // Improve alignment and spacing of inner content
+    > p,
+    > ul {
+        margin-bottom: 0;
+    }
+}
+
+.alert-success {
+    .alert-variant(@alertSuccessBg; @alertSuccessBorder; @alertSuccessText);
+}
+.alert-info {
+    .alert-variant(@alertInfoBg; @alertInfoBorder; @alertInfoText);
+}
+.alert-warning {
+    .alert-variant(@alertWarningBg; @alertWarningBorder; @alertWarningText);
+}
+.alert-danger {
+    .alert-variant(@alertDangerBg; @alertDangerBorder; @alertDangerText);
+}
+
 .btn {
     display: inline-block;
     padding: 2px 3px;
     margin-bottom: 0; // For input.btn
 
-
-    line-height: @baseLineHeight;
     text-align: center;
     vertical-align: middle;
 
