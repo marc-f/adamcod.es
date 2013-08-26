@@ -53,27 +53,77 @@ You could use PHP, Ruby, Python or whatever here and Git should just run it as n
 
 A hashbang looks like this:
 
-{% gist 5983671 hashbang.sh %}
+{% highlight bash linespans %}
+#!/bin/sh
+{% endhighlight %}
 
 Now most people will have a compatible shell available in that location, but we can make it a bit more portable by checking the users' ENV for the location of their shell, just in-case:
 
-{% gist 5983671 hashbang-env.sh %}
+{% highlight bash linespans %}
+#!/usr/bin/env sh
+{% endhighlight %}
 
 Next, we need a couple of help functions.  These should be fairly self explanatory, they just print words to the screen.  The first is going to print out our version number:
 
-{% gist 5983671 version.sh %}
+{% highlight bash linespans %}
+version() {
+    echo "adamcodes git plugin v0.1.0"
+    echo
+}
+{% endhighlight %}
 
 And the next is going to print our usage information:
 
-{% gist 5983671 usage.sh %}
+{% highlight bash linespans %}
+usage() {
+    echo "usage: git adamcodes <subcommand>"
+    echo
+    echo "Available subcommands are:"
+    echo "hello <name>  Print out Hello World or Hello <name> (if provided)"
+}
+{% endhighlight %}
 
 Next, we get into the main part.  Tradition dictates that the main execution of a bash script takes place in the `main` function, so that's what we'll call ours, too:
 
-{% gist 5983671 main.sh %}
+{% highlight bash linespans %}
+main() {
+    if [ "$#" -lt 1 ]; then
+        usage; exit 1
+    fi
+
+    local subcommand="$1"; shift
+
+    case $subcommand in
+        "-h"|"--help")
+            usage; exit 0
+            ;;
+        "-v"|"--version")
+            version; exit 0
+            ;;
+    esac
+
+    export WORKINGDIR=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+    if [ ! -e "$WORKINGDIR/git-adamcodes-$subcommand" ]; then
+        usage; exit 1
+    fi
+
+    source "$WORKINGDIR/git-adamcodes-$subcommand"
+
+    if [ ! type "cmd_$subcommand" ]; then
+        usage; exit 1
+    fi
+
+    cmd_$subcommand "$@"
+}
+{% endhighlight %}
 
 Okay, if you're not used to shell scripting this will probably look a bit scary.  Let's break it down piece-by-piece.
 
-{% gist 5983671 param-count.sh %}
+{% highlight bash linespans %}
+if [ "$#" -lt 1 ]; then
+    usage; exit 1
+fi
+{% endhighlight %}
 
 This first line is fairly simple.  When you pass an argument to a shell script it gets passed in in numbered variables $0 to $N.  Each space is treated as a new variable, with $0 containing the name of the script you ran.  `if [ "$#" -lt 1 ]` is basically saying "if the number of options is less than one".
 
@@ -81,7 +131,9 @@ As we're always expecting a subcommand, we can assume if the number of options i
 
 `exit 1` is all about reporting back to Git (and the shell) whether a command ran successfully or not.  `exit` will kill the execution of a script, just like in PHP, and a successful exit means exiting with `0`.  An exit in the range `1-255` is considered an error and can be used to map to error messages if you have a manual or whatever.  We don't, so we'll just exit with 1 to let the shell know it didn't run successfully, as we expected more parameters.
 
-{% gist 5983671 get-subcommand.sh %}
+{% highlight bash linespans %}
+local subcommand="$1"; shift
+{% endhighlight %}
 
 The next line does two things again.  You can do more than one thing per line in bash by separating with a semi-colon.  If you put them one per line you don't need the semi-colon.  First, we define a local variable called `subcommand`, hence, the `local`, and then we're assigning the first parameter passed to our script into that variable.
 
@@ -118,11 +170,22 @@ If we then called `shift` but this time passed in the number 2, like so: `shift 
 
 You'll notice the script name always remains in `$0`, this is important for later.
 
-{% gist 5983671 test-for-version-or-help.sh %}
+{% highlight bash linespans %}
+case $subcommand in
+    "-h"|"--help")
+        usage; exit 0
+        ;;
+    "-v"|"--version")
+        version; exit 0
+        ;;
+esac
+{% endhighlight %}
 
 Next we use a standard case statement to check whether the subcommand we just set is equal to `-h`, `--help`, `-v` or `--version`.  As per our spec above, each of these should run a specific function.  If we find a match we simply run the correct function and exit with 0, which means that we ran successfully.  the `;;` below each set of commands is the equivalent of `break` in PHP and tells the shell to not continue checking the rest of the case statement.
 
-{% gist 5983671 get-working-dir.sh %}
+{% highlight bash linespans %}
+local workingdir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+{% endhighlight %}
 
 This next snippet gets our working directory.  We need this so we know where to look for our sub-command files, as they should be in the same directory as the script we're running.
 
@@ -132,21 +195,33 @@ The bash function we're calling is dirname, which like the PHP equivalent takes 
 
 As we mentioned earlier, when you run a bash script the script name gets passed into the script in the variable `$0`, so running `$(dirname $0)` should give us what we're after, however, that's not so great for our windows users (e.g. cygwin), as the path separator will be the wrong way around.  Therefore, we nest another `$(...)` call where we echo out the value of `$0`, pipe the output into the `sed` command, and replace all backslashes with forward slashes.  We then take the output of that (captured by the nested `$(...)`) and pass it back into dirname, and then assign the captured output of that to the `workingdir` variable.
 
-{% gist 5983671 check-file-exists.sh %}
+{% highlight bash linespans %}
+if [ ! -e "$WORKINGDIR/git-adamcodes-$subcommand" ]; then
+    usage; exit 1
+fi
+{% endhighlight %}
 
 Next, we're simply checking to see if the file for the subcommand exists.  We're expecting the files to be in the same directory as our current file, and to be named in the format `git-namespace-subcommand`.  If we don't find it, we need to print out our usage info and exit with an error status.  If we do, we can simply carry on.
 
-{% gist 5983671 load-file.sh %}
+{% highlight bash linespans %}
+source "$WORKINGDIR/git-adamcodes-$subcommand"
+{% endhighlight %}
 
 `source` is a built-in command that will run a file inside the current shell.  That means it will load all functions and variables from that file and they will be available throughout the shell.  Anything that this script executes will also execute, it's exactly the same as running the file yourself.
 
 This means we can put our sub-commands in their own files, with their own variables, but not run them, just make them accessible when we need them.  Think of this like a PHP `include`.
 
-{% gist 5983671 make-sure-file-includes-subcommand.sh %}
+{% highlight bash linespans %}
+if [ ! type "cmd_$subcommand" ]; then
+    usage; exit 1
+fi
+{% endhighlight %}
 
 Now we've loaded the file, we should have the sub-command function available to execute, so we test to make sure it exists.  If it doesn't there's obviously something wrong, so do our standard "print usage information and error exit status" step.  This actually produces some output we have to do something about, so we do some bash trickery and redirect it into `/dev/null`, which is basically a black hole for anything you don't want.
 
-{% gist 5983671 run-command.sh %}
+{% highlight bash linespans %}
+cmd_$subcommand "$@"
+{% endhighlight %}
 
 Finally we get down to it.  This step runs our sub-command and passes in our `$0...$n` variables as function parameters.  We expect our sub-command's main function to be called `cmd_subcommand` where _subcommand_ is the name of the sub-command you want to type to run it.  If we also called them `main` we'd end up with a conflict with our existing main function.
 
@@ -154,13 +229,61 @@ The reason we used `shift` earlier is so that we can write our sub-commands with
 
 Now we've built up our `main` function it won't run on its own, we need to actually call it and pass in our `$0...$n` variables.  To do that, we just do the same as above, but call main instead:
 
-{% gist 5983671 runit.sh %}
+{% highlight bash linespans %}
+main "$@"
+{% endhighlight %}
 
 ####Pulling it all Together
 
 Finally, bringing it all together our plugin's main file should look like this:
 
-{% gist 5983671 git-adamcodes.sh %}
+{% highlight bash linespans %}
+#!/usr/bin/env sh
+
+usage() {
+    echo "usage: git adamcodes <subcommand>"
+    echo
+    echo "Available subcommands are:"
+    echo "hello <name>  Print out Hello World or Hello <name> (if provided)"
+}
+
+version() {
+    echo "adamcodes git plugin v0.1.0"
+    echo
+}
+
+main() {
+    if [ "$#" -lt 1 ]; then
+        usage; exit 1
+    fi
+
+    local subcommand="$1"; shift
+
+    case $subcommand in
+        "-h"|"--help")
+            usage; exit 0
+            ;;
+        "-v"|"--version")
+            version; exit 0
+            ;;
+    esac
+
+    local workingdir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+    if [ ! -e "$workingdir/git-adamcodes-$subcommand" ]; then
+        usage; exit 1
+    fi
+
+    source "$workingdir/git-adamcodes-$subcommand"
+
+    if [ ! type "cmd_$subcommand" ]; then
+        usage; exit 1
+    fi
+
+    cmd_$subcommand "$@"
+}
+
+main "$@"
+{% endhighlight %}
 
 In [part 2](/2013/07/19/how-to-create-git-plugin-part2.html) I go on to create our hello sub-command, and show you how to write a makefile and use make so installing and removing your add-on becomes really simple.  Make sure you subscribe to my feed so you don't miss it!
 

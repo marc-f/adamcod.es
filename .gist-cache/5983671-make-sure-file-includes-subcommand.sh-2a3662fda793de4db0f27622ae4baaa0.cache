@@ -1,3 +1,0 @@
-if [ ! type "cmd_$subcommand" ]; then
-    usage; exit 1
-fi

@@ -1,4 +1,12 @@
-exclude: [".git", "deploy.sh"]
+exclude: [
+    ".git",
+    "deploy.sh",
+    ".gitignore",
+    ".ruby-version",
+    "bower.json",
+    "Gemfile",
+    "Gemfile.lock"
+]
 
 markdown: kramdown
 

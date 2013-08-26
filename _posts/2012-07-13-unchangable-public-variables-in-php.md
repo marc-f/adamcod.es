@@ -16,7 +16,37 @@ Obviously, the easiest (and probably correct/best) way to do this is to add a ge
 
 This trick involves using PHP's magic methods and looks like this:
 
-{% gist 3104351 MagicPublicProperty.php %}
+{% highlight php linespans %}
+<?php
+
+class MagicPublicProperty
+{
+    protected $_primaryKey = 'id';
+
+    public function __set($property, $value)
+    {
+        if($property == 'primaryKey') {
+            $name = get_class($this);
+            throw new Exception("Unable to set property `{$property}` on"
+            . " objects of type `{$name}`");
+        }
+    }
+
+    public function __get($property)
+    {
+        if($property == 'primaryKey' && isset($this->_primaryKey)) {
+            return $this->_primaryKey;
+        }
+    }
+
+    public function __isset($property)
+    {
+        if($property == 'primaryKey') {
+            return isset($this->_primaryKey);
+        }
+    }
+}
+{% endhighlight %}
 
 Here we have a protected property that is obviously only accessible to instances of this class or child classes.
 
@@ -32,8 +62,61 @@ Make it public (duh).
 
 Here are some quick tests to prove it's working as expected:
 
-{% gist 3104351 tests.php %}
+{% highlight php linespans %}
+<?php
 
+require_once __DIR__ . '/MagicPublicProperty.php';
+
+$test = new MagicPublicProperty;
+
+/*
+Added the following methods to MagicPublicProperty for the below tests:
+
+    public function changePrimaryKey() {
+        $this->_primaryKey = array(
+            'foreign_key_1',
+            'foreign_key_2'
+        );
+    }
+
+    public function removePrimaryKey() {
+        unset($this->_primaryKey);
+    }
+
+*/
+
+test(isset($test->primaryKey), 'Is set');
+
+test($test->primaryKey == 'id', 'Is accessible');
+
+test(function() use ($test) {
+    $test->changePrimaryKey();
+    return is_array($test->primaryKey);
+}, 'Is internally changeable');
+
+test(function() use ($test) {
+    try {
+        $test->primaryKey = 'somethingelse';
+    } catch (Exception $e) {
+        return true;
+    }
+
+    return false;
+}, 'Exception if set');
+
+function test($c,$m) {
+    $c = (is_callable($c)) ? $c() : $c;
+    if($c) {
+        echo "$m: Passed\n";
+    } else {
+        echo "$m: Failed\n";
+    }
+}
+echo "\n\n";
+{% endhighlight %}
 and the results:
 
-{% gist 3104351 results %}
+    Is set: Passed
+    Is accessible: Passed
+    Is internally changeable: Passed
+    Exception if set: Passed

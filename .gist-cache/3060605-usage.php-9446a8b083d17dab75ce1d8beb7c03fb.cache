@@ -1,7 +1,0 @@
-<?php
-
-$imagine = new Imagine\Gd\Imagine();
-$filter  = new CircleThumbnailFilter($imagine, new Imagine\Image\Box(100, 100));
-
-$filter->apply($imagine->open('/path/to/square/image.jpg'))
-    ->save('/path/to/circle/image.png');

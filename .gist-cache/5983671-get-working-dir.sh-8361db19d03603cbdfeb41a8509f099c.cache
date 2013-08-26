@@ -1,1 +1,0 @@
-local workingdir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")

@@ -1,7 +1,0 @@
-git add .
-git commit -a -m 'WIP'
-...
-<codecodecode>
-...
-git add .
-git commit --amend

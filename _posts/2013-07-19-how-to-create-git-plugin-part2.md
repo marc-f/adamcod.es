@@ -21,7 +21,33 @@ During part 1, we created our runner to work using convention over configuration
 
 Now to begin writing our subcommand, create a file at the same level as your `git-adamcodes` file and name it `git-adamcodes-hello`.  In that file, you'll need the following:
 
-{% gist 5983671 git-adamcodes-hello.sh %}
+{% highlight bash linespans %}
+#!/usr/bin/env sh
+
+usage() {
+    echo "usage: git adamcodes hello [name]"
+    echo
+}
+
+cmd_hello() {
+    if [ "$#" -lt 1 ]; then
+        say_hello World; exit 0
+    elif [ "$#" -eq 1 ]; then
+        if [ $1 == "help" ]; then
+            usage; exit 0
+        fi
+
+        say_hello $1; exit 0
+    fi
+
+    usage; exit 1
+}
+
+say_hello() {
+    echo "Hello ${1}"
+    echo
+}
+{% endhighlight %}
 
 I'll go over this quickly, as it's fairly basic and it should be obvious what it does.  Line 1 is our hashbang, and lines 3-6 define our usage function, which is just echoing out some strings.  The empty echo is an easy way to create a newline.
 
@@ -55,17 +81,48 @@ Make is basically a build system like Phing or ApacheAnt, but it works with bash
 
 Make starts with a bunch of build-targets (or functions) that are defined like so:
 
-{% gist 5983671 make-targets %}
+{% highlight make linespans %}
+all:
+  dothis
+  thenthis
+
+install:
+  dothis
+  andthenthis
+
+uninstall:
+  ...
+{% endhighlight %}
 
 Each target is on it's own line, and it's the target named follow by a colon.  `all:` is a the target that is run when you don't specify another target, so it's a good place to either build your whole app, or in our case, show a help message.
 
 Each line below the target is a command to run.  Whitespace is important here, each line indented by a tab character tells make that's a shell command it should run.
 
-{% gist 5983671 make-variables %}
+{% highlight make linespans %}
+DIRECTORY = /usr/local/bin
+{% endhighlight %}
 
 Make also has the concept of variables, but unlike shell or bash, whitespace is not important here, you can have as many spaces you like either side of the equals sign.
 
-{% gist 5983671 Makefile %}
+{% highlight make linespans %}
+BIN_DIR   = /usr/local/bin
+LOADER    = git-adamcodes
+COMMANDS  = git-adamcodes-hello
+COMMNADS += git-adamcodes-anothercommand
+
+all:
+    @echo "usage: make [install|uninstall]"
+
+install:
+    install -d -m 0755 $(BIN_DIR)
+    install -m 0755 $(LOADER) $(BIN_DIR)
+    install -m 0644 $(COMMANDS) $(BIN_DIR)
+
+uninstall:
+    test -d $(BIN_DIR) && \
+    cd $(BIN_DIR) && \
+    rm -f $(LOADER) $(COMMANDS)
+{% endhighlight %}
 
 Finally, this is our complete makefile for our plugin.  It should live in the same directory as our plugin files, and it should be named `Makefile` (capitalisation is important).
 

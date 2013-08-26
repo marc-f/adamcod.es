@@ -82,27 +82,31 @@ Ok.  We have our cookbooks.  Now we need to add a role so Chef knows which ones 
 
 So, create `roles/vagrant-test-box.rb` and add the following:
 
-    # Name of the role should match the name of the file
-    name "vagrant-test-box"
+{% highlight ruby linespans %}
+# Name of the role should match the name of the file
+name "vagrant-test-box"
 
-    # Run list function we mentioned earlier
-    run_list(
-        "recipe[apt]",
-        "recipe[apache2]",
-        "recipe[mysql]",
-        "recipe[php]"
-    )
+# Run list function we mentioned earlier
+run_list(
+    "recipe[apt]",
+    "recipe[apache2]",
+    "recipe[mysql]",
+    "recipe[php]"
+)
+{% endhighlight %}
 
 That's it.  Done.  Now lets briefly go back to the Vagrantfile we created in part1:
 
-    # Enable provisioning with chef solo, specifying a cookbooks path, roles
-    # path, and data_bags path (all relative to this Vagrantfile), and adding
-    # some recipes and/or roles.
-    config.vm.provision :chef_solo do |chef|
-        chef.roles_path = "../chef/roles"
-        chef.cookbooks_path = ["../chef/site-cookbooks", "../chef/cookbooks"]
-        chef.add_role "vagrant-test-box"
-    end
+{% highlight ruby linespans %}
+# Enable provisioning with chef solo, specifying a cookbooks path, roles
+# path, and data_bags path (all relative to this Vagrantfile), and adding
+# some recipes and/or roles.
+config.vm.provision :chef_solo do |chef|
+    chef.roles_path = "../chef/roles"
+    chef.cookbooks_path = ["../chef/site-cookbooks", "../chef/cookbooks"]
+    chef.add_role "vagrant-test-box"
+end
+{% endhighlight %}
 
 See that bit at the bottom.  That's how vagrant knows to use Chef, and where to find your cookbooks.  If you've stored your cookbooks somewhere other than where I've suggested, update the paths here, otherwise, let's update the role to "vagrant-test-box", as that's what we just created, and then go back to your application root and run `vagrant up`.
 
@@ -120,21 +124,25 @@ MySQL Server isn't installed?? Why??  Lets take a look at the cookbook.
 
 When you add a cookbook to your run list as we did above, Chef will run the default recipe, which can be found in `recipes/default.rb`.  So let's take a look at `cookbooks/mysql/recipes/default.rb` and see what's going on.
 
-    include_recipe "mysql::client"
+{% highlight ruby %}
+include_recipe "mysql::client"
+{% endhighlight %}
 
 Right.  We installed the MySQL Client, but not MySQL Server.  The astute amongst you will have spotted another file in `cookbooks/mysql/recipes` called `server.rb`.  A cookbook can contain multiple recipes, and by default the MySQL cookbook only installs the MySQL Client, to install the server we also need to add the MySQL Server recipe to our run list.  You specify a recipe inside a cookbook other than the default using the `::` syntax you can see above.  Lets modify our `vagrant-test-box` role to look like this:
 
-    # Name of the role should match the name of the file
-    name "vagrant-test-box"
+{% highlight ruby linespans %}
+# Name of the role should match the name of the file
+name "vagrant-test-box"
 
-    # Run list function we mentioned earlier
-    run_list(
-        "recipe[apt]",
-        "recipe[apache2]",
-        "recipe[mysql]",
-        "recipe[mysql::server]",
-        "recipe[php]"
-    )
+# Run list function we mentioned earlier
+run_list(
+    "recipe[apt]",
+    "recipe[apache2]",
+    "recipe[mysql]",
+    "recipe[mysql::server]",
+    "recipe[php]"
+)
+{% endhighlight %}
 
 We've left the default MySQL recipe in there as we're going to need the MySQL Client to administer our server.
 
@@ -151,14 +159,16 @@ Great, It looks like only `mysql::server` has any dependencies.  Apache2 has som
 
 Now let's add it to our run list before `mysql::server`:
 
-    run_list(
-        "recipe[apt]",
-        "recipe[openssl]",
-        "recipe[apache2]",
-        "recipe[mysql]",
-        "recipe[mysql::server]",
-        "recipe[php]"
-    )
+{% highlight ruby linespans %}
+run_list(
+    "recipe[apt]",
+    "recipe[openssl]",
+    "recipe[apache2]",
+    "recipe[mysql]",
+    "recipe[mysql::server]",
+    "recipe[php]"
+)
+{% endhighlight %}
 
 I've added it to just after apt for neatness.  You can add it anywhere you want before `mysql::server`.
 
@@ -172,55 +182,63 @@ Oh no... another cryptic error.  The key line here is:
 
 We forgot to set our root password so we can login to the server, and Chef knows it, so it won't let us proceed without it.  Now we need to learn about `override_attributes`.
 
-    override_attributes(
-        "mysql" => {
-            "server_root_password" => 'iloverandompasswordsbutthiswilldo',
-            "server_repl_password" => 'iloverandompasswordsbutthiswilldo',
-            "server_debian_password" => 'iloverandompasswordsbutthiswilldo'
-        }
-    )
+{% highlight ruby linespans %}
+override_attributes(
+    "mysql" => {
+        "server_root_password" => 'iloverandompasswordsbutthiswilldo',
+        "server_repl_password" => 'iloverandompasswordsbutthiswilldo',
+        "server_debian_password" => 'iloverandompasswordsbutthiswilldo'
+    }
+)
+{% endhighlight %}
 
 Not massively scary.  Put this in your `vagrant-test-box.rb` role before your run list.  This function allows you to override some defaults setup in the cookbooks on a per-role basis.  Nothing too difficult, it is again often documented in the cookbook's README, or is fairly easy to find by searching the cookbooks's templates or recipes for things like:
 
-    node['apache']['log_dir']
+{% highlight ruby %}
+node['apache']['log_dir']
+{% endhighlight %}
 
 That's a fairly good indication we can overwrite that attribute in our role by adding the key to our override attributes function call:
 
-    override_attributes(
-        "apache" => {
-            "log_dir" => "/srv/logs" # new attribute overridden
-        },
-        "mysql" => {
-            "server_root_password" => 'iloverandompasswordsbutthiswilldo',
-            "server_repl_password" => 'iloverandompasswordsbutthiswilldo',
-            "server_debian_password" => 'iloverandompasswordsbutthiswilldo'
-        }
-    )
+{% highlight ruby linespans %}
+override_attributes(
+    "apache" => {
+        "log_dir" => "/srv/logs" # new attribute overridden
+    },
+    "mysql" => {
+        "server_root_password" => 'iloverandompasswordsbutthiswilldo',
+        "server_repl_password" => 'iloverandompasswordsbutthiswilldo',
+        "server_debian_password" => 'iloverandompasswordsbutthiswilldo'
+    }
+)
+{% endhighlight %}
 
 Ok, don't add that to your role for real, as we haven't created that directory so it will cause an error.
 
 Now your role should look like this:
 
-    # Name of the role should match the name of the file
-    name "vagrant-test-box"
+{% highlight ruby linespans %}
+# Name of the role should match the name of the file
+name "vagrant-test-box"
 
-    override_attributes(
-        "mysql" => {
-            "server_root_password" => 'iloverandompasswordsbutthiswilldo',
-            "server_repl_password" => 'iloverandompasswordsbutthiswilldo',
-            "server_debian_password" => 'iloverandompasswordsbutthiswilldo'
-        }
-    )
+override_attributes(
+    "mysql" => {
+        "server_root_password" => 'iloverandompasswordsbutthiswilldo',
+        "server_repl_password" => 'iloverandompasswordsbutthiswilldo',
+        "server_debian_password" => 'iloverandompasswordsbutthiswilldo'
+    }
+)
 
-    # Run list function we mentioned earlier
-    run_list(
-        "recipe[apt]",
-        "recipe[openssl]",
-        "recipe[apache2]",
-        "recipe[mysql]",
-        "recipe[mysql::server]",
-        "recipe[php]"
-    )
+# Run list function we mentioned earlier
+run_list(
+    "recipe[apt]",
+    "recipe[openssl]",
+    "recipe[apache2]",
+    "recipe[mysql]",
+    "recipe[mysql::server]",
+    "recipe[php]"
+)
+{% endhighlight %}
 
 Save the file and run another `vagrant provision`.
 
@@ -262,16 +280,18 @@ We're getting there.
 
 Visit www.example.vm/info.php or 192.168.33.33/info.php to see if it works.  Damn, it downloaded the file.  Ok.  A quick look through the recipes in the Apache2 cookbook shows a `mod_php5` recipe.  We probably need to add that, so lets add it to our run list and try again:
 
-    # Run list function we mentioned earlier
-    run_list(
-        "recipe[apt]",
-        "recipe[openssl]",
-        "recipe[apache2]",
-        "recipe[apache2::mod_php5]",
-        "recipe[mysql]",
-        "recipe[mysql::server]",
-        "recipe[php]"
-    )
+{% highlight ruby linespans %}
+# Run list function we mentioned earlier
+run_list(
+    "recipe[apt]",
+    "recipe[openssl]",
+    "recipe[apache2]",
+    "recipe[apache2::mod_php5]",
+    "recipe[mysql]",
+    "recipe[mysql::server]",
+    "recipe[php]"
+)
+{% endhighlight %}
 
 Now run `vagrant provision` and try to load the info file in our browser again when it's finished.
 
@@ -294,17 +314,19 @@ Success!  But a quick scan of the `info.php` output shows the MySQL section is m
 
 Nothing.  Let's check the PHP cookbook.  There's a `module_mysql` recipe! Excellent.  Are you spotting another pattern here?  Nothing is enabled by default with the opscode cookbooks, if it's optional, you have to specify it.
 
-    # Run list function we mentioned earlier
-    run_list(
-        "recipe[apt]",
-        "recipe[openssl]",
-        "recipe[apache2]",
-        "recipe[apache2::mod_php5]",
-        "recipe[mysql]",
-        "recipe[mysql::server]",
-        "recipe[php]",
-        "recipe[php::module_mysql]"
-    )
+{% highlight ruby linespans %}
+# Run list function we mentioned earlier
+run_list(
+    "recipe[apt]",
+    "recipe[openssl]",
+    "recipe[apache2]",
+    "recipe[apache2::mod_php5]",
+    "recipe[mysql]",
+    "recipe[mysql::server]",
+    "recipe[php]",
+    "recipe[php::module_mysql]"
+)
+{% endhighlight %}
 
 Now run `vagrant provision` again.
 
@@ -321,26 +343,28 @@ I know I said we wouldn't need them, but to get our virtual host to point at our
 
 This may or may not be the _right_ way to do this, but I know it works so it's how I'm going to do it until I find a better way.  Create a directory in `chef/site-cookbooks` called `apache2`.  Inside there, create another directory called `recipes`.  Now add a file called `vhosts.rb` with the content:
 
-    #
-    # Cookbook Name:: apache2
-    # Recipe:: vhosts
-    #
-    # Copyright 2012, Adam Brett. All Rights Reserved.
-    #
-    # Unless required by applicable law or agreed to in writing, software
-    # distributed under the License is distributed on an "AS IS" BASIS,
-    # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    # See the License for the specific language governing permissions and
-    # limitations under the License.
-    #
-    include_recipe "apache2"
+{% highlight ruby linespans %}
+#
+# Cookbook Name:: apache2
+# Recipe:: vhosts
+#
+# Copyright 2012, Adam Brett. All Rights Reserved.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+include_recipe "apache2"
 
-    web_app "example" do
-      server_name "www.example.vm"
-      server_aliases ["example.vm"]
-      allow_override "all"
-      docroot "/srv/site/"
-    end
+web_app "example" do
+  server_name "www.example.vm"
+  server_aliases ["example.vm"]
+  allow_override "all"
+  docroot "/srv/site/"
+end
+{% endhighlight %}
 
 Remember how in our `Vagrantfile` we told Vagrant to mount the current directory at `/srv/site`?  That's so our source code was available in the VM.
 
@@ -352,18 +376,20 @@ The `web_app` LWRP (or function) is defined in `cookbooks/apache2/definitions/we
 
 You include your own recipes in the run list exactly as you would a normal one, so lets add ours:
 
-    # Run list function we mentioned earlier
-    run_list(
-        "recipe[apt]",
-        "recipe[openssl]",
-        "recipe[apache2]",
-        "recipe[apache2::mod_php5]",
-        "recipe[mysql]",
-        "recipe[mysql::server]",
-        "recipe[php]",
-        "recipe[php::module_mysql]",
-        "recipe[apache2::vhosts]"
-    )
+{% highlight ruby linespans %}
+# Run list function we mentioned earlier
+run_list(
+    "recipe[apt]",
+    "recipe[openssl]",
+    "recipe[apache2]",
+    "recipe[apache2::mod_php5]",
+    "recipe[mysql]",
+    "recipe[mysql::server]",
+    "recipe[php]",
+    "recipe[php::module_mysql]",
+    "recipe[apache2::vhosts]"
+)
+{% endhighlight %}
 
 Now run `vagrant provision` again, and visit www.example.vm in your browser.
 
@@ -371,13 +397,15 @@ Now run `vagrant provision` again, and visit www.example.vm in your browser.
 
 Success!  Any index.html you have in your application root should now be loaded in your browser.  If you need to load an `index.php` or something else, add the `directory_index` paramter to the web_app LWRP call.
 
-    web_app "example" do
-      server_name "www.example.vm"
-      server_aliases ["example.vm"]
-      directory_index ["index.html", "index.php"]
-      allow_override "all"
-      docroot "/srv/site/"
-    end
+{% highlight ruby linespans %}
+web_app "example" do
+  server_name "www.example.vm"
+  server_aliases ["example.vm"]
+  directory_index ["index.html", "index.php"]
+  allow_override "all"
+  docroot "/srv/site/"
+end
+{% endhighlight %}
 
 So we're pretty close.  All that's left now to have something _really_ useful is to import our database schema.
 
@@ -392,21 +420,23 @@ The `database` cookbook recipe `mysql` has a dependency on the `build-essential`
 
 Now add the database::mysql recipe, build-essential default recipe, and another custom one we're about to create to your run list.
 
-    # Run list function we mentioned earlier
-    run_list(
-        "recipe[apt]",
-        "recipe[build-essential]",
-        "recipe[openssl]",
-        "recipe[apache2]",
-        "recipe[apache2::mod_php5]",
-        "recipe[mysql]",
-        "recipe[mysql::server]",
-        "recipe[php]",
-        "recipe[php::module_mysql]",
-        "recipe[apache2::vhosts]",
-        "recipe[database::mysql]",
-        "recipe[database::import]"
-    )
+{% highlight ruby linespans %}
+# Run list function we mentioned earlier
+run_list(
+    "recipe[apt]",
+    "recipe[build-essential]",
+    "recipe[openssl]",
+    "recipe[apache2]",
+    "recipe[apache2::mod_php5]",
+    "recipe[mysql]",
+    "recipe[mysql::server]",
+    "recipe[php]",
+    "recipe[php::module_mysql]",
+    "recipe[apache2::vhosts]",
+    "recipe[database::mysql]",
+    "recipe[database::import]"
+)
+{% endhighlight %}
 
 Now let's setup that custom recipe.  Bear in mind, there is probably a _correct_ way to do this.  I'm not aware of it, and this way _works_:
 
@@ -414,47 +444,49 @@ Now let's setup that custom recipe.  Bear in mind, there is probably a _correct_
 
 Then add `import.rb` in your newly created directory with the following content:
 
-    #
-    # Cookbook Name:: database
-    # Recipe:: import
-    #
-    # Copyright 2012, Adam Brett. All Rights Reserved.
-    #
-    # Unless required by applicable law or agreed to in writing, software
-    # distributed under the License is distributed on an "AS IS" BASIS,
-    # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    # See the License for the specific language governing permissions and
-    # limitations under the License.
-    #
-    include_recipe "database::mysql"
+{% highlight ruby linespans %}
+#
+# Cookbook Name:: database
+# Recipe:: import
+#
+# Copyright 2012, Adam Brett. All Rights Reserved.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+include_recipe "database::mysql"
 
-    # Store this in a variable so we don't keep repeating it
-    mysql_connection_info = {
-        :host => "localhost",
-        :username => 'root',
-        # automatically get this from the override_attributes call!
-        :password => node['mysql']['server_root_password']
-    }
+# Store this in a variable so we don't keep repeating it
+mysql_connection_info = {
+    :host => "localhost",
+    :username => 'root',
+    # automatically get this from the override_attributes call!
+    :password => node['mysql']['server_root_password']
+}
 
-    # my_database = database name
-    mysql_database 'my_database' do
-      connection mysql_connection_info
-      action :create
-    end
+# my_database = database name
+mysql_database 'my_database' do
+  connection mysql_connection_info
+  action :create
+end
 
-    # import an sql dump from your app_root/data/dump.sql to the my_database database
-    execute "import" do
-      command "mysql -u root -p\"#{node['mysql']['server_root_password']}\" my_database < /srv/site/data/dump.sql"
-      action :run
-    end
+# import an sql dump from your app_root/data/dump.sql to the my_database database
+execute "import" do
+  command "mysql -u root -p\"#{node['mysql']['server_root_password']}\" my_database < /srv/site/data/dump.sql"
+  action :run
+end
 
-    # this isn't really necessary, as we're using root and not creating a database
-    # user, but I'm including it and commenting it out so you can see what it looks like
-    # mysql_database_user 'my_user' do
-    #  connection mysql_connection_info
-    #  database_name 'my_database'
-    #  action :grant
-    # end
+# this isn't really necessary, as we're using root and not creating a database
+# user, but I'm including it and commenting it out so you can see what it looks like
+# mysql_database_user 'my_user' do
+#  connection mysql_connection_info
+#  database_name 'my_database'
+#  action :grant
+# end
+{% endhighlight %}
 
 Now, make sure the database dump exists, and run `vagrant provision`.
 
@@ -464,47 +496,50 @@ Again!
 
 It turns out that there is some weirdness with Chef and build-essential and Ruby Gems (which is what gives us the database LWRPs).  A quick scan of the build-essential README reveals we need to add:
 
-    default_attributes(
-        "build_essential" => {
-            "compiletime" => true
-        }
-    )
+{% highlight ruby linespans %}
+default_attributes(
+    "build_essential" => {
+        "compiletime" => true
+    }
+)
+{% endhighlight %}
 
 to our role definition.  Go ahead and do that, so the whole thing should look like this:
 
-    # Name of the role should match the name of the file
-    name "vagrant-test-box"
+{% highlight ruby linespans %}
+# Name of the role should match the name of the file
+name "vagrant-test-box"
 
-    default_attributes(
-        "build_essential" => {
-            "compiletime" => true
-        }
-    )
+default_attributes(
+    "build_essential" => {
+        "compiletime" => true
+    }
+)
 
-    override_attributes(
-        "mysql" => {
-            "server_root_password" => 'iloverandompasswordsbutthiswilldo',
-            "server_repl_password" => 'iloverandompasswordsbutthiswilldo',
-            "server_debian_password" => 'iloverandompasswordsbutthiswilldo'
-        }
-    )
+override_attributes(
+    "mysql" => {
+        "server_root_password" => 'iloverandompasswordsbutthiswilldo',
+        "server_repl_password" => 'iloverandompasswordsbutthiswilldo',
+        "server_debian_password" => 'iloverandompasswordsbutthiswilldo'
+    }
+)
 
-    # Run list function we mentioned earlier
-    run_list(
-        "recipe[apt]",
-        "recipe[build-essential]",
-        "recipe[openssl]",
-        "recipe[apache2]",
-        "recipe[apache2::mod_php5]",
-        "recipe[mysql]",
-        "recipe[mysql::server]",
-        "recipe[php]",
-        "recipe[php::module_mysql]",
-        "recipe[apache2::vhosts]",
-        "recipe[database::mysql]",
-        "recipe[database::import]"
-    )
-
+# Run list function we mentioned earlier
+run_list(
+    "recipe[apt]",
+    "recipe[build-essential]",
+    "recipe[openssl]",
+    "recipe[apache2]",
+    "recipe[apache2::mod_php5]",
+    "recipe[mysql]",
+    "recipe[mysql::server]",
+    "recipe[php]",
+    "recipe[php::module_mysql]",
+    "recipe[apache2::vhosts]",
+    "recipe[database::mysql]",
+    "recipe[database::import]"
+)
+{% endhighlight %}
 
 Then run it again: `vagrant provision`.
 

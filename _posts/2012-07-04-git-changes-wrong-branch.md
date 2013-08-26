@@ -20,7 +20,9 @@ However thanks to git we can simply checkout the correct branch, and and our unt
 
 First, make sure all of your *feature* changes are committed to the correct branch (but *not* the fixes you want to move!), then:
 
-{% gist 3047748 checkout.sh %}
+{% highlight bash %}
+git checkout <branch>
+{% endhighlight %}
 
 Be sure to replace `<branch>` with the name of the branch you actually want to commit to.
 
@@ -28,15 +30,21 @@ Be sure to replace `<branch>` with the name of the branch you actually want to c
 
 If you've already committed your changes, you need to do a SOFT reset. A soft reset will put your changes back into the index, instead of destroying them like a HARD reset would:
 
-{% gist 3047748 soft-reset.sh %}
+{% highlight bash %}
+git reset --soft HEAD^
+{% endhighlight %}
 
 A quick note here, the ^ is the number of commits to roll-back, so if you wanted to go back 2 commits, you'd use:
 
-{% gist 3047748 soft-reset-2.sh %}
+{% highlight bash %}
+git reset --soft HEAD^^
+{% endhighlight %}
 
 and for 3 commits
 
-{% gist 3047748 soft-reset-3.sh %}
+{% highlight bash %}
+git reset --soft HEAD^^^
+{% endhighlight %}
 
 and so on... then you can run the [checkout](#if-youve-not-committed-yet) command above.
 
@@ -44,7 +52,9 @@ and so on... then you can run the [checkout](#if-youve-not-committed-yet) comman
 
 If the changes you want to move will conflict with something on the branch you're moving to git will simply refuse to checkout the new branch.  In this instance you want to use the stash-checkout-pop command like so:
 
-{% gist 3047748 stash-checkout-pop.sh %}
+{% highlight bash %}
+git stash && git checkout <branch> && git stash pop
+{% endhighlight %}
 
 This will stash the changes so you have nothing to move, then checkout the new branch (as with nothing to move there can be no conflicts), and finally pop the stashed changes into the new branch ready for committing.
 

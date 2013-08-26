@@ -9,10 +9,16 @@ This is a really easy to fix error that occurs in a very specific situation.  Na
 
 It's happening because of a missing options array on the `beforeSave` method you added to the User model.  Simply change:
 
-```public function beforeSave() {```
+{% highlight php linespans %}
+<?php
+    public function beforeSave() {
+{% endhighlight %}
 
 to
 
-```function beforeSave($options = array()) {```
+{% highlight php linespans %}
+<?php
+    function beforeSave($options = array()) {
+{% endhighlight %}
 
 and make sure that you call `parent::beforeSave($options)` somewhere in your method definition.

@@ -33,7 +33,46 @@ Only problem, that makes coding the thumbnails a lot harder.  Our users aren't g
 
 Having read about Imagine, it had peaked my interested, and I'd wanted to use it on a project for a while.  It turns out that creating a circle thumbnail with Imagine is actually really easy.  Much like most custom things in Imagine, you want to create a filter, I called mine `CircleThumbnailFilter` (original, I know).  It looks like this:
 
-{% gist 3060605 CircleThumbnailFilter.php %}
+{% highlight php linespans %}
+<?php
+class CircleThumbnailFilter implements Imagine\Filter\FilterInterface
+{
+    private $imagine;
+
+    public function __construct(Imagine\Image\ImagineInterface $imagine,
+        Imagine\Image\BoxInterface $size)
+    {
+        $this->imagine = $imagine;
+        $this->size = $size;
+    }
+
+    public function apply(Imagine\Image\ImageInterface $image)
+    {
+        // create a thumbnail
+        $thumbnail = $image->thumbnail(
+            $this->size,
+            Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND
+        );
+
+        // create a new image to hold our mask
+        // make the background white
+        $mask = $this->imagine->create($this->size, new Imagine\Image\Color('fff'));
+
+        // draw a black circle at the center of our new image
+        // use $this->size to make it full width and height
+        $mask->draw()
+            ->ellipse(
+                new Imagine\Image\Point\Center($this->size),
+                $this->size,
+                new Imagine\Image\Color('000', 0),
+                true
+            );
+
+        // apply the mask to the thumbnail and return it
+        return $thumbnail->applyMask($mask);
+    }
+}
+{% endhighlight %}
 
 The constructor is fairly self explanatory, it takes an instance of your imagine interface, and a box instance which is used to control the size of your thumbnail.
 
@@ -59,6 +98,14 @@ To use the filter, you need to include Imagine using [one of the methods in the 
 
 You will also need to autoload or require the CircleThumbnailFilter object somehow, you could put it in your app's namespace or just do it the old-school way with `require_once`.  Either way, when both are loaded, you can run the circle filter like so:
 
-{% gist 3060605 usage.php %}
+{% highlight php linespans %}
+<?php
+
+$imagine = new Imagine\Gd\Imagine();
+$filter  = new CircleThumbnailFilter($imagine, new Imagine\Image\Box(100, 100));
+
+$filter->apply($imagine->open('/path/to/square/image.jpg'))
+    ->save('/path/to/circle/image.png');
+{% endhighlight %}
 
 Make sure that no-matter what your input format (which isn't really important, Imagine should know what to do with most valid image formats), make sure you output it as something with transparency (preferably png).  Don't do what I did and spend 40 minutes wondering why the transparency mask wasn't applying when you were outputting as a jpg.

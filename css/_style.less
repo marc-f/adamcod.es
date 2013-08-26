@@ -17,6 +17,7 @@ CSS3 properties like border-radius and box-shadow
 and a handful of other purely visual properties
 */
 
+@import (less) "_monokai.css";
 @import "../bower_components/font-awesome/less/font-awesome.less";
 @FontAwesomePath: "../bower_components/font-awesome/font";
 
@@ -228,12 +229,20 @@ code:after {
     content: "`";
 }
 
-pre code:before,
-pre code:after {
-    color: @red;
+pre {
+    overflow-x: auto;
 
-    content: "";
-    content: normal;
+    code {
+        color: @backgroundColor;
+    }
+
+    code:before,
+    code:after {
+        color: @red;
+
+        content: "";
+        content: normal;
+    }
 }
 
 code {
@@ -387,6 +396,10 @@ sup {
     font-family: @sansFontFamily;
 }
 
+.embed {
+    margin-bottom: @baseLineHeight;
+}
+
 .footnotes {
     font-size: (@baseFontSize * 0.8);
 
@@ -445,12 +458,33 @@ sup {
     }
 }
 
-.embed {
+article {
     margin-bottom: @baseLineHeight;
 
     img {
         display: block;
         margin: 0 auto;
+    }
+}
+
+.highlight {
+    counter-reset: lines;
+
+    [id^="True-"] {
+
+        counter-increment: lines;
+    }
+
+    &:hover {
+        [id^="True-"]:before {
+            display: inline-block;
+            width: 2em;
+            margin-right: 1em;
+
+            text-align: right;
+
+            content: counter(lines);
+        }
     }
 }
 
@@ -496,7 +530,7 @@ footer a {
 ul,ol,dl,
 blockquote,p,address,
 table {
-    code {
+    > code {
         color: @red;
     }
 }

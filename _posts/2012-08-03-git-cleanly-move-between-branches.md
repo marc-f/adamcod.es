@@ -14,11 +14,29 @@ You're working on `feature/awesome-new-stuff` and have a whole bunch of changes 
 
 The simplest way to avoid this is to stash any changes before you move to another branch, this looks something like this:
 
-{% gist 3075876 quick-and-dirty.sh %}
+{% highlight bash linespans %}
+git stash
+git checkout develop
+git flow hotfix start <release>
+...
+<codecodecode>
+...
+git flow hotfix finish <release>
+git checkout feature/awesome-new-stuff
+git stash pop
+{% endhighlight %}
 
 However, if you find yourself doing this a lot, for a lot of different features and branches, this can get messy pretty quickly.  Instead, why not leverage the flexibility of git and just commit early and often, and simply amend as you go:
 
-{% gist 3075876 wip.sh %}
+{% highlight bash linespans %}
+git add .
+git commit -a -m 'WIP'
+...
+<codecodecode>
+...
+git add .
+git commit --amend
+{% endhighlight %}
 
 Because you are working locally in git commits can be undone and re-done at will, it's only when you push the commit to a central repository that you need to pay serious attention.
 
@@ -26,6 +44,9 @@ So create a work in progress commit, and then use `git commit --amend` to add to
 
 When you're ready for the real commit on a branch you can run:
 
-{% gist 3075876 finish.sh %}
+{% highlight bash linespans %}
+git reset --soft HEAD~
+git reset
+{% endhighlight %}
 
 The first reset will undo your last commit (the WIP commit), with the second reset un-staging the files.  You can now re-commit all of your changes paying more serious attention to your commit message.

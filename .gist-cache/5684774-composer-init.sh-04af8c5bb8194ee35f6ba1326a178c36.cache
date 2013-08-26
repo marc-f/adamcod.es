@@ -1,4 +1,0 @@
-cd ~/Projects
-mkdir zf-phpunit
-cd zf-phpunit
-composer init
