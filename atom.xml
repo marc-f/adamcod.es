@@ -4,13 +4,93 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-08-26T16:48:04+01:00</updated>
+  <updated>2013-08-27T15:49:16+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
     <email>adam@adambrett.co.uk</email>
   </author>
 
+  
+  <entry>
+    <id>http://adamcod.es/2013/08/27/one-thing-i-wish-i-knew-opscode-chef</id>
+    <link type="text/html" rel="alternate" href="http://adamcod.es/2013/08/27/one-thing-i-wish-i-knew-opscode-chef.html"/>
+    <title>The One Thing I Wish I Knew When Starting To Use Chef</title>
+    <published>2013-08-27T00:00:00+01:00</published>
+    <updated>2013-08-27T00:00:00+01:00</updated>
+    <author>
+      <name>Adam Brett</name>
+      <uri>http://adamcod.es/</uri>
+    </author>
+    
+    <content type="html">&lt;p&gt;After a couple of months playing with chef, writing my own recipes, consuming, extending, and fixing bugs in other recipes, creating numerous cookbooks for use with vagrant, and even a couple I’ve used to provision servers, there is one thing I’ve picked up that I wish I’d known more than anything when I wrote &lt;a href=&quot;http://adamcodes/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;Vagrant is easy - Chef is hard&lt;/a&gt;.  Chef has a package manager.&lt;/p&gt;
+
+&lt;h2 id=&quot;librarian-chef&quot;&gt;Librarian-Chef&lt;/h2&gt;
+
+&lt;p&gt;You don’t need to use git sub-modules to manage your cookbooks.  Librarian is a general purpose package manager for creating other packages managers similar to composer for PHP and bundler for Ruby.  Librarian comes with librarian-chef out of the box (although they say it will be separated out at some point) and that allows you to use a &lt;code&gt;Cheffile&lt;/code&gt; to manage your cookbook dependencies like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd /my/chef/project
+echo /cookbooks &amp;gt;&amp;gt; .gitignore
+echo /tmp &amp;gt;&amp;gt; .gitignore
+librarian-chef init
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You should now have a Cheffile at the root of your project.  You can then add cookbooks as dependencies and manage them with the commands &lt;code&gt;librarian-chef install&lt;/code&gt; and &lt;code&gt;librarian-chef update&lt;/code&gt;.  Librarian chef will create a lockfile, so use update and install &lt;a href=&quot;http://adamcodes/2013/03/07/composer-install-vs-composer-update.html&quot;&gt;the same way as you would with composer&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;A basic Cheffile for one of my CentOS 6.4 Vagrant VMs looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/env ruby&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#^syntax detection&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;site&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;http://community.opscode.com/api/v1&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;yum&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;build-essential&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;selinux&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;iptables&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;openssh&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;openssl&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;apache2&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;php&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;xdebug&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;:github&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;xforty/chef-xdebug&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;mysql&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;cookbook&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;database&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;There is some redundancy built in here, as Librarian-chef will recursively resolve cookbook dependencies for you, which I think it does via &lt;code&gt;metadata.rb&lt;/code&gt; (but don’t quote me on that).&lt;/p&gt;
+
+&lt;p&gt;The package names are the names of the packages as they appear on &lt;a href=&quot;http://community.opscode.com&quot;&gt;community.opscode.com&lt;/a&gt;, and you can include 3rd party cookbooks from github like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cookbook &#39;xdebug&#39;,
+    :github =&amp;gt; &#39;xforty/chef-xdebug&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Where &lt;code&gt;xforty/chef-xdebug&lt;/code&gt; is &lt;code&gt;github-username/repo-name&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;With your Cheffile in the root of your project you can run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;librarian-chef install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Which, much like &lt;code&gt;composer install&lt;/code&gt; in the PHP world, and &lt;code&gt;bundle install&lt;/code&gt; for Ruby, will go off to community.opscode.com and find the matching packages, and download them straight to the &lt;code&gt;./cookbooks&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;p&gt;Similarly, &lt;code&gt;librarian-chef update&lt;/code&gt; will update your cookbooks to the latest version and install any new ones you’ve added to your Cheffile.&lt;/p&gt;
+
+&lt;p&gt;To lock a cookbook to a specific version, specify it after the comma, like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cookbook &#39;yum&#39;, 0.1.1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will make sure whenever you run &lt;code&gt;librarian-chef install&lt;/code&gt; or &lt;code&gt;librarian-chef update&lt;/code&gt; you will always get the 0.1.1 version of the yum cookbook.&lt;/p&gt;
+
+&lt;h2 id=&quot;read-next&quot;&gt;Read Next&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://adamcodes/2013/01/15/vagrant-is-easy-chef-is-hard.html&quot;&gt;Vagrant is easy - Chef is hard&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
   
   <entry>
     <id>http://adamcod.es/2013/08/09/take-note-code-connexx-2013</id>
