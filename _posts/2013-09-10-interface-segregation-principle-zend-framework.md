@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Interface-Segregation Principle in the Context of Zend Framework 1.x
+title: Interface-Segregation Principle in the Context of Mappers and Gateways
 ---
 
 The interface-segregation principle is the _I_ in the SOLID[^1] acronym that describes the 5 basic principles of good object oriented design.  It states that no client (read: _object_) should be forced to depend on methods it does not use.
