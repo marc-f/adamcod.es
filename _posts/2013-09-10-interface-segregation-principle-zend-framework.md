@@ -208,7 +208,7 @@ interface FetchableInterface
 
 This example is somewhat contrived, you wouldn't implement these classes this way in real life, but I want to use them to illustrait a point.
 
-The `FetchableInterface` doesn't require the `getFindAllByNameSelect` method to be present, but our mapper depends on it.  The reason for this is that we want our interfaces to be as small as possible.  The smallest possible (useful) interface for our gateways is the `FetchableInterface`, saying that we can fetch all instances of an object from that gateway based on a `Zend_Db_Select` object.
+The `FetchableInterface` doesn't require the `getFindAllByNameSelect` method to be present, but our mapper depends on it.  The reason for this is that we want our interfaces to be as small as possible.  The smallest possible (useful) interface for our gateways is the `FetchableInterface`; saying that we can fetch all instances of an object from that gateway based on a `Zend_Db_Select` object.
 
 Not all of our gateways are going to have a `getFindAllByNameSelect` method, so we don't want to add it to our interface that may well be used for a large number of our gateways.  So for our `getFindAllByNameSelect` method, we create another interface:
 
