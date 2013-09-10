@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-09-10T13:22:52+01:00</updated>
+  <updated>2013-09-10T13:27:45+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -220,7 +220,7 @@ createRow
 
 &lt;p&gt;This example is somewhat contrived, you wouldn’t implement these classes this way in real life, but I want to use them to illustrait a point.&lt;/p&gt;
 
-&lt;p&gt;The &lt;code&gt;FetchableInterface&lt;/code&gt; doesn’t require the &lt;code&gt;getFindAllByNameSelect&lt;/code&gt; method to be present, but our mapper depends on it.  The reason for this is that we want our interfaces to be as small as possible.  The smallest possible (useful) interface for our gateways is the &lt;code&gt;FetchableInterface&lt;/code&gt;, saying that we can fetch all instances of an object from that gateway based on a &lt;code&gt;Zend_Db_Select&lt;/code&gt; object.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;FetchableInterface&lt;/code&gt; doesn’t require the &lt;code&gt;getFindAllByNameSelect&lt;/code&gt; method to be present, but our mapper depends on it.  The reason for this is that we want our interfaces to be as small as possible.  The smallest possible (useful) interface for our gateways is the &lt;code&gt;FetchableInterface&lt;/code&gt;; saying that we can fetch all instances of an object from that gateway based on a &lt;code&gt;Zend_Db_Select&lt;/code&gt; object.&lt;/p&gt;
 
 &lt;p&gt;Not all of our gateways are going to have a &lt;code&gt;getFindAllByNameSelect&lt;/code&gt; method, so we don’t want to add it to our interface that may well be used for a large number of our gateways.  So for our &lt;code&gt;getFindAllByNameSelect&lt;/code&gt; method, we create another interface:&lt;/p&gt;
 

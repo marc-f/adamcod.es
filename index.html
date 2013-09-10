@@ -252,7 +252,7 @@ createRow
 
 <p>This example is somewhat contrived, you wouldn’t implement these classes this way in real life, but I want to use them to illustrait a point.</p>
 
-<p>The <code>FetchableInterface</code> doesn’t require the <code>getFindAllByNameSelect</code> method to be present, but our mapper depends on it.  The reason for this is that we want our interfaces to be as small as possible.  The smallest possible (useful) interface for our gateways is the <code>FetchableInterface</code>, saying that we can fetch all instances of an object from that gateway based on a <code>Zend_Db_Select</code> object.</p>
+<p>The <code>FetchableInterface</code> doesn’t require the <code>getFindAllByNameSelect</code> method to be present, but our mapper depends on it.  The reason for this is that we want our interfaces to be as small as possible.  The smallest possible (useful) interface for our gateways is the <code>FetchableInterface</code>; saying that we can fetch all instances of an object from that gateway based on a <code>Zend_Db_Select</code> object.</p>
 
 <p>Not all of our gateways are going to have a <code>getFindAllByNameSelect</code> method, so we don’t want to add it to our interface that may well be used for a large number of our gateways.  So for our <code>getFindAllByNameSelect</code> method, we create another interface:</p>
 
