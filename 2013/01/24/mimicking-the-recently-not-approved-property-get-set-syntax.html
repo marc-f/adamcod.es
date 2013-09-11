@@ -261,6 +261,13 @@
       _gaq.push(['_setAccount', 'UA-10572636-6']);
       _gaq.push(['_trackPageview']);
 
+      setTimeout(function() {
+        window.onscroll = function() {
+          window.onscroll = null; // Only track the event once
+          _gaq.push(['_trackEvent', 'scroll', 'read']);
+        }
+      }, 5000);
+
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
