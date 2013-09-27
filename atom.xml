@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-09-27T13:17:59+01:00</updated>
+  <updated>2013-09-27T13:30:45+01:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -80,7 +80,7 @@
 
 &lt;p&gt;I have deliberately left methods for last, because a method is really a function or procedure that is executed in the context of an &lt;em&gt;object&lt;/em&gt;.  That means there are two types of methods: A &lt;em&gt;function method&lt;/em&gt; and a &lt;em&gt;procedure method&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;That means a function method calculates a new value based on the values of its inputs and/or the scope of the object instance it’s being executed on.&lt;/p&gt;
+&lt;p&gt;A function method calculates a new value based on the values of its inputs and/or the scope of the object instance it’s being executed on.&lt;/p&gt;
 
 &lt;p&gt;Here are the above function examples in an object context:&lt;/p&gt;
 
