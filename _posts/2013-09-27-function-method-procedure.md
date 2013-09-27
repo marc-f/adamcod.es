@@ -68,7 +68,7 @@ Methods
 
 I have deliberately left methods for last, because a method is really a function or procedure that is executed in the context of an _object_.  That means there are two types of methods: A _function method_ and a _procedure method_.
 
-That means a function method calculates a new value based on the values of its inputs and/or the scope of the object instance it's being executed on.
+A function method calculates a new value based on the values of its inputs and/or the scope of the object instance it's being executed on.
 
 Here are the above function examples in an object context:
 
