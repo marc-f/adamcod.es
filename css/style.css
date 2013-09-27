@@ -1819,6 +1819,9 @@ code:after {
   color: #dd1144;
   content: "`";
 }
+pre {
+  overflow-x: auto;
+}
 pre code {
   color: #fafafa;
 }
@@ -2155,19 +2158,6 @@ article {
 article img {
   display: block;
   margin: 0 auto;
-}
-.highlight {
-  counter-reset: lines;
-}
-.highlight [id^="True-"] {
-  counter-increment: lines;
-}
-.highlight:hover [id^="True-"]:before {
-  display: inline-block;
-  width: 2em;
-  margin-right: 1em;
-  text-align: right;
-  content: counter(lines);
 }
 /* THEME
 ------------------------------------------------- */

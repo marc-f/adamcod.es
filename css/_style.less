@@ -280,7 +280,7 @@ code:after {
 }
 
 pre {
-    // overflow-x: auto;
+    overflow-x: auto;
 
     code {
         color: @backgroundColor;
@@ -555,26 +555,26 @@ article {
     }
 }
 
-.highlight {
-    counter-reset: lines;
+// .highlight {
+//     counter-reset: lines;
 
-    [id^="True-"] {
+//     [id^="True-"] {
 
-        counter-increment: lines;
-    }
+//         counter-increment: lines;
+//     }
 
-    &:hover {
-        [id^="True-"]:before {
-            display: inline-block;
-            width: 2em;
-            margin-right: 1em;
+//     &:hover {
+//         [id^="True-"]:before {
+//             display: inline-block;
+//             width: 2em;
+//             margin-right: 1em;
 
-            text-align: right;
+//             text-align: right;
 
-            content: counter(lines);
-        }
-    }
-}
+//             content: counter(lines);
+//         }
+//     }
+// }
 
 /* THEME
 ------------------------------------------------- */
