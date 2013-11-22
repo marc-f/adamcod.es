@@ -64,7 +64,7 @@ class ExampleForm
 
     // ...snip...
 
-    protected function getExampleSelect()
+    public function getExampleSelect()
     {
         $options = [];
         foreach ($this->exampleList as $id => $value) {
