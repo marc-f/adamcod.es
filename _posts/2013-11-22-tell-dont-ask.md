@@ -22,7 +22,7 @@ class ExampleForm
 
     // ...snip...
 
-    protected function getExampleSelect()
+    public function getExampleSelect()
     {
         $options = [];
         foreach ($this->mapper->fetchList() as $id => $value) {
