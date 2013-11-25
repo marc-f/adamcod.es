@@ -81,7 +81,7 @@ I'm covering this here and now, because when I explain away the above code-smell
 
 I'm going to stick my neck on the line and give a definitive answer: **There is no difference between a Service Locator and a Dependency Injection Container**, at least in terms of how they are implemented.
 
-The bottom line is, **the difference between a Service Locator, and a Dependency Injection Container is how you consume them**.  The implementation of both can be identical, but with a Service Locator you inject the container and _ask_ it for the object you want, whereas with a Dependency Injection Container you use it to construct objects, but a Dependency Injection Container should only ever call itself, and never be called by any other objects.
+The bottom line is, **the difference between a Service Locator and a Dependency Injection Container is how you consume them**.  The implementation of both can be identical, but with a Service Locator you inject the container and _ask_ it for the object you want, whereas with a Dependency Injection Container you use it to construct objects, but a Dependency Injection Container should only ever call itself, and never be called by any other objects.
 
 In other words, your application is aware it's using a Service Locator, but your application should be totally un-aware that it's using a Dependency Injection Container.
 
