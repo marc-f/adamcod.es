@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-11-25T18:06:43+00:00</updated>
+  <updated>2013-11-25T18:10:28+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -98,7 +98,7 @@
 
 &lt;p&gt;I’m going to stick my neck on the line and give a definitive answer: &lt;strong&gt;There is no difference between a Service Locator and a Dependency Injection Container&lt;/strong&gt;, at least in terms of how they are implemented.&lt;/p&gt;
 
-&lt;p&gt;The bottom line is, &lt;strong&gt;the difference between a Service Locator, and a Dependency Injection Container is how you consume them&lt;/strong&gt;.  The implementation of both can be identical, but with a Service Locator you inject the container and &lt;em&gt;ask&lt;/em&gt; it for the object you want, whereas with a Dependency Injection Container you use it to construct objects, but a Dependency Injection Container should only ever call itself, and never be called by any other objects.&lt;/p&gt;
+&lt;p&gt;The bottom line is, &lt;strong&gt;the difference between a Service Locator and a Dependency Injection Container is how you consume them&lt;/strong&gt;.  The implementation of both can be identical, but with a Service Locator you inject the container and &lt;em&gt;ask&lt;/em&gt; it for the object you want, whereas with a Dependency Injection Container you use it to construct objects, but a Dependency Injection Container should only ever call itself, and never be called by any other objects.&lt;/p&gt;
 
 &lt;p&gt;In other words, your application is aware it’s using a Service Locator, but your application should be totally un-aware that it’s using a Dependency Injection Container.&lt;/p&gt;
 
