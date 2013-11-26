@@ -66,7 +66,7 @@
     <span class="k">protected</span> <span class="nv">$request</span><span class="p">;</span>
     <span class="k">protected</span> <span class="nv">$response</span><span class="p">;</span>
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">__constructor</span><span class="p">()</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExampleRequest</span><span class="p">(</span><span class="nv">$_GLOBALS</span><span class="p">);</span>
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ExampleResponse</span><span class="p">(</span><span class="k">new</span> <span class="nx">ExampleView</span><span class="p">());</span>
@@ -90,7 +90,7 @@
     <span class="k">protected</span> <span class="nv">$request</span><span class="p">;</span>
     <span class="k">protected</span> <span class="nv">$response</span><span class="p">;</span>
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">__constructor</span><span class="p">(</span><span class="nx">ExampleContainer</span> <span class="nv">$container</span><span class="p">)</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">ExampleContainer</span> <span class="nv">$container</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span> <span class="o">=</span> <span class="nv">$container</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">();</span>
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">response</span> <span class="o">=</span> <span class="nv">$container</span><span class="o">-&gt;</span><span class="na">response</span><span class="p">();</span>
@@ -145,7 +145,7 @@
     <span class="k">protected</span> <span class="nv">$request</span><span class="p">;</span>
     <span class="k">protected</span> <span class="nv">$response</span><span class="p">;</span>
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">__constructor</span><span class="p">(</span><span class="nx">ExampleRequest</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">ExampleResponse</span> <span class="nv">$response</span><span class="p">)</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">ExampleRequest</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">ExampleResponse</span> <span class="nv">$response</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span> <span class="o">=</span> <span class="nv">$request</span><span class="p">;</span>
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">response</span> <span class="o">=</span> <span class="nv">$response</span><span class="p">;</span>
