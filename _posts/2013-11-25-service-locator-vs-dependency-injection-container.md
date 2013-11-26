@@ -13,7 +13,7 @@ class ExampleController
     protected $request;
     protected $response;
 
-    public function __constructor()
+    public function __construct()
     {
         $this->request = new ExampleRequest($_GLOBALS);
         $this->response = new ExampleResponse(new ExampleView());
@@ -38,7 +38,7 @@ class ExampleController
     protected $request;
     protected $response;
 
-    public function __constructor(ExampleContainer $container)
+    public function __construct(ExampleContainer $container)
     {
         $this->request = $container->request();
         $this->response = $container->response();
@@ -95,7 +95,7 @@ class ExampleController
     protected $request;
     protected $response;
 
-    public function __constructor(ExampleRequest $request, ExampleResponse $response)
+    public function __construct(ExampleRequest $request, ExampleResponse $response)
     {
         $this->request = $request;
         $this->response = $response;
