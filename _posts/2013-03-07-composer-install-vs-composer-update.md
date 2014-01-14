@@ -7,7 +7,7 @@ Unless you've been living under a rock, you know about composer[^1] and packagis
 
 _You should only ever run `composer update` to get the newest versions of your dependencies, not to install them_.
 
-What's not massively clear (or at least wasn't early on) in the composer documentation[^5] is the difference between `composer install` and `composer update` and the relevancy of `composer.lock`.  This is exasperated by composer displaying a warning when running `composer install` with a lockfile present and changes in `composer.json`:
+What's not massively clear (or at least wasn't early on) in the composer documentation[^5] is the difference between `composer install` and `composer update` and the relevancy of `composer.lock`.  This is exacerbated by composer displaying a warning when running `composer install` with a lockfile present and changes in `composer.json`:
 
 ![composer install message](/img/posts/composer-install-message.png)
 
