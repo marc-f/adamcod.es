@@ -4,7 +4,7 @@
   <title>Adam Codes</title>
   <link href="http://adamcod.es/"/>
   <link type="application/atom+xml" rel="self" href="http://adamcod.es/atom.xml"/>
-  <updated>2013-11-26T12:02:52+00:00</updated>
+  <updated>2014-01-14T22:35:25+00:00</updated>
   <id>http://adamcod.es/</id>
   <author>
     <name>Adam Brett</name>
@@ -2226,7 +2226,7 @@ require_once &#39;Zend/Application.php&#39;;
 
 &lt;p&gt;&lt;em&gt;You should only ever run &lt;code&gt;composer update&lt;/code&gt; to get the newest versions of your dependencies, not to install them&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;What’s not massively clear (or at least wasn’t early on) in the composer documentation&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; is the difference between &lt;code&gt;composer install&lt;/code&gt; and &lt;code&gt;composer update&lt;/code&gt; and the relevancy of &lt;code&gt;composer.lock&lt;/code&gt;.  This is exasperated by composer displaying a warning when running &lt;code&gt;composer install&lt;/code&gt; with a lockfile present and changes in &lt;code&gt;composer.json&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;What’s not massively clear (or at least wasn’t early on) in the composer documentation&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; is the difference between &lt;code&gt;composer install&lt;/code&gt; and &lt;code&gt;composer update&lt;/code&gt; and the relevancy of &lt;code&gt;composer.lock&lt;/code&gt;.  This is exacerbated by composer displaying a warning when running &lt;code&gt;composer install&lt;/code&gt; with a lockfile present and changes in &lt;code&gt;composer.json&lt;/code&gt;:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/img/posts/composer-install-message.png&quot; alt=&quot;composer install message&quot; /&gt;&lt;/p&gt;
 
